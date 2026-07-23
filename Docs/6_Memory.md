@@ -27,7 +27,10 @@ Domain:            pranglobal.com   (CONFIRM — earlier docs said pranapp.in)
 Stack:             Next.js 14 + TypeScript + Tailwind + shadcn/ui +
                    Supabase + Razorpay + Resend + Vercel
 Current phase:     Phase 1
-Current stage:     Stage 0 COMPLETE (0.1–0.4). Next: Stage A (A.1 homepage globe)
+Current stage:     FULL-SITE BUILD (founder: "build whole website, deployable to
+                   replace pranglobal.com"). Building all pages w/ static seed
+                   data + honest placeholders; wiring forms for keys. Not strict
+                   one-task order. Done: Stage 0, Marketplace (listing+detail).
 Repo:              github.com/NitinDadhich38/Nitin- (PRIVATE) — code + docs
 Live URL:          [Vercel not connected yet]  (old HTML site: pranglobal.com, repo techzedd/codepran — context only)
 Supabase project:  [add project ref once created]
