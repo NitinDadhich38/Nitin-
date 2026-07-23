@@ -70,11 +70,12 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none — 0.1 + 0.2 committed; next is 0.3 design system
-                    (needs founder review of /style-guide before real pages)]
-Blocked on:         [nothing to write; running against real Supabase needs keys]
-Waiting on founder: [confirm domain; provide logo/brand fonts; project data;
-                    create Supabase project + fill .env.local]
+Currently building: [PAUSED before 0.3 — founder chose to provide brand
+                    fonts + logo before the design system is built]
+Blocked on:         [0.3 HELD pending: PRAN logo SVG + brand font files/names]
+Waiting on founder: [brand logo (SVG) + brand fonts; confirm Design.md colors
+                    final or provide overrides; create Supabase project +
+                    fill .env.local; confirm domain; project data]
 ```
 
 ---
