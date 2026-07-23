@@ -63,6 +63,17 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
   bundle). Added .env.example with all Architecture §6 vars (server-only ones
   labelled). Build passes. Keys NOT set — founder must create the Supabase
   project and fill .env.local.
+
+[2026-07-23] TASK 0.3 — Design system per Design.md. globals.css tokens (CSS
+  vars) + tailwind.config.ts (pran + status palette, fontFamily display/sans/
+  mono, type scale, radius btn 8/card 12, container 1280). Fonts: Fraunces
+  (next/font/google, --font-display) + Geist local renamed to --font-sans/mono.
+  Base UI: components/ui/{button,badge,card,input}.tsx (cva). Logo component
+  src/components/shared/logo.tsx built from founder's SVG (emblem #12A33A fixed,
+  wordmark currentColor). Style guide at /style-guide (noindex) shows all tokens
+  + logo on light/dark. Build passes; /style-guide serves 200, content verified.
+  OPEN FOR FOUNDER REVIEW: lock the look; decide logo-green (#12A33A) vs UI
+  teal (#0F5F5C). shadcn CLI not initialized (hand-built ui/ instead, cva-based).
 ```
 
 ---
@@ -70,12 +81,12 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [PAUSED before 0.3 — founder chose to provide brand
-                    fonts + logo before the design system is built]
-Blocked on:         [0.3 HELD pending: PRAN logo SVG + brand font files/names]
-Waiting on founder: [brand logo (SVG) + brand fonts; confirm Design.md colors
-                    final or provide overrides; create Supabase project +
-                    fill .env.local; confirm domain; project data]
+Currently building: [none — 0.1/0.2/0.3 done. Next: 0.4 header + footer]
+Blocked on:         [nothing to write]
+Waiting on founder: [REVIEW /style-guide + lock the look; decide logo-green
+                    vs teal; create Supabase project + fill .env.local;
+                    confirm domain; project data; leadership names for header]
+Logo:               received from techzedd/codepran, built as Logo component
 ```
 
 ---
@@ -141,7 +152,9 @@ NEXT_PUBLIC_SITE_URL              [ ] set
 - [ ] Verify BRSR/CBAM/CCTS facts against official sources before publishing
 - [ ] npm: 5 vulns (1 mod, 4 high) in transitive deps — careful audit pass (do NOT --force)
 - [ ] three-mesh-bvh 0.7.8 vs 0.8.0 warning — resolve before building the 3D globe (A.1)
-- [ ] Initialize + theme shadcn/ui to Design.md tokens in Task 0.3
+- [x] Design tokens themed in Task 0.3 (hand-built cva components, not shadcn CLI)
+- [ ] OPS: never run `npm run build` while `next dev` is live — shared .next dir
+      corrupts (Cannot find module './948.js'). Stop dev or use a separate build.
 ```
 
 ---

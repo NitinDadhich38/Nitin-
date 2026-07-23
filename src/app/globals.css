@@ -2,26 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  PRAN design tokens — see Docs/5_Design.md (the visual contract).
+  The site shifts MODE by section (Cinematic / Data / Trust); base defaults
+  below are the Data mode (white bg, ink text). Dark sections opt in with
+  bg-pran-ink etc. We do NOT switch on OS dark mode — modes are intentional.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Cinematic */
+  --pran-ink: #0a0a0a;
+
+  /* Data (primary working surfaces) */
+  --pran-teal: #0f5f5c;
+  --pran-teal-dark: #0a403e;
+  --pran-paper: #ffffff;
+  --pran-text: #0f1a1a;
+  --pran-muted: #5b6b6a;
+  --pran-border: #e2e8e7;
+
+  /* Trust */
+  --pran-navy: #0a1f44;
+  --pran-gold: #c9a227;
+
+  /* Status */
+  --pran-success: #1e7a46;
+  --pran-pending: #b7791f;
+  --pran-danger: #b42318;
+  --pran-info: #1f6fb2;
+
+  /* Brand logo emblem (distinct from the teal UI primary — under review) */
+  --pran-green: #12a33a;
+
+  /* Semantic base (Data mode) */
+  --background: var(--pran-paper);
+  --foreground: var(--pran-text);
+
+  /* Radius (Design.md §4: cards 12px, buttons 8px) */
+  --radius-btn: 8px;
+  --radius-card: 12px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--pran-border);
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* Tabular, terminal-feeling numbers in data contexts */
+  .font-mono {
+    font-feature-settings: "tnum" 1, "zero" 1;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  /* Focus ring — teal, per Design.md forms */
+  .focus-ring {
+    @apply outline-none ring-2 ring-pran-teal/60 ring-offset-2 ring-offset-background;
+  }
+}
+
+/* Accessibility + legal: honour reduced motion everywhere (Design.md §6) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
