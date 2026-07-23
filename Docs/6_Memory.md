@@ -55,6 +55,14 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
   (cn) + components.json (shadcn ready, not themed yet). Blank PRAN homepage +
   metadata. `npm run build` passes. shadcn NOT yet initialized/themed — deferred
   to Task 0.3 (design system).
+
+[2026-07-23] TASK 0.2 — Supabase clients via @supabase/ssr, split into
+  src/lib/supabase/{client,server,admin}.ts (browser anon / server+cookies /
+  service-role server-only). NOTE: doc said single lib/supabase.ts; used the
+  official @supabase/ssr folder split (next/headers can't live in a client
+  bundle). Added .env.example with all Architecture §6 vars (server-only ones
+  labelled). Build passes. Keys NOT set — founder must create the Supabase
+  project and fill .env.local.
 ```
 
 ---
@@ -62,10 +70,11 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none — 0.1 committed; next is 0.2 Supabase client]
-Blocked on:         [nothing]
-Waiting on founder: [confirm domain; provide logo; provide project data;
-                    Supabase project keys for 0.2]
+Currently building: [none — 0.1 + 0.2 committed; next is 0.3 design system
+                    (needs founder review of /style-guide before real pages)]
+Blocked on:         [nothing to write; running against real Supabase needs keys]
+Waiting on founder: [confirm domain; provide logo/brand fonts; project data;
+                    create Supabase project + fill .env.local]
 ```
 
 ---
