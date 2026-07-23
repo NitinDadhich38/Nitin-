@@ -27,10 +27,11 @@ Domain:            pranglobal.com   (CONFIRM — earlier docs said pranapp.in)
 Stack:             Next.js 14 + TypeScript + Tailwind + shadcn/ui +
                    Supabase + Razorpay + Resend + Vercel
 Current phase:     Phase 1
-Current stage:     [Stage 0 / A / B / C]  ← update this
-Repo:              [add GitHub URL once created]
-Live URL:          [add Vercel/production URL once deployed]
+Current stage:     Stage 0 (Task 0.1 done; next 0.2 Supabase client)
+Repo:              github.com/NitinDadhich38/Nitin- (PRIVATE) — code + docs
+Live URL:          [Vercel not connected yet]  (old HTML site: pranglobal.com, repo techzedd/codepran — context only)
 Supabase project:  [add project ref once created]
+Local runtime:     Node 24.18.0 + npm 11.16.0 (installed 2026-07-23)
 ```
 
 ---
@@ -40,12 +41,20 @@ Supabase project:  [add project ref once created]
 ```
 FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 
-Example entries (replace with real ones as you go):
-[ ] Not started yet.
+FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 
 --- Log begins below ---
 
-
+[2026-07-23] TASK 0.1 — Scaffolded Next.js 14.2.35 (TS strict, Tailwind 3.4,
+  App Router, src/ dir) in Desktop\PRAN alongside docs. Created folder skeleton
+  per Architecture.md §2 (app route groups, components/*, lib, types). Installed
+  locked libs: framer-motion 12, @react-three/fiber 8 + drei 9, three, recharts 3,
+  @supabase/supabase-js + ssr, razorpay, resend, @react-pdf/renderer 4,
+  react-hook-form + zod 4 + @hookform/resolvers, shadcn peers (cva, clsx,
+  tailwind-merge, tailwindcss-animate, lucide-react), qrcode. Added lib/utils.ts
+  (cn) + components.json (shadcn ready, not themed yet). Blank PRAN homepage +
+  metadata. `npm run build` passes. shadcn NOT yet initialized/themed — deferred
+  to Task 0.3 (design system).
 ```
 
 ---
@@ -53,9 +62,10 @@ Example entries (replace with real ones as you go):
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none yet]
-Blocked on:         [nothing yet]
-Waiting on founder: [confirm domain; provide logo; provide project data]
+Currently building: [none — 0.1 committed; next is 0.2 Supabase client]
+Blocked on:         [nothing]
+Waiting on founder: [confirm domain; provide logo; provide project data;
+                    Supabase project keys for 0.2]
 ```
 
 ---
@@ -119,6 +129,9 @@ NEXT_PUBLIC_SITE_URL              [ ] set
 - [ ] Add real team photos/bios when provided
 - [ ] Confirm emission factor values against latest DEFRA / CEA
 - [ ] Verify BRSR/CBAM/CCTS facts against official sources before publishing
+- [ ] npm: 5 vulns (1 mod, 4 high) in transitive deps — careful audit pass (do NOT --force)
+- [ ] three-mesh-bvh 0.7.8 vs 0.8.0 warning — resolve before building the 3D globe (A.1)
+- [ ] Initialize + theme shadcn/ui to Design.md tokens in Task 0.3
 ```
 
 ---
