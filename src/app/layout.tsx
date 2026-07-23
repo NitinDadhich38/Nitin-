@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Fraunces } from "next/font/google";
+import { SiteChrome } from "@/components/shared/site-chrome";
 import "./globals.css";
 
 // Body + data/number face (Design.md §3: Geist)
@@ -41,7 +42,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} font-sans antialiased`}
       >
-        {children}
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

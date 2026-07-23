@@ -27,7 +27,7 @@ Domain:            pranglobal.com   (CONFIRM — earlier docs said pranapp.in)
 Stack:             Next.js 14 + TypeScript + Tailwind + shadcn/ui +
                    Supabase + Razorpay + Resend + Vercel
 Current phase:     Phase 1
-Current stage:     Stage 0 (Task 0.1 done; next 0.2 Supabase client)
+Current stage:     Stage 0 COMPLETE (0.1–0.4). Next: Stage A (A.1 homepage globe)
 Repo:              github.com/NitinDadhich38/Nitin- (PRIVATE) — code + docs
 Live URL:          [Vercel not connected yet]  (old HTML site: pranglobal.com, repo techzedd/codepran — context only)
 Supabase project:  [add project ref once created]
@@ -74,6 +74,17 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
   + logo on light/dark. Build passes; /style-guide serves 200, content verified.
   OPEN FOR FOUNDER REVIEW: lock the look; decide logo-green (#12A33A) vs UI
   teal (#0F5F5C). shadcn CLI not initialized (hand-built ui/ instead, cva-based).
+  → FOUNDER LOCKED design as-is (teal UI + green logo) 2026-07-23.
+
+[2026-07-23] TASK 0.4 — Global header + footer. src/lib/nav.ts (shared nav
+  config, all sitemap routes). site-header.tsx (client): sticky, blur-on-scroll,
+  click dropdowns (Carbon Intelligence/Solutions/Resources/About) w/ Esc +
+  outside-click close, mobile slide-out drawer, gold Request Demo CTA. Links use
+  buttonVariants (no asChild — Radix Slot not installed). site-footer.tsx (navy
+  Trust mode): 5 columns + legal row + "not an auditor" disclaimer (lawyer review
+  pending). site-chrome.tsx wraps root layout, hides chrome on /admin +
+  /style-guide, offsets content pt-16. Homepage upgraded to styled placeholder
+  hero. tsc clean; production build passes (/ = 96.1kB). STAGE 0 DONE.
 ```
 
 ---
@@ -81,11 +92,13 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none — 0.1/0.2/0.3 done. Next: 0.4 header + footer]
+Currently building: [none — STAGE 0 COMPLETE (0.1–0.4). Next: Stage A, Task A.1
+                    (homepage cinematic 3D globe opening)]
 Blocked on:         [nothing to write]
-Waiting on founder: [REVIEW /style-guide + lock the look; decide logo-green
-                    vs teal; create Supabase project + fill .env.local;
-                    confirm domain; project data; leadership names for header]
+Waiting on founder: [create Supabase project + fill .env.local; confirm domain;
+                    real project data (Stage B); leadership names/photos for
+                    homepage Section 6 + Team; real marketplace stat numbers]
+Design:             LOCKED as-is (teal UI + green logo) 2026-07-23
 Logo:               received from techzedd/codepran, built as Logo component
 ```
 
