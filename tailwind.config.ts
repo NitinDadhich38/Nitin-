@@ -23,6 +23,7 @@ const config: Config = {
           ink: "#0a0a0a",
           teal: "#0f5f5c",
           "teal-dark": "#0a403e",
+          "teal-lit": "#14a085",
           paper: "#ffffff",
           text: "#0f1a1a",
           muted: "#5b6b6a",

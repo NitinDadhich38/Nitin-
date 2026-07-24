@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { buttonVariants } from "@/components/ui/button";
@@ -13,6 +14,10 @@ export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+  // The homepage opens on a dark cinematic hero — float a transparent,
+  // white-text header over it until the user scrolls past the hero.
+  const onDarkHero = pathname === "/" && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -45,9 +50,11 @@ export function SiteHeader() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        scrolled
-          ? "border-b border-pran-border bg-white/90 shadow-sm backdrop-blur"
-          : "border-b border-transparent bg-white/70 backdrop-blur",
+        onDarkHero
+          ? "border-b border-transparent bg-transparent"
+          : scrolled
+            ? "border-b border-pran-border bg-white/90 shadow-sm backdrop-blur"
+            : "border-b border-transparent bg-white/70 backdrop-blur",
       )}
     >
       <nav
@@ -55,7 +62,11 @@ export function SiteHeader() {
         className="mx-auto flex h-16 max-w-content items-center justify-between px-6"
         aria-label="Primary"
       >
-        <Link href="/" className="shrink-0 text-pran-text" aria-label="PRAN home">
+        <Link
+          href="/"
+          className={cn("shrink-0", onDarkHero ? "text-white" : "text-pran-text")}
+          aria-label="PRAN home"
+        >
           <Logo className="h-8" />
         </Link>
 
@@ -71,7 +82,12 @@ export function SiteHeader() {
                   onClick={() =>
                     setOpenMenu((cur) => (cur === item.label ? null : item.label))
                   }
-                  className="flex items-center gap-1 rounded-btn px-3 py-2 text-sm font-medium text-pran-text transition-colors hover:text-pran-teal"
+                  className={cn(
+                    "flex items-center gap-1 rounded-btn px-3 py-2 text-sm font-medium transition-colors",
+                    onDarkHero
+                      ? "text-white/90 hover:text-white"
+                      : "text-pran-text hover:text-pran-teal",
+                  )}
                 >
                   {item.label}
                   <ChevronDown
@@ -100,7 +116,12 @@ export function SiteHeader() {
               <li key={item.label}>
                 <Link
                   href={item.href!}
-                  className="rounded-btn px-3 py-2 text-sm font-medium text-pran-text transition-colors hover:text-pran-teal"
+                  className={cn(
+                    "rounded-btn px-3 py-2 text-sm font-medium transition-colors",
+                    onDarkHero
+                      ? "text-white/90 hover:text-white"
+                      : "text-pran-text hover:text-pran-teal",
+                  )}
                 >
                   {item.label}
                 </Link>
@@ -115,6 +136,7 @@ export function SiteHeader() {
             className={cn(
               buttonVariants({ variant: "ghost", size: "sm" }),
               "hidden lg:inline-flex",
+              onDarkHero && "text-white hover:bg-white/10",
             )}
           >
             Explore Marketplace
@@ -127,7 +149,10 @@ export function SiteHeader() {
           </Link>
           <button
             type="button"
-            className="rounded-btn p-2 text-pran-text lg:hidden"
+            className={cn(
+              "rounded-btn p-2 lg:hidden",
+              onDarkHero ? "text-white" : "text-pran-text",
+            )}
             aria-label="Open menu"
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen(true)}
