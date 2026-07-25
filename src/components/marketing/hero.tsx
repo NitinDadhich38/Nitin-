@@ -67,7 +67,7 @@ export function Hero() {
         </motion.p>
         <motion.div
           variants={reduce ? undefined : item}
-          className="mt-9 flex flex-wrap items-center gap-6"
+          className="mt-9 flex flex-wrap items-center gap-3"
         >
           <Link
             href="/marketplace"
@@ -77,11 +77,10 @@ export function Hero() {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
           <Link
-            href="/why-carbon-markets"
-            className="group inline-flex items-center gap-1.5 text-[15px] font-medium text-pran-ink underline-offset-4 hover:underline"
+            href="/contact"
+            className={buttonVariants({ variant: "secondary", size: "lg" })}
           >
-            Why carbon markets
-            <ArrowRight className="h-4 w-4 text-pran-emerald transition-transform group-hover:translate-x-0.5" />
+            Request Demo
           </Link>
         </motion.div>
       </motion.div>

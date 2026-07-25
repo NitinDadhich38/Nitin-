@@ -140,10 +140,10 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none — branch `enhancing` holds the full enhancement
-                    build (2026-07-25). Every nav route resolves; production
-                    build passes with 118 static pages. Awaiting founder
-                    review + merge to main.]
+Currently building: [none — REDESIGN v2.0 homepage + design system DONE
+                    (2026-07-24). 3D globe BANNED/removed. Next: migrate
+                    marketplace, calculator, and interior pages to the v2.0
+                    layouts in 5_Design.md §4.2–4.5]
 Blocked on:         [nothing to write]
 Waiting on founder: [create Supabase project + fill .env.local; confirm domain;
                     real project data (Stage B); leadership names/photos for

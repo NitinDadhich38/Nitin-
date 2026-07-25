@@ -38,7 +38,7 @@ export function ClosingCta() {
                 "border-white/40 text-white hover:border-white/70",
               )}
             >
-              Talk to our team
+              Request Demo
             </Link>
           </div>
         </Reveal>

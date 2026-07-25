@@ -134,9 +134,19 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/marketplace"
-            className={cn(buttonVariants({ size: "sm" }), "hidden sm:inline-flex")}
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              "hidden lg:inline-flex",
+              onDarkHero && "text-white hover:bg-white/10",
+            )}
           >
             Explore Marketplace
+          </Link>
+          <Link
+            href="/contact"
+            className={cn(buttonVariants({ size: "sm" }), "hidden sm:inline-flex")}
+          >
+            Request Demo
           </Link>
           <button
             type="button"
@@ -215,9 +225,16 @@ export function SiteHeader() {
               <Link
                 href="/marketplace"
                 onClick={() => setMobileOpen(false)}
-                className={buttonVariants()}
+                className={buttonVariants({ variant: "secondary" })}
               >
                 Explore Marketplace
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setMobileOpen(false)}
+                className={buttonVariants()}
+              >
+                Request Demo
               </Link>
             </div>
           </div>
