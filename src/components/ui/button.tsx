@@ -3,24 +3,28 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * Button — Design.md §4.
- * primary = gold (the ONE main action per screen); secondary = teal fill;
- * outline/ghost = teal, for lower-priority actions. Radius fixed at 8px.
+ * Button — 5_Design.md v2.0 §3.1.
+ * primary = emerald fill (the ONE green button per section); secondary =
+ * outline on paper; dark = forest fill for photo backgrounds; ghost/link =
+ * emerald text. Flat fills only, no gradients, no scale on hover. Radius 12px.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-btn font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pran-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 rounded-btn font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pran-emerald/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        primary: "bg-pran-gold text-pran-navy hover:bg-pran-gold/90",
-        secondary: "bg-pran-teal text-white hover:bg-pran-teal-dark",
-        outline: "border border-pran-teal text-pran-teal hover:bg-pran-teal/5",
-        ghost: "text-pran-teal hover:bg-pran-teal/5",
+        primary: "bg-pran-emerald text-white hover:bg-pran-emerald-hover",
+        secondary:
+          "border border-pran-ink/20 bg-transparent text-pran-ink hover:border-pran-ink/40",
+        dark: "bg-pran-forest text-white hover:bg-pran-forest-deep",
+        outline:
+          "border border-pran-ink/20 bg-transparent text-pran-ink hover:border-pran-ink/40",
+        ghost: "text-pran-emerald hover:bg-pran-emerald/8",
       },
       size: {
-        sm: "h-9 px-3 text-sm",
-        default: "h-11 px-5 text-sm",
-        lg: "h-12 px-7 text-base",
+        sm: "h-10 px-4 text-sm",
+        default: "h-12 px-7 text-[15px]",
+        lg: "h-14 px-8 text-base",
       },
     },
     defaultVariants: { variant: "primary", size: "default" },

@@ -3,43 +3,48 @@
 @tailwind utilities;
 
 /*
-  PRAN design tokens — see Docs/5_Design.md (the visual contract).
-  The site shifts MODE by section (Cinematic / Data / Trust); base defaults
-  below are the Data mode (white bg, ink text). Dark sections opt in with
-  bg-pran-ink etc. We do NOT switch on OS dark mode — modes are intentional.
+  PRAN design tokens — see Docs/5_Design.md v2.0 (the visual contract).
+  ONE cohesive identity: warm paper base, deep forest + emerald, restrained.
+  Backgrounds are NEVER pure white and NEVER pure black. Green = action &
+  dark sections, not a page-wide wash. Sections alternate paper / warm / forest.
 */
 :root {
-  /* Cinematic */
-  --pran-ink: #0a0a0a;
+  /* Base — warm paper */
+  --pran-paper: #faf8f4;
+  --pran-paper-warm: #f5f1ea;
+  --pran-surface: #ffffff;
+  --pran-ink: #0e1211;
+  --pran-text: #0e1211;
+  --pran-muted: #5f6b66;
+  --pran-border: #e6e1d8;
+  --pran-hairline: #e6e1d8;
 
-  /* Data (primary working surfaces) */
-  --pran-teal: #0f5f5c;
-  --pran-teal-dark: #0a403e;
-  --pran-paper: #ffffff;
-  --pran-text: #0f1a1a;
-  --pran-muted: #5b6b6a;
-  --pran-border: #e2e8e7;
+  /* Green — deep & restrained */
+  --pran-forest: #0f3d2e;
+  --pran-forest-deep: #0a2a20;
+  --pran-emerald: #16a34a;
+  --pran-emerald-hover: #15803d;
 
-  /* Trust */
-  --pran-navy: #0a1f44;
-  --pran-gold: #c9a227;
+  /* Accents — sparing */
+  --pran-lime: #d9f99d;
+  --pran-clay: #c97a4a;
+  --pran-green: #12a33a; /* logo emblem, fixed */
 
   /* Status */
-  --pran-success: #1e7a46;
-  --pran-pending: #b7791f;
+  --pran-success: #15803d;
+  --pran-pending: #b45309;
   --pran-danger: #b42318;
-  --pran-info: #1f6fb2;
+  --pran-info: #1d4ed8;
 
-  /* Brand logo emblem (distinct from the teal UI primary — under review) */
-  --pran-green: #12a33a;
-
-  /* Semantic base (Data mode) */
+  /* Semantic base */
   --background: var(--pran-paper);
   --foreground: var(--pran-text);
 
-  /* Radius (Design.md §4: cards 12px, buttons 8px) */
-  --radius-btn: 8px;
-  --radius-card: 12px;
+  /* Radius (v2.0 §2.3) */
+  --radius-btn: 12px;
+  --radius-card: 16px;
+  --radius-panel: 24px;
+  --radius-hero: 32px;
 }
 
 @layer base {
@@ -53,9 +58,15 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  /* Tabular, terminal-feeling numbers in data contexts */
+  /* Tight, confident display type (v2.0 §2.2) */
+  .font-display {
+    letter-spacing: -0.02em;
+  }
+  /* Tabular numbers everywhere data/prices appear */
+  .tabular,
   .font-mono {
-    font-feature-settings: "tnum" 1, "zero" 1;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
   }
 }
 
@@ -63,13 +74,32 @@
   .text-balance {
     text-wrap: balance;
   }
-  /* Focus ring — teal, per Design.md forms */
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  /* Readable text over photography (v2.0 §2.4) */
+  .photo-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 42, 32, 0.55),
+      rgba(10, 42, 32, 0.35)
+    );
+  }
+  /* Hide scrollbar on horizontal pill/card scrollers */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  /* Emerald focus ring for interactive elements */
   .focus-ring {
-    @apply outline-none ring-2 ring-pran-teal/60 ring-offset-2 ring-offset-background;
+    @apply outline-none ring-2 ring-pran-emerald/60 ring-offset-2 ring-offset-background;
   }
 }
 
-/* Accessibility + legal: honour reduced motion everywhere (Design.md §6) */
+/* Accessibility + legal: honour reduced motion everywhere (v2.0 §2.5) */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

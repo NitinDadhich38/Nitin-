@@ -1,79 +1,73 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { photos } from "@/lib/images";
 import { cn } from "@/lib/utils";
-
-const Globe = dynamic(() => import("@/components/marketing/globe"), {
-  ssr: false,
-});
 
 const container = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.18, delayChildren: 0.2 } },
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
 };
 const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" as const } },
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
+/**
+ * Signature hero (5_Design.md v2.0 §3.2): full-bleed aerial photograph with a
+ * white card floating on top, ~80–120px of photo revealed around the edges.
+ * No 3D globe (banned). Gentle fade-in only.
+ */
 export function Hero() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative -mt-16 flex min-h-[100svh] items-center justify-center overflow-hidden bg-pran-ink text-white">
-      {/* Aurora glow */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[85vmin] w-[85vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(20,160,133,0.22),transparent_62%)] blur-2xl" />
-        <div className="absolute bottom-0 left-0 h-[40vmin] w-[40vmin] rounded-full bg-[radial-gradient(circle,rgba(15,42,67,0.5),transparent_60%)] blur-3xl" />
-      </div>
-
-      {/* 3D globe */}
-      {!reduce && (
-        <div className="absolute inset-0 opacity-90">
-          <Globe />
-        </div>
-      )}
-
-      {/* Vignette so text stays legible over the globe */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(10,10,10,0.85))]"
+    <section className="relative -mt-16 flex min-h-[100svh] items-center justify-center overflow-hidden px-5 py-28 sm:px-8">
+      {/* Full-bleed photography */}
+      <Image
+        src={photos.heroAerial}
+        alt="Aerial view of dense forest canopy"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
       />
+      <div aria-hidden className="photo-overlay absolute inset-0" />
 
-      {/* Content */}
+      {/* Floating card */}
       <motion.div
         variants={reduce ? undefined : container}
         initial={reduce ? undefined : "hidden"}
         animate={reduce ? undefined : "show"}
-        className="relative z-10 mx-auto max-w-3xl px-6 text-center"
+        className="relative z-10 w-full max-w-[1080px] rounded-hero bg-pran-surface px-7 py-12 shadow-float sm:px-14 sm:py-16 lg:px-16 lg:py-20"
       >
         <motion.p
           variants={reduce ? undefined : item}
-          className="font-mono text-xs uppercase tracking-[0.3em] text-pran-teal-lit"
+          className="text-xs font-medium uppercase tracking-[0.18em] text-pran-emerald"
         >
-          Carbon Intelligence Infrastructure
+          Carbon Market Infrastructure
         </motion.p>
         <motion.h1
           variants={reduce ? undefined : item}
-          className="mt-6 font-display text-[clamp(2.5rem,7vw,5rem)] font-semibold leading-[1.03] tracking-tight"
+          className="mt-5 max-w-[15ch] font-display text-display-xl font-semibold text-pran-ink"
         >
-          The financial infrastructure
-          <br className="hidden sm:block" /> for the carbon market.
+          India&rsquo;s carbon market, finally connected.
         </motion.h1>
         <motion.p
           variants={reduce ? undefined : item}
-          className="mx-auto mt-6 max-w-xl text-lg text-white/70"
+          className="mt-6 max-w-[58ch] text-lg leading-relaxed text-pran-muted"
         >
-          A verified marketplace, footprint intelligence, and transparent
-          markets — trusted infrastructure for the world&rsquo;s carbon economy.
+          PRAN is the financial infrastructure layer for the carbon economy —
+          a verified marketplace, footprint intelligence, and transparent
+          settlement, connecting developers, buyers, and registries in one place.
         </motion.p>
         <motion.div
           variants={reduce ? undefined : item}
-          className="mt-9 flex flex-wrap items-center justify-center gap-3"
+          className="mt-9 flex flex-wrap items-center gap-3"
         >
           <Link
             href="/marketplace"
@@ -84,17 +78,12 @@ export function Hero() {
           </Link>
           <Link
             href="/contact"
-            className="inline-flex h-12 items-center justify-center rounded-btn border border-white/25 px-7 text-base font-medium text-white transition-colors hover:bg-white/10"
+            className={buttonVariants({ variant: "secondary", size: "lg" })}
           >
             Request Demo
           </Link>
         </motion.div>
       </motion.div>
-
-      {/* Scroll hint */}
-      <div className="absolute bottom-7 left-1/2 -translate-x-1/2 text-white/40">
-        <ChevronDown className="h-6 w-6 animate-bounce" />
-      </div>
     </section>
   );
 }

@@ -1,8 +1,9 @@
 import { Hero } from "@/components/marketing/hero";
-import { MissionSection } from "@/components/marketing/mission-section";
+import { ProofStrip } from "@/components/marketing/proof-strip";
+import { ProblemSection } from "@/components/marketing/problem-section";
 import { MarketplaceSection } from "@/components/marketing/marketplace-section";
-import { IntelligenceSection } from "@/components/marketing/intelligence-section";
-import { SolutionsSection } from "@/components/marketing/solutions-section";
+import { WhatWeDo } from "@/components/marketing/what-we-do";
+import { ForWhom } from "@/components/marketing/for-whom";
 import { TrustSection } from "@/components/marketing/trust-section";
 import { LeadershipSection } from "@/components/marketing/leadership-section";
 import { ResourcesSection } from "@/components/marketing/resources-section";
@@ -12,10 +13,11 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <MissionSection />
+      <ProofStrip />
+      <ProblemSection />
       <MarketplaceSection />
-      <IntelligenceSection />
-      <SolutionsSection />
+      <WhatWeDo />
+      <ForWhom />
       <TrustSection />
       <LeadershipSection />
       <ResourcesSection />

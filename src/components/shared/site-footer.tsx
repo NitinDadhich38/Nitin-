@@ -20,7 +20,7 @@ export function SiteFooter() {
 
           {footerColumns.map((col) => (
             <div key={col.title}>
-              <h3 className="font-mono text-xs uppercase tracking-wider text-pran-gold">
+              <h3 className="text-xs font-medium uppercase tracking-[0.08em] text-white/50">
                 {col.title}
               </h3>
               <ul className="mt-4 space-y-2.5">

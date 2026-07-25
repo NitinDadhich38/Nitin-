@@ -53,8 +53,8 @@ export function SiteHeader() {
         onDarkHero
           ? "border-b border-transparent bg-transparent"
           : scrolled
-            ? "border-b border-pran-border bg-white/90 shadow-sm backdrop-blur"
-            : "border-b border-transparent bg-white/70 backdrop-blur",
+            ? "border-b border-pran-hairline bg-pran-paper/90 shadow-sm backdrop-blur"
+            : "border-b border-transparent bg-pran-paper/70 backdrop-blur",
       )}
     >
       <nav
@@ -98,7 +98,7 @@ export function SiteHeader() {
                   />
                 </button>
                 {openMenu === item.label && (
-                  <div className="absolute left-0 top-full mt-1 w-64 rounded-card border border-pran-border bg-white p-2 shadow-lg">
+                  <div className="absolute left-0 top-full mt-1 w-64 rounded-card border border-pran-hairline bg-pran-surface p-2 shadow-float">
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
@@ -170,7 +170,7 @@ export function SiteHeader() {
             onClick={() => setMobileOpen(false)}
             aria-hidden
           />
-          <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col overflow-y-auto bg-white p-6 shadow-xl">
+          <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col overflow-y-auto bg-pran-surface p-6 shadow-xl">
             <div className="flex items-center justify-between">
               <Logo className="h-8 text-pran-text" />
               <button

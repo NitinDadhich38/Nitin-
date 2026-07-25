@@ -1,26 +1,31 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Fraunces } from "next/font/google";
+import { Space_Grotesk, Inter } from "next/font/google";
 import { SiteChrome } from "@/components/shared/site-chrome";
 import "./globals.css";
 
-// Body + data/number face (Design.md §3: Geist)
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-sans",
-  weight: "100 900",
+// Display / headline face — tight geometric sans (5_Design.md v2.0 §2.2).
+// Space Grotesk is self-hosted at build (no CDN). Swap for General Sans /
+// Satoshi here if/when the founder provides the woff2 files.
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["500", "600", "700"],
+  display: "swap",
 });
+
+// Body + UI + data face — Inter, tabular figures for tables/prices.
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+// Monospace kept for the occasional code/label micro-type.
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-mono",
   weight: "100 900",
-});
-
-// Display / statement face (Design.md §3: Fraunces, editorial serif)
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -40,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} font-sans antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <SiteChrome>{children}</SiteChrome>
       </body>

@@ -88,6 +88,51 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
   pending). site-chrome.tsx wraps root layout, hides chrome on /admin +
   /style-guide, offsets content pt-16. Homepage upgraded to styled placeholder
   hero. tsc clean; production build passes (/ = 96.1kB). STAGE 0 DONE.
+
+[2026-07-24] REDESIGN v2.0 (design system + homepage) — Founder supplied
+  5_Design.md v2.0 (replaces all prior design guidance): warm paper base,
+  forest+emerald palette, Space Grotesk display / Inter body, full-bleed
+  photography with floating cards, banned 3D globe. Rebuilt tailwind.config +
+  globals.css tokens (paper #FAF8F4 / forest #0F3D2E / emerald #16A34A; radii
+  12/16/24/32; shadow card+float; legacy teal/navy REPOINTED so un-migrated
+  pages inherit the palette). Fonts -> Space Grotesk + Inter via next/font.
+  button.tsx variants (emerald primary / outline / dark). New lib/config.ts
+  (proofStats, derived counts) + lib/images.ts (curated Unsplash photos,
+  next.config remotePatterns). Homepage rebuilt to blueprint 4.1 S1-S10: hero
+  (floating card, NO globe), proof strip, problem (SVG connect diagram), forest
+  marketplace + browser-frame mock + live card row (project-teaser.tsx),
+  what-we-do 2x2, for-whom alternating rows, trust mosaic, leadership,
+  resources, forest closing CTA. Header/footer restyled to paper/forest.
+  DELETED banned globe.tsx + unused mission/intelligence/solutions sections
+  (solutions had a "carbon neutral" violation). Fixed Counter bug (framer
+  useInView left one stat stuck at 0 -> IntersectionObserver + guaranteed final
+  value). Verified in browser: all 10 sections render, real data in cards, no
+  console errors, no horizontal overflow, registries stat = 5. NOTE: this
+  sandbox has no outbound internet, so next/font/google + Unsplash time out HERE
+  (fall back to system font / alt text); both render fine on any machine/Vercel
+  with internet. Marketplace/calculator/interior pages NOT yet migrated to v2.0
+  layouts (inherit the new palette via repointed tokens, keep old layouts).
+
+[2026-07-25] MARKETPLACE v2.0 + STITCH — Migrated marketplace LISTING (§4.2)
+  and DETAIL (§4.3) to v2.0. Listing (marketplace/page.tsx +
+  marketplace-browser.tsx): forest header band, overlapping pill type-tabs
+  (All/Forestry/Renewable/Blue Carbon/Agriculture/Waste & Biogas/Industrial),
+  sticky filter rail (Registry/Country/Max-price slider), card grid using
+  ProjectTeaser, live right-hand DataPanel (§3.6) that updates on card hover,
+  bottom-sheet mobile filters. Detail ([slug]/page.tsx): full-bleed sector photo
+  → overlapping surface card (chips + name + price + "Request to Buy"), two-col
+  body (About + escrow steps + compliance note "purchased and retired / does not
+  issue credits") with sticky Project-details + Documents("On request") panels,
+  related-projects row. Verified in browser: both render, filtering works
+  (Forestry -> 5), no console errors, no horizontal overflow. project-card.tsx
+  now unused (kept). Kept escrow-compliant "Request to Buy" over the doc's "Buy
+  Credits" (PRAN rules win). STITCH: installed google-labs-code/stitch-skills
+  (3 plugins: stitch-build/design/utilities) at user level
+  (~/.claude/plugins) via `npx plugins add ... --target claude-code`. Skills
+  (generate-design, manage-design-system, code-to-design, shadcn-ui, ...) load
+  after an agent RESTART and need a Stitch MCP server; not invocable this
+  session. BROKEN NAV LINKS still to resolve (nav.ts): /dashboard, /calculator,
+  /resources/* (5), /legal/* (3) have no routes yet -> 404.
 ```
 
 ---
@@ -95,13 +140,17 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none — STAGE 0 COMPLETE (0.1–0.4). Next: Stage A, Task A.1
-                    (homepage cinematic 3D globe opening)]
+Currently building: [none — REDESIGN v2.0 homepage + design system DONE
+                    (2026-07-24). 3D globe BANNED/removed. Next: migrate
+                    marketplace, calculator, and interior pages to the v2.0
+                    layouts in 5_Design.md §4.2–4.5]
 Blocked on:         [nothing to write]
 Waiting on founder: [create Supabase project + fill .env.local; confirm domain;
                     real project data (Stage B); leadership names/photos for
                     homepage Section 6 + Team; real marketplace stat numbers]
-Design:             LOCKED as-is (teal UI + green logo) 2026-07-23
+Design:             5_Design.md v2.0 (warm paper / forest / emerald, Space
+                    Grotesk display + Inter). Homepage built to it 2026-07-24.
+                    (Supersedes the 2026-07-23 teal-UI lock.)
 Logo:               received from techzedd/codepran, built as Logo component
 ```
 

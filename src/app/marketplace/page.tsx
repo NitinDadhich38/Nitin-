@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getProjects, facets } from "@/lib/marketplace-data";
+import { getProjects } from "@/lib/marketplace-data";
 import { MarketplaceBrowser } from "@/components/marketplace/marketplace-browser";
 
 export const metadata: Metadata = {
@@ -10,56 +10,35 @@ export const metadata: Metadata = {
 
 export default function MarketplacePage() {
   const projects = getProjects();
-  const priced = projects.map((p) => p.priceUsd).filter((n): n is number => n !== null);
-  const minPrice = Math.min(...priced);
-  const maxPrice = Math.max(...priced);
-
-  const stats = [
-    { value: `${projects.length}`, label: "Projects" },
-    { value: `${facets.countries.length}`, label: "Countries" },
-    { value: `${facets.registries.length}`, label: "Registries" },
-    { value: `$${minPrice.toFixed(2)}–$${maxPrice.toFixed(0)}`, label: "Price range" },
-  ];
+  const priced = projects
+    .map((p) => p.priceUsd)
+    .filter((n): n is number => n !== null);
+  const priceBounds = {
+    min: Math.floor(Math.min(...priced)),
+    max: Math.ceil(Math.max(...priced)),
+  };
 
   return (
-    <div className="bg-white">
-      {/* Header */}
-      <section className="border-b border-pran-border bg-pran-paper">
-        <div className="mx-auto max-w-content px-6 py-14">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-pran-teal">
-            The Marketplace
+    <div className="bg-pran-paper">
+      {/* Compact forest header band (5_Design.md §4.2) */}
+      <section className="bg-pran-forest text-white">
+        <div className="mx-auto max-w-content px-6 pb-20 pt-16 sm:pb-24">
+          <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-lime">
+            The marketplace
           </p>
-          <h1 className="mt-3 max-w-3xl font-display text-h1 font-semibold text-pran-text">
+          <h1 className="mt-4 max-w-[20ch] font-display text-display-l font-semibold text-white">
             Verified carbon projects, one transparent market.
           </h1>
-          <p className="mt-4 max-w-2xl text-pran-muted">
+          <p className="mt-5 max-w-[62ch] text-lg leading-relaxed text-white/70">
             Every listing is a real, registry-issued project. Purchases move
-            through PRAN&rsquo;s escrow — you pay PRAN, credits are transferred to
-            your registry account, and you receive a retirement certificate.
-          </p>
-
-          <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-pran-border bg-pran-border sm:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label} className="bg-white p-5">
-                <dt className="font-mono text-[11px] uppercase tracking-wider text-pran-muted">
-                  {s.label}
-                </dt>
-                <dd className="mt-1 font-display text-2xl font-semibold tabular-nums text-pran-navy">
-                  {s.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-3 font-mono text-[11px] uppercase tracking-wider text-pran-muted">
-            Launching with these listings · more projects onboarding
+            through PRAN&rsquo;s escrow — you pay PRAN, credits transfer to your
+            registry account, and you receive a retirement certificate.
           </p>
         </div>
       </section>
 
-      {/* Browser */}
-      <section className="mx-auto max-w-content px-6 py-10">
-        <MarketplaceBrowser projects={projects} />
-      </section>
+      {/* Pill tabs overlap the band edge; three-column working layout below */}
+      <MarketplaceBrowser projects={projects} priceBounds={priceBounds} />
     </div>
   );
 }

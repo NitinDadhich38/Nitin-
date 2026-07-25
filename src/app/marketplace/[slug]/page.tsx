@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, ShieldCheck, FileText } from "lucide-react";
 import { getProject, getProjects } from "@/lib/marketplace-data";
-import { sectorGradient, countryFlag } from "@/lib/sectors";
-import { formatUsd } from "@/lib/format";
-import { Badge } from "@/components/ui/badge";
+import { countryFlag } from "@/lib/sectors";
+import { photoForSector } from "@/lib/images";
+import { ProjectTeaser } from "@/components/marketing/project-teaser";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -16,10 +17,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const project = getProject(params.slug);
   if (!project) return { title: "Project not found" };
-  return {
-    title: project.name,
-    description: project.description,
-  };
+  return { title: project.name, description: project.description };
 }
 
 const escrowSteps = [
@@ -29,119 +27,224 @@ const escrowSteps = [
   "PRAN verifies the transfer and issues your retirement certificate.",
 ];
 
+const documents = [
+  "Registry certificate",
+  "Methodology summary",
+  "Verification report",
+];
+
+function priceText(priceUsd: number | null): string {
+  return priceUsd != null ? `$${priceUsd.toFixed(2)}` : "On request";
+}
+
 export default function ProjectPage({ params }: { params: { slug: string } }) {
   const project = getProject(params.slug);
   if (!project) notFound();
 
-  const details: { label: string; value: string }[] = [
+  const photo = photoForSector(project.sector);
+  const buyHref = `/contact?interest=purchase&project=${encodeURIComponent(project.name)}`;
+
+  const specs: { label: string; value: React.ReactNode }[] = [
     { label: "Registry", value: project.registry },
     { label: "Project type", value: project.sector },
-    { label: "Country", value: `${countryFlag(project.country)}  ${project.country}` },
+    {
+      label: "Country",
+      value: (
+        <span className="inline-flex items-center gap-1.5">
+          <span aria-hidden>{countryFlag(project.country)}</span>
+          {project.country}
+        </span>
+      ),
+    },
     { label: "Vintage", value: project.vintage },
     { label: "Developer", value: project.developer ?? "—" },
     { label: "Reference", value: project.id },
   ];
 
+  const all = getProjects();
+  const related = [
+    ...all.filter((p) => p.id !== project.id && p.sector === project.sector),
+    ...all.filter((p) => p.id !== project.id && p.sector !== project.sector),
+  ].slice(0, 3);
+
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-content px-6 py-10">
-        <Link
-          href="/marketplace"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-pran-muted hover:text-pran-teal"
-        >
-          <ArrowLeft className="h-4 w-4" /> Back to marketplace
-        </Link>
-
-        <div className="mt-6 grid gap-10 lg:grid-cols-[1fr_360px]">
-          {/* Main */}
-          <div>
-            <div className={`relative flex h-56 items-end overflow-hidden rounded-card ${sectorGradient(project.sector)}`}>
-              <div className="absolute right-4 top-4 rounded-full bg-white/90 px-3 py-1 font-mono text-xs font-medium text-pran-navy">
-                {project.registry}
-              </div>
-              <span className="p-6 font-mono text-xs uppercase tracking-wider text-white/80">
-                {project.sector}
-              </span>
-            </div>
-
-            <div className="mt-6 flex flex-wrap items-center gap-2">
-              <Badge variant="success">
-                <ShieldCheck className="mr-1 h-3 w-3" /> Registry-issued
-              </Badge>
-              <Badge variant="neutral">{project.country}</Badge>
-              <Badge variant="neutral">Vintage {project.vintage}</Badge>
-            </div>
-
-            <h1 className="mt-4 font-display text-h1 font-semibold text-pran-text">
-              {project.name}
-            </h1>
-            {project.developer && (
-              <p className="mt-2 text-pran-muted">Developed by {project.developer}</p>
-            )}
-
-            <p className="mt-6 leading-relaxed text-pran-text">{project.description}</p>
-
-            <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-pran-border bg-pran-border sm:grid-cols-3">
-              {details.map((d) => (
-                <div key={d.label} className="bg-white p-4">
-                  <dt className="font-mono text-[11px] uppercase tracking-wider text-pran-muted">
-                    {d.label}
-                  </dt>
-                  <dd className="mt-1 text-sm font-medium text-pran-text">{d.value}</dd>
-                </div>
-              ))}
-            </dl>
-
-            <div className="mt-8 rounded-card border border-pran-border bg-pran-paper p-6">
-              <h2 className="text-h3 font-semibold text-pran-text">How the purchase works</h2>
-              <ol className="mt-4 space-y-3">
-                {escrowSteps.map((step, i) => (
-                  <li key={i} className="flex gap-3 text-sm text-pran-text">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-pran-teal/10 font-mono text-xs font-medium text-pran-teal">
-                      {i + 1}
-                    </span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
+    <div className="bg-pran-paper">
+      {/* S1 — full-bleed photo with an overlapping card */}
+      <section className="relative">
+        <div className="relative h-[52vh] min-h-[360px] w-full overflow-hidden bg-pran-forest">
+          <Image src={photo} alt="" fill priority sizes="100vw" className="object-cover" />
+          <div aria-hidden className="photo-overlay absolute inset-0" />
+          <div className="absolute inset-x-0 top-0">
+            <div className="mx-auto max-w-content px-6 pt-6">
+              <Link
+                href="/marketplace"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-white/80 transition-colors hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4" /> Back to marketplace
+              </Link>
             </div>
           </div>
+        </div>
 
-          {/* Buy sidebar */}
-          <aside>
-            <div className="sticky top-24 rounded-card border border-pran-border p-6">
-              <div className="font-mono text-[11px] uppercase tracking-wider text-pran-muted">
-                Indicative price
-              </div>
-              <div className="mt-1 font-display text-3xl font-semibold tabular-nums text-pran-navy">
-                {formatUsd(project.priceUsd)}
-                {project.priceUsd !== null && (
-                  <span className="ml-1 text-base font-normal text-pran-muted">/ credit</span>
+        <div className="mx-auto max-w-content px-6">
+          <div className="relative -mt-28 rounded-panel bg-pran-surface p-7 shadow-float sm:p-10">
+            <div className="flex flex-wrap items-start justify-between gap-6">
+              <div className="min-w-0">
+                <div className="flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-pran-emerald/10 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-pran-emerald-hover">
+                    <ShieldCheck className="h-3 w-3" /> {project.registry}
+                  </span>
+                  <span className="rounded-lg bg-pran-paper-warm px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-pran-muted">
+                    {project.country}
+                  </span>
+                  <span className="rounded-lg bg-pran-paper-warm px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-pran-muted">
+                    Vintage {project.vintage}
+                  </span>
+                </div>
+                <h1 className="mt-4 max-w-[22ch] font-display text-display-l font-semibold text-pran-ink">
+                  {project.name}
+                </h1>
+                {project.developer && (
+                  <p className="mt-2 text-pran-muted">Developed by {project.developer}</p>
                 )}
               </div>
 
-              <Link
-                href={`/contact?interest=purchase&project=${encodeURIComponent(project.name)}`}
-                className={cn(buttonVariants({ size: "lg" }), "mt-5 w-full")}
-              >
-                Request to Buy
-              </Link>
-              <Link
-                href="/contact?interest=demo"
-                className={cn(buttonVariants({ variant: "outline" }), "mt-2 w-full")}
-              >
-                Talk to our team
-              </Link>
+              <div className="shrink-0">
+                <div className="text-xs font-medium uppercase tracking-[0.08em] text-pran-muted">
+                  Indicative price
+                </div>
+                <div className="mt-1 font-display text-3xl font-semibold tabular-nums text-pran-ink">
+                  {priceText(project.priceUsd)}
+                  {project.priceUsd != null && (
+                    <span className="ml-1 text-base font-normal text-pran-muted">
+                      / tCO₂e
+                    </span>
+                  )}
+                </div>
+                <Link
+                  href={buyHref}
+                  className={cn(buttonVariants({ size: "lg" }), "group mt-4 w-full")}
+                >
+                  Request to Buy
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              <p className="mt-4 text-xs leading-relaxed text-pran-muted">
-                Credits are transferred by the seller into your own registry
-                account. PRAN facilitates and verifies the transfer and issues a
-                retirement certificate — it does not issue credits.
-              </p>
+      {/* S2 — two-column body */}
+      <section className="mx-auto max-w-content px-6 py-16 sm:py-20">
+        <div className="grid gap-12 lg:grid-cols-[1fr_360px]">
+          {/* Left — narrative */}
+          <div>
+            <h2 className="font-display text-h2 font-semibold text-pran-ink">
+              About this project
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-pran-muted">
+              {project.description}
+            </p>
+
+            <h2 className="mt-12 font-display text-h2 font-semibold text-pran-ink">
+              How the purchase works
+            </h2>
+            <ol className="mt-5 space-y-4">
+              {escrowSteps.map((step, i) => (
+                <li key={i} className="flex gap-4">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10 text-sm font-semibold text-pran-emerald-hover">
+                    {i + 1}
+                  </span>
+                  <span className="pt-0.5 leading-relaxed text-pran-ink">{step}</span>
+                </li>
+              ))}
+            </ol>
+
+            <p className="mt-8 rounded-card bg-pran-paper-warm p-5 text-sm leading-relaxed text-pran-muted">
+              Credits are transferred by the seller into your own registry
+              account. PRAN facilitates and verifies the transfer and issues a
+              retirement certificate stating that credits were{" "}
+              <span className="font-medium text-pran-ink">purchased and retired</span>{" "}
+              on your behalf — it does not issue or create credits. Imagery is
+              representative; project photography is added at onboarding.
+            </p>
+          </div>
+
+          {/* Right — sticky data + documents panel */}
+          <aside>
+            <div className="sticky top-24 space-y-6">
+              <div className="rounded-panel bg-pran-surface p-6 shadow-card">
+                <h3 className="font-display text-h3 font-semibold text-pran-ink">
+                  Project details
+                </h3>
+                <dl className="mt-5 space-y-3">
+                  {specs.map((s) => (
+                    <div
+                      key={s.label}
+                      className="flex items-start justify-between gap-4 border-b border-pran-hairline pb-3 text-sm last:border-b-0 last:pb-0"
+                    >
+                      <dt className="shrink-0 text-pran-muted">{s.label}</dt>
+                      <dd className="text-right font-medium text-pran-ink">{s.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <div className="rounded-panel bg-pran-surface p-6 shadow-card">
+                <h3 className="font-display text-h3 font-semibold text-pran-ink">
+                  Documents
+                </h3>
+                <ul className="mt-4 space-y-2.5">
+                  {documents.map((d) => (
+                    <li
+                      key={d}
+                      className="flex items-center justify-between gap-3 text-sm"
+                    >
+                      <span className="inline-flex items-center gap-2 text-pran-ink">
+                        <FileText className="h-4 w-4 text-pran-muted" /> {d}
+                      </span>
+                      <span className="text-xs font-medium uppercase tracking-wide text-pran-muted">
+                        On request
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/contact?interest=demo"
+                  className={cn(buttonVariants({ variant: "secondary" }), "mt-5 w-full")}
+                >
+                  Talk to our team
+                </Link>
+              </div>
             </div>
           </aside>
         </div>
-      </div>
+      </section>
+
+      {/* S3 — related projects */}
+      {related.length > 0 && (
+        <section className="border-t border-pran-hairline bg-pran-paper-warm py-16 sm:py-20">
+          <div className="mx-auto max-w-content px-6">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h2 className="font-display text-h2 font-semibold text-pran-ink">
+                Related projects
+              </h2>
+              <Link
+                href="/marketplace"
+                className="group inline-flex items-center gap-1.5 text-sm font-medium text-pran-emerald"
+              >
+                View all
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((p) => (
+                <ProjectTeaser key={p.id} project={p} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

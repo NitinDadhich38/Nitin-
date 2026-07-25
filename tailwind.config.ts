@@ -2,7 +2,11 @@ import type { Config } from "tailwindcss";
 
 /**
  * PRAN Tailwind tokens — single source of truth for the design system.
- * Mirrors Docs/5_Design.md. Do not introduce colors/fonts not defined here.
+ * Mirrors Docs/5_Design.md v2.0. Do not introduce colors/fonts not defined here.
+ *
+ * Palette identity (v2.0): warm paper base, deep forest + emerald, restrained.
+ * Legacy keys (teal/navy) are REPOINTED to the new palette so pages not yet
+ * migrated inherit the new look; prefer the v2.0 names below for new work.
  */
 const config: Config = {
   content: [
@@ -13,59 +17,80 @@ const config: Config = {
     container: {
       center: true,
       padding: "1.5rem",
-      screens: { "2xl": "1280px" },
+      screens: { "2xl": "1200px" },
     },
     extend: {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
         pran: {
-          ink: "#0a0a0a",
-          teal: "#0f5f5c",
-          "teal-dark": "#0a403e",
-          "teal-lit": "#14a085",
-          paper: "#ffffff",
-          text: "#0f1a1a",
-          muted: "#5b6b6a",
-          border: "#e2e8e7",
-          navy: "#0a1f44",
+          // ── v2.0 core ──────────────────────────────────────────────
+          paper: "#faf8f4", // primary page background (warm, never #fff)
+          "paper-warm": "#f5f1ea", // alternating section background
+          surface: "#ffffff", // cards floating on paper
+          ink: "#0e1211", // primary text (near-black, not pure black)
+          text: "#0e1211",
+          muted: "#5f6b66", // secondary text
+          border: "#e6e1d8", // hairline
+          hairline: "#e6e1d8",
+          forest: "#0f3d2e", // deep forest — dark sections, footer
+          "forest-deep": "#0a2a20", // darker layer / hover
+          emerald: "#16a34a", // primary action
+          "emerald-hover": "#15803d",
+          lime: "#d9f99d", // rare highlight
+          clay: "#c97a4a", // warm data accent
+          green: "#12a33a", // brand logo emblem (fixed)
+          // ── legacy aliases (repointed to v2.0) ─────────────────────
+          teal: "#16a34a",
+          "teal-dark": "#15803d",
+          "teal-lit": "#4ade80",
+          navy: "#0f3d2e",
           gold: "#c9a227",
-          green: "#12a33a",
         },
         status: {
-          success: "#1e7a46",
-          pending: "#b7791f",
+          success: "#15803d",
+          pending: "#b45309",
           danger: "#b42318",
-          info: "#1f6fb2",
+          info: "#1d4ed8",
         },
       },
       fontFamily: {
-        display: ["var(--font-display)", "Fraunces", "ui-serif", "serif"],
-        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Space Grotesk", "ui-sans-serif", "sans-serif"],
+        sans: ["var(--font-sans)", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {
-        // Design.md §3 type scale
-        display: ["clamp(2.5rem, 6vw, 5rem)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
-        h1: ["clamp(2rem, 4vw, 3.25rem)", { lineHeight: "1.1", letterSpacing: "-0.015em" }],
-        h2: ["clamp(1.5rem, 3vw, 2.25rem)", { lineHeight: "1.15" }],
-        h3: ["1.25rem", { lineHeight: "1.3" }],
+        // 5_Design.md v2.0 §2.2 scale
+        // min 2.5rem so Display XL caps on mobile per §7; grows to 5.5rem
+        "display-xl": ["clamp(2.5rem, 7vw, 5.5rem)", { lineHeight: "1.04", letterSpacing: "-0.035em" }],
+        "display-l": ["clamp(2.25rem, 5vw, 3.75rem)", { lineHeight: "1.07", letterSpacing: "-0.03em" }],
+        // legacy tokens kept for un-migrated pages
+        display: ["clamp(2.5rem, 7vw, 5.5rem)", { lineHeight: "1.04", letterSpacing: "-0.035em" }],
+        h1: ["clamp(2.25rem, 5vw, 3.75rem)", { lineHeight: "1.07", letterSpacing: "-0.03em" }],
+        h2: ["clamp(1.75rem, 3vw, 2.5rem)", { lineHeight: "1.12", letterSpacing: "-0.02em" }],
+        h3: ["1.375rem", { lineHeight: "1.3", letterSpacing: "-0.01em" }],
       },
       borderRadius: {
-        btn: "var(--radius-btn)",
-        card: "var(--radius-card)",
+        btn: "12px",
+        card: "16px",
+        panel: "24px",
+        hero: "32px",
       },
       maxWidth: {
-        content: "1280px",
+        content: "1200px",
+      },
+      boxShadow: {
+        card: "0 1px 2px rgba(14,18,17,.04), 0 8px 24px rgba(14,18,17,.06)",
+        float: "0 2px 4px rgba(14,18,17,.04), 0 20px 48px rgba(14,18,17,.10)",
       },
       keyframes: {
         "fade-rise": {
-          "0%": { opacity: "0", transform: "translateY(12px)" },
+          "0%": { opacity: "0", transform: "translateY(16px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
-        "fade-rise": "fade-rise 400ms ease-out both",
+        "fade-rise": "fade-rise 500ms ease-out both",
       },
     },
   },
