@@ -56,7 +56,13 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </span>
       ),
     },
-    { label: "Vintage", value: project.vintage },
+    { label: "Vintage", value: project.vintageLabel },
+    {
+      label: "Volume",
+      value: project.totalVolume
+        ? `${project.totalVolume.toLocaleString("en-US")} tCO₂e`
+        : "On request",
+    },
     { label: "Developer", value: project.developer ?? "—" },
     { label: "Reference", value: project.id },
   ];
@@ -98,7 +104,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                     {project.country}
                   </span>
                   <span className="rounded-lg bg-pran-paper-warm px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-pran-muted">
-                    Vintage {project.vintage}
+                    Vintage {project.vintageLabel}
                   </span>
                 </div>
                 <h1 className="mt-4 max-w-[22ch] font-display text-display-l font-semibold text-pran-ink">
@@ -145,6 +151,62 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             <p className="mt-4 text-lg leading-relaxed text-pran-muted">
               {project.description}
             </p>
+
+            {/* Available tranches — how the book actually trades */}
+            {project.listings.length > 0 && (
+              <div className="mt-12">
+                <h2 className="font-display text-h2 font-semibold text-pran-ink">
+                  Available volume
+                </h2>
+                <p className="mt-3 text-pran-muted">
+                  {project.listings.length === 1
+                    ? "One tranche currently offered."
+                    : `${project.listings.length} tranches currently offered.`}{" "}
+                  Final pricing is confirmed on request.
+                </p>
+                <div className="mt-5 overflow-x-auto rounded-panel bg-pran-surface shadow-card">
+                  <table className="w-full min-w-[440px] text-sm">
+                    <thead>
+                      <tr className="border-b border-pran-hairline">
+                        <th className="px-5 py-3 text-left text-[11px] font-medium uppercase tracking-[0.08em] text-pran-muted">
+                          Vintage
+                        </th>
+                        <th className="px-5 py-3 text-right text-[11px] font-medium uppercase tracking-[0.08em] text-pran-muted">
+                          Volume (tCO₂e)
+                        </th>
+                        <th className="px-5 py-3 text-left text-[11px] font-medium uppercase tracking-[0.08em] text-pran-muted">
+                          Delivery
+                        </th>
+                        <th className="px-5 py-3 text-right text-[11px] font-medium uppercase tracking-[0.08em] text-pran-muted">
+                          Price
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {project.listings.map((l, i) => (
+                        <tr
+                          key={i}
+                          className="border-b border-pran-hairline last:border-b-0"
+                        >
+                          <td className="px-5 py-3 tabular-nums text-pran-ink">
+                            {l.vintage ?? "—"}
+                          </td>
+                          <td className="px-5 py-3 text-right tabular-nums text-pran-ink">
+                            {l.volume ? l.volume.toLocaleString("en-US") : "TBD"}
+                          </td>
+                          <td className="px-5 py-3 text-pran-muted">
+                            {l.delivery ?? "—"}
+                          </td>
+                          <td className="px-5 py-3 text-right tabular-nums font-medium text-pran-ink">
+                            {l.priceLabel ?? "On request"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
 
             <h2 className="mt-12 font-display text-h2 font-semibold text-pran-ink">
               How the purchase works

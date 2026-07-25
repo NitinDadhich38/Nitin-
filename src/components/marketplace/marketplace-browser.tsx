@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Search, SlidersHorizontal, X, ArrowRight } from "lucide-react";
 import type { Project } from "@/lib/marketplace-data";
 import { facets } from "@/lib/marketplace-data";
-import { ProjectTeaser } from "@/components/marketing/project-teaser";
+import { ProjectTeaser, priceLabel } from "@/components/marketing/project-teaser";
 import { photoForSector } from "@/lib/images";
 import { countryFlag } from "@/lib/sectors";
 import { buttonVariants } from "@/components/ui/button";
@@ -27,10 +27,6 @@ const TYPE_GROUPS: { label: string; match: (sector: string) => boolean }[] = [
 
 function toggle<T>(set: T[], value: T): T[] {
   return set.includes(value) ? set.filter((v) => v !== value) : [...set, value];
-}
-
-function priceText(priceUsd: number | null): string {
-  return priceUsd != null ? `$${priceUsd.toFixed(2)}` : "On request";
 }
 
 function FilterGroup({
@@ -80,6 +76,7 @@ function DataPanel({
 }) {
   const rows: { label: string; value: React.ReactNode }[] = [
     { label: "Registry", value: project.registry },
+    { label: "Reference", value: project.id },
     { label: "Type", value: project.sector },
     {
       label: "Country",
@@ -90,8 +87,13 @@ function DataPanel({
         </span>
       ),
     },
-    { label: "Vintage", value: project.vintage },
-    { label: "Developer", value: project.developer ?? "—" },
+    { label: "Vintage", value: project.vintageLabel },
+    {
+      label: "Volume",
+      value: project.totalVolume
+        ? `${project.totalVolume.toLocaleString("en-US")} tCO₂e`
+        : "On request",
+    },
   ];
   const pct =
     project.priceUsd != null && priceBounds.max > priceBounds.min
@@ -138,7 +140,7 @@ function DataPanel({
               Price
             </span>
             <span className="text-lg font-semibold tabular-nums text-pran-ink">
-              {priceText(project.priceUsd)}
+              {priceLabel(project)}
               {project.priceUsd != null && (
                 <span className="text-sm font-normal text-pran-muted"> / tCO₂e</span>
               )}
@@ -177,6 +179,7 @@ export function MarketplaceBrowser({
   const [typeIdx, setTypeIdx] = useState(0);
   const [registries, setRegistries] = useState<string[]>([]);
   const [countries, setCountries] = useState<string[]>([]);
+  const [deliveries, setDeliveries] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState(priceBounds.max);
   const [sort, setSort] = useState<Sort>("featured");
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -198,6 +201,11 @@ export function MarketplaceBrowser({
       if (!typeMatch(p.sector)) return false;
       if (registries.length && !registries.includes(p.registry)) return false;
       if (countries.length && !countries.includes(p.country)) return false;
+      if (
+        deliveries.length &&
+        !p.listings.some((l) => l.delivery && deliveries.includes(l.delivery))
+      )
+        return false;
       if (p.priceUsd != null && p.priceUsd > maxPrice) return false;
       if (q) {
         const hay =
@@ -216,16 +224,20 @@ export function MarketplaceBrowser({
       list = [...list].sort((a, b) => a.name.localeCompare(b.name));
 
     return list;
-  }, [projects, query, typeIdx, registries, countries, maxPrice, sort]);
+  }, [projects, query, typeIdx, registries, countries, deliveries, maxPrice, sort]);
 
   const selected =
     filtered.find((p) => p.id === selectedId) ?? filtered[0] ?? null;
 
   const activeCount =
-    registries.length + countries.length + (maxPrice < priceBounds.max ? 1 : 0);
+    registries.length +
+    countries.length +
+    deliveries.length +
+    (maxPrice < priceBounds.max ? 1 : 0);
   const clearAll = () => {
     setRegistries([]);
     setCountries([]);
+    setDeliveries([]);
     setMaxPrice(priceBounds.max);
     setQuery("");
   };
@@ -249,6 +261,12 @@ export function MarketplaceBrowser({
           options={facets.registries}
           selected={registries}
           onToggle={(v) => setRegistries((s) => toggle(s, v))}
+        />
+        <FilterGroup
+          title="Delivery"
+          options={facets.deliveries}
+          selected={deliveries}
+          onToggle={(v) => setDeliveries((s) => toggle(s, v))}
         />
         <FilterGroup
           title="Country"

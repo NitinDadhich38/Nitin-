@@ -1,28 +1,41 @@
 /**
- * Homepage stats & brand constants — single source of truth for numbers shown
- * on the marketing site (CLAUDE.md: "Where numbers live").
+ * Site-wide stats & brand constants (CLAUDE.md: "Where numbers live").
  *
- * These stats are DERIVED from the real marketplace seed data, not invented.
- * When the marketplace moves to Supabase (Phase 2), point these at the DB.
+ * Every figure here is DERIVED from the real portfolio in marketplace-data.ts,
+ * which is generated from PRΛN_Portfolio.xlsx. Nothing is hand-entered, so the
+ * homepage can never drift from the book.
  */
 
-import { getProjects, facets } from "@/lib/marketplace-data";
+import { portfolioStats } from "@/lib/marketplace-data";
 
-const projects = getProjects();
+export const siteStats = portfolioStats;
 
-export const siteStats = {
-  projects: projects.length,
-  countries: facets.countries.length,
-  registries: facets.registries.length,
-  sectors: facets.sectors.length,
-} as const;
+/** Compact display helper: 14133402 -> "14.1M". */
+export function compact(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${Math.round(n / 1_000)}K`;
+  return `${n}`;
+}
 
-/** Proof-strip figures (5_Design.md §4.1 S2). Honest, derived counts only. */
-export const proofStats: { value: number; suffix?: string; label: string }[] = [
-  { value: siteStats.projects, suffix: "+", label: "Verified projects" },
-  { value: siteStats.countries, suffix: "+", label: "Countries" },
-  { value: siteStats.registries, label: "Global registries" },
-  { value: 100, suffix: "%", label: "Escrow-settled" },
+/**
+ * Proof-strip figures (5_Design.md §4.1 S2). Honest, derived counts only.
+ * `value` drives the count-up; `display` overrides the rendered string where
+ * a raw number would be unreadable.
+ */
+export const proofStats: {
+  value: number;
+  display?: string;
+  suffix?: string;
+  label: string;
+}[] = [
+  { value: portfolioStats.projects, label: "Verified projects" },
+  {
+    value: portfolioStats.totalVolume,
+    display: compact(portfolioStats.totalVolume),
+    label: "tCO₂e available",
+  },
+  { value: portfolioStats.countries, label: "Countries" },
+  { value: portfolioStats.registries, label: "Registry standards" },
 ];
 
 export const brand = {
