@@ -34,7 +34,7 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        className="object-cover"
+        className={cn("object-cover", !reduce && "hero-drift")}
       />
       <div aria-hidden className="photo-overlay absolute inset-0" />
 

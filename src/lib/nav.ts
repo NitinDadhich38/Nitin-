@@ -31,6 +31,7 @@ export const mainNav: NavGroup[] = [
   {
     label: "Resources",
     children: [
+      { label: "All Resources", href: "/resources" },
       { label: "Blog & Insights", href: "/resources/blog" },
       { label: "Compliance Library", href: "/resources/compliance-library" },
       { label: "India CCTS Explainer", href: "/resources/ccts" },

@@ -1,52 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
+import { useInViewOnce } from "@/lib/use-in-view-once";
 
 /**
  * Chart primitives for the portfolio data room (proposals T1–T5).
  *
- * All of them animate on scroll entry via a shared `useDrawOnView` hook that
- * uses a plain IntersectionObserver plus an already-in-view check and a
- * guaranteed end state — the same resilient pattern as Counter, so a chart can
- * never be left empty if the observer misses.
+ * Every chart draws on scroll entry through `useInViewOnce`, which guarantees
+ * the reveal fires — a chart that stays at zero would misrepresent the book,
+ * which matters more here than the animation does.
  */
 
 function useDrawOnView<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [shown, setShown] = useState(false);
   const reduce = useReducedMotion();
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (reduce) {
-      setShown(true);
-      return;
-    }
-    let done = false;
-    const show = () => {
-      if (done) return;
-      done = true;
-      setShown(true);
-    };
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) if (e.isIntersecting) show();
-      },
-      { threshold: 0.15 },
-    );
-    io.observe(el);
-    const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight * 0.9 && r.bottom > 0) show();
-    const t = window.setTimeout(show, 1500); // never leave a chart blank
-    return () => {
-      io.disconnect();
-      window.clearTimeout(t);
-    };
-  }, [reduce]);
-
-  return { ref, shown, reduce };
+  const { ref, inView } = useInViewOnce<T>({ disabled: !!reduce });
+  return { ref, shown: inView, reduce };
 }
 
 export type Datum = { label: string; value: number };

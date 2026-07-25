@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
+import { ScrollProgress } from "@/components/shared/scroll-progress";
 import { buttonVariants } from "@/components/ui/button";
 import { mainNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
@@ -161,6 +162,8 @@ export function SiteHeader() {
           </button>
         </div>
       </nav>
+
+      {scrolled && <ScrollProgress />}
 
       {/* Mobile drawer */}
       {mobileOpen && (

@@ -99,6 +99,21 @@
   }
 }
 
+/* G4 — primary CTA arrow nudge is handled per-component; buttons darken only.
+   H2 — hero photograph drifts almost imperceptibly so the opening feels alive
+   without parallax or scroll-jacking (both banned). */
+@keyframes hero-drift {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.06) translate3d(0, -1%, 0);
+  }
+}
+.hero-drift {
+  animation: hero-drift 24s ease-out forwards;
+}
+
 /* Accessibility + legal: honour reduced motion everywhere (v2.0 §2.5) */
 @media (prefers-reduced-motion: reduce) {
   *,
