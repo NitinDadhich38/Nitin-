@@ -50,3 +50,7 @@ Thumbs.db
 
 # Misc
 *.pem
+
+# Local design-review screenshots (scripts/shot.py)
+.screenshots/
+.chrome-shot-profile/

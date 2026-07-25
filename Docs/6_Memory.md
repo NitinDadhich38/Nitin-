@@ -133,6 +133,36 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
   after an agent RESTART and need a Stitch MCP server; not invocable this
   session. BROKEN NAV LINKS still to resolve (nav.ts): /dashboard, /calculator,
   /resources/* (5), /legal/* (3) have no routes yet -> 404.
+
+[2026-07-26] HOMEPAGE CRAFT REFINEMENT (founder feedback) — Restored the
+  reverted "26bbc3d" redesign as the base, then rebuilt each section to be
+  exceptional, iterating against a live HTML preview artifact (7 rounds) with
+  the founder before porting to real components. Changes: (1) Craft tokens —
+  brand-tinted 6-layer shadows (card/float/lift, forest 10,42,32 not gray) +
+  tighter display tracking (tailwind.config.ts). (2) HERO rebuilt to PURE
+  CINEMATIC + kinetic type (hero.tsx): full-bleed heroAerial photo, slow 30s
+  push-in + film grain, headline reveals line-by-line from behind a mask,
+  "connected" underline draws itself, slow sequenced entrance; NO card, NO
+  widget (founder rejected a floating-listing card and an animated node-network
+  first). Anim keyframes in globals.css, all LOAD animations (no IO) so content
+  never strands; reduced-motion snaps to final state. (3) PROBLEM the "soul"
+  first scroll (problem-section.tsx): full-bleed forestMist photo, big glowing
+  24 Gt, UNEP emissions-gap chart (two diverging paths + shaded wedge, only
+  real endpoints) drawing in on scroll, friction 01-04 below. New
+  lib/market-data.ts (emissionsGap reshaped to from/paths/gap; marketFacts;
+  frictionPoints) — flagged VERIFY BEFORE LAUNCH. (4) WHAT-WE-DO -> BENTO grid
+  (what-we-do.tsx): 4 unequal cells, each conveys its message with a visual
+  (product tile / bar chart / gauge "6.4" / cert rows — figures ILLUSTRATIVE).
+  (5) BUILT-FOR -> editorial alternating image rows (for-whom.tsx). (6) TRUST
+  deduped — roundedStats removed here (they were shown twice); donut + sourced
+  market context only. (7) REMOVED the proof-strip/supply band above the
+  problem (proof-strip.tsx now unused, kept). (8) Settlement band deleted.
+  Marketplace safari block left intact per founder. reveal.tsx now uses CSS
+  transitions (compositor-safe) not framer JS. tsc clean; NOT built locally
+  (shared .next w/ another dev server would corrupt — see issue #7). Founder
+  reviews on Vercel (real fonts/photos). Preview build tooling:
+  scripts/shot.py + scratchpad build_preview.py (embeds Unsplash as data URIs).
+  Stock photos are PLACEHOLDERS -> swap for real project photos in images.ts.
 ```
 
 ---
@@ -140,10 +170,10 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none — REDESIGN v2.0 homepage + design system DONE
-                    (2026-07-24). 3D globe BANNED/removed. Next: migrate
-                    marketplace, calculator, and interior pages to the v2.0
-                    layouts in 5_Design.md §4.2–4.5]
+Currently building: [none — HOMEPAGE CRAFT REFINEMENT DONE (2026-07-26),
+                    pushed for founder review on Vercel. Next: founder verdict,
+                    then migrate calculator + interior pages to match, and
+                    replace placeholder stock photos with real project photos]
 Blocked on:         [nothing to write]
 Waiting on founder: [create Supabase project + fill .env.local; confirm domain;
                     real project data (Stage B); leadership names/photos for

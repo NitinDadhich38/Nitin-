@@ -17,25 +17,29 @@ export function compact(n: number): string {
   return `${n}`;
 }
 
+/** Round DOWN to the nearest 5/10 — never overstate the book. */
+function floorTo(n: number, step: number): number {
+  return Math.floor(n / step) * step;
+}
+
 /**
- * Proof-strip figures (5_Design.md §4.1 S2). Honest, derived counts only.
- * `value` drives the count-up; `display` overrides the rendered string where
- * a raw number would be unreadable.
+ * Marketing-facing scale figures.
+ *
+ * Deliberately rounded so the homepage reads as a claim about scale rather
+ * than a dump of the order book. Always rounded DOWN: on a carbon marketplace
+ * an overstated count is the fastest way to lose a buyer's trust, so "80+"
+ * with 85 in the book is right and "100+" would not be.
+ *
+ * Exact figures live on the marketplace and dashboard, where a buyer needs them.
  */
-export const proofStats: {
-  value: number;
-  display?: string;
-  suffix?: string;
-  label: string;
-}[] = [
-  { value: portfolioStats.projects, label: "Verified projects" },
+export const roundedStats: { value: string; label: string }[] = [
+  { value: `${floorTo(portfolioStats.projects, 5)}+`, label: "Verified projects" },
   {
-    value: portfolioStats.totalVolume,
-    display: compact(portfolioStats.totalVolume),
+    value: `${Math.floor(portfolioStats.totalVolume / 1_000_000)}M+`,
     label: "tCO₂e available",
   },
-  { value: portfolioStats.countries, label: "Countries" },
-  { value: portfolioStats.registries, label: "Registry standards" },
+  { value: `${floorTo(portfolioStats.countries, 5)}+`, label: "Countries" },
+  { value: `${portfolioStats.registries}`, label: "Registry standards" },
 ];
 
 export const brand = {

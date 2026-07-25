@@ -76,7 +76,7 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
       { label: "Why We Exist", href: "/about" },
       { label: "Team", href: "/about/team" },
       { label: "Why Carbon Markets Matter", href: "/why-carbon-markets" },
-      { label: "Contact / Request Demo", href: "/contact" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ];

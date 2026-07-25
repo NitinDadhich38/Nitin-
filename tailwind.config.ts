@@ -80,8 +80,12 @@ const config: Config = {
         content: "1200px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(14,18,17,.04), 0 8px 24px rgba(14,18,17,.06)",
-        float: "0 2px 4px rgba(14,18,17,.04), 0 20px 48px rgba(14,18,17,.10)",
+        // Brand-tinted, multi-layer shadows (tinted with forest 10,42,32, never
+        // flat gray) — the premium "float" register borrowed from Polariyon.
+        card: "0 0.6px 1.4px rgba(10,42,32,.04), 0 2.3px 5.3px rgba(10,42,32,.05), 0 10px 24px rgba(10,42,32,.06)",
+        float:
+          "0 0.8px 1.4px rgba(10,42,32,.05), 0 1.9px 3.5px rgba(10,42,32,.05), 0 3.9px 7px rgba(10,42,32,.05), 0 7.3px 13px rgba(10,42,32,.05), 0 14.6px 26px rgba(10,42,32,.06), 0 32px 58px rgba(10,42,32,.08)",
+        lift: "0 2px 4px rgba(10,42,32,.06), 0 18px 32px rgba(10,42,32,.10), 0 32px 60px rgba(10,42,32,.12)",
       },
       keyframes: {
         "fade-rise": {

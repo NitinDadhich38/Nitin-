@@ -14,7 +14,7 @@ export function ClosingCta() {
           <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-lime">
             Get started
           </p>
-          <h2 className="mx-auto mt-4 max-w-[20ch] font-display text-display-l font-semibold text-white">
+          <h2 className="mx-auto mt-4 max-w-[20ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
             Ready to connect to the carbon market?
           </h2>
           <p className="mx-auto mt-5 max-w-[52ch] text-lg leading-relaxed text-white/70">
@@ -38,7 +38,7 @@ export function ClosingCta() {
                 "border-white/40 text-white hover:border-white/70",
               )}
             >
-              Request Demo
+              Talk to our team
             </Link>
           </div>
         </Reveal>
