@@ -6,7 +6,13 @@ import { ArrowLeft, ArrowRight, ShieldCheck, FileText } from "lucide-react";
 import { getProject, getProjects } from "@/lib/marketplace-data";
 import { countryFlag } from "@/lib/sectors";
 import { photoForSector } from "@/lib/images";
-import { ProjectTeaser } from "@/components/marketing/project-teaser";
+import {
+  ProjectTeaser,
+  priceLabel,
+  volumeLabel,
+  deliveryLabel,
+} from "@/components/marketing/project-teaser";
+import { StickyBuyBar } from "@/components/marketplace/sticky-buy-bar";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -33,16 +39,13 @@ const documents = [
   "Verification report",
 ];
 
-function priceText(priceUsd: number | null): string {
-  return priceUsd != null ? `$${priceUsd.toFixed(2)}` : "On request";
-}
-
 export default function ProjectPage({ params }: { params: { slug: string } }) {
   const project = getProject(params.slug);
   if (!project) notFound();
 
   const photo = photoForSector(project.sector);
   const buyHref = `/contact?interest=purchase&project=${encodeURIComponent(project.name)}`;
+  const volume = volumeLabel(project.totalVolume);
 
   const specs: { label: string; value: React.ReactNode }[] = [
     { label: "Registry", value: project.registry },
@@ -120,7 +123,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                   Indicative price
                 </div>
                 <div className="mt-1 font-display text-3xl font-semibold tabular-nums text-pran-ink">
-                  {priceText(project.priceUsd)}
+                  {priceLabel(project)}
                   {project.priceUsd != null && (
                     <span className="ml-1 text-base font-normal text-pran-muted">
                       / tCO₂e
@@ -136,6 +139,28 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 </Link>
               </div>
             </div>
+
+            {/* D1 — trust ribbon: the buyer's first questions, answered up front */}
+            <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-pran-hairline pt-6 sm:grid-cols-4">
+              {[
+                { label: "Registry ID", value: project.id },
+                { label: "Standard", value: project.registry },
+                {
+                  label: "Volume",
+                  value: volume ? `${volume} tCO₂e` : "On request",
+                },
+                { label: "Delivery", value: deliveryLabel(project) ?? "On request" },
+              ].map((r) => (
+                <div key={r.label}>
+                  <dt className="text-[11px] font-medium uppercase tracking-[0.08em] text-pran-muted">
+                    {r.label}
+                  </dt>
+                  <dd className="mt-1.5 font-medium tabular-nums text-pran-ink">
+                    {r.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       </section>
@@ -307,6 +332,15 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           </div>
         </section>
       )}
+
+      <StickyBuyBar
+        name={project.name}
+        price={priceLabel(project)}
+        volume={volume}
+        href={buyHref}
+      />
+      {/* clearance so the bar never covers the footer's last row */}
+      <div aria-hidden className="h-16" />
     </div>
   );
 }
