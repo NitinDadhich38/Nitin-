@@ -2,92 +2,133 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/marketing/reveal";
 import { photos } from "@/lib/images";
 
-const ROWS = [
+/**
+ * Built for whom — four full-bleed panels that expand on hover.
+ *
+ * Photography carries the message and the copy stays to one line each, so the
+ * section reads as four worlds rather than four text blocks. Collapses to a
+ * stack of image cards on mobile, where hover does not exist.
+ */
+const audiences = [
   {
     label: "Enterprise",
-    title: "Procure and report at institutional scale.",
-    desc: "Source high-integrity credits, settle through escrow, and generate audit-ready records mapped to your disclosure frameworks.",
+    line: "Procure and report at institutional scale.",
     href: "/solutions/enterprise",
     photo: photos.solar,
-    alt: "Rows of solar panels",
+    alt: "Solar installation",
   },
   {
     label: "Government",
-    title: "Market infrastructure for public climate goals.",
-    desc: "The connective rails for compliance markets — transparent registries, verifiable retirement, and settlement you can stand behind.",
+    line: "Market infrastructure for public climate goals.",
     href: "/solutions/government",
     photo: photos.greenHills,
-    alt: "Aerial view of green hills",
+    alt: "Green hills from the air",
   },
   {
     label: "Project Developers",
-    title: "List your project in front of real buyers.",
-    desc: "Bring your registry-verified credits to a marketplace built for price discovery, direct demand, and clean settlement.",
+    line: "Reach buyers who can actually transact.",
     href: "/solutions/developers",
-    photo: photos.forestCanopy,
-    alt: "Tall forest canopy",
+    photo: photos.forestMist,
+    alt: "Mist through forest",
   },
   {
     label: "Individuals",
-    title: "Calculate, offset, and retire — transparently.",
-    desc: "Estimate your footprint on cited factors, then purchase and retire verified carbon credits for a chosen period. No vague claims.",
-    href: "/calculator",
+    line: "Measure your footprint, then act on it.",
+    href: "/solutions/public",
     photo: photos.seedling,
-    alt: "Hands cradling a seedling",
+    alt: "Seedling held in hands",
   },
 ];
 
 export function ForWhom() {
   return (
-    <section className="bg-pran-paper-warm py-24 sm:py-32">
+    <section className="bg-pran-paper py-24 sm:py-32">
       <div className="mx-auto max-w-content px-6">
         <Reveal>
           <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-emerald">
-            For whom
+            Built for
           </p>
-          <h2 className="mt-4 max-w-[18ch] font-display text-display-l font-semibold text-pran-ink">
-            Built for every participant in the carbon economy.
+          <h2 className="mt-5 max-w-[20ch] font-display text-display-l font-semibold text-pran-ink">
+            Every side of the carbon economy.
           </h2>
         </Reveal>
 
-        <div className="mt-16 space-y-16 sm:space-y-24">
-          {ROWS.map((r, i) => (
-            <Reveal key={r.label}>
-              <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
-                <div className={i % 2 === 1 ? "lg:order-2" : ""}>
-                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-panel bg-pran-paper-warm shadow-card">
-                    <Image
-                      src={r.photo}
-                      alt={r.alt}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 560px"
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-                <div className={i % 2 === 1 ? "lg:order-1" : ""}>
-                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-muted">
-                    {r.label}
-                  </p>
-                  <h3 className="mt-3 max-w-[18ch] font-display text-h2 font-semibold text-pran-ink">
-                    {r.title}
-                  </h3>
-                  <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-pran-muted">
-                    {r.desc}
-                  </p>
-                  <Link
-                    href={r.href}
-                    className="group mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-pran-emerald"
+        {/* Desktop: expanding panels */}
+        <Reveal delay={0.1}>
+          <div className="mt-14 hidden h-[520px] gap-3 lg:flex">
+            {audiences.map((a) => (
+              <Link
+                key={a.label}
+                href={a.href}
+                className="group relative flex-1 overflow-hidden rounded-panel transition-[flex] duration-500 ease-out hover:flex-[2.4] focus-visible:flex-[2.4] focus-visible:outline-none"
+              >
+                <Image
+                  src={a.photo}
+                  alt={a.alt}
+                  fill
+                  sizes="(max-width: 1024px) 0px, 640px"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-gradient-to-t from-pran-forest-deep/90 via-pran-forest-deep/25 to-transparent"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-7">
+                  <span className="flex items-center gap-2">
+                    <span className="font-display text-2xl font-semibold text-white">
+                      {a.label}
+                    </span>
+                    <ArrowUpRight className="h-5 w-5 shrink-0 text-white/0 transition-colors duration-300 group-hover:text-white" />
+                  </span>
+                  {/* line reveals only for the open panel */}
+                  <span
+                    className="mt-0 grid transition-[grid-template-rows,margin] duration-500 ease-out group-hover:mt-3 group-hover:grid-rows-[1fr] group-focus-visible:mt-3 group-focus-visible:grid-rows-[1fr]"
+                    style={{ gridTemplateRows: "0fr" }}
                   >
-                    Learn more
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                  </Link>
+                    <span className="overflow-hidden">
+                      <span className="block max-w-[28ch] text-[15px] leading-relaxed text-white/85">
+                        {a.line}
+                      </span>
+                    </span>
+                  </span>
                 </div>
-              </div>
+              </Link>
+            ))}
+          </div>
+        </Reveal>
+
+        {/* Mobile: stacked image cards */}
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:hidden">
+          {audiences.map((a, i) => (
+            <Reveal key={a.label} delay={i * 0.06}>
+              <Link
+                href={a.href}
+                className="group relative block aspect-[4/3] overflow-hidden rounded-panel"
+              >
+                <Image
+                  src={a.photo}
+                  alt={a.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-gradient-to-t from-pran-forest-deep/90 via-pran-forest-deep/20 to-transparent"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-6">
+                  <p className="font-display text-xl font-semibold text-white">
+                    {a.label}
+                  </p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-white/85">
+                    {a.line}
+                  </p>
+                </div>
+              </Link>
             </Reveal>
           ))}
         </div>

@@ -1,103 +1,155 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/marketing/reveal";
-
-/** Nodes in the 400×340 coordinate space (SVG stretches to fill via % chips). */
-const NODES = [
-  { label: "Developers", x: 64, y: 54 },
-  { label: "Registries", x: 336, y: 54 },
-  { label: "Buyers", x: 362, y: 192 },
-  { label: "Government", x: 200, y: 302 },
-  { label: "Consultants", x: 38, y: 192 },
-] as const;
-const CENTER = { x: 200, y: 172 };
+import { useInViewOnce } from "@/lib/use-in-view-once";
+import { useReducedMotion } from "framer-motion";
+import { emissionsGap, frictionPoints } from "@/lib/market-data";
 
 /**
- * S3 — The Problem (5_Design.md v2.0 §4.1). Two-column split. Left: section
- * header. Right: five disconnected participants drawn connecting into a central
- * PRAN mark on scroll. Restrained SVG line work — NOT a 3D visualization.
+ * The problem — told as an argument, not a statement.
+ *
+ * The visual is the emissions gap itself (UNEP), which is the actual reason
+ * this market exists, rather than an abstract node diagram about org charts.
+ * Two columns of the same bar, one where the world is heading and one where it
+ * has to be, with the gap between them called out.
  */
 export function ProblemSection() {
   const reduce = useReducedMotion();
+  const { ref, inView } = useInViewOnce<HTMLDivElement>({ disabled: !!reduce });
+
+  const max = Math.max(...emissionsGap.points.map((p) => p.value));
 
   return (
     <section className="bg-pran-paper py-24 sm:py-32">
-      <div className="mx-auto grid max-w-content items-center gap-16 px-6 lg:grid-cols-2">
-        {/* Left — section header */}
-        <div>
+      <div className="mx-auto max-w-content px-6">
+        {/* The argument, in lines */}
+        <div className="max-w-[62ch]">
           <Reveal>
             <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-emerald">
               The problem
             </p>
-            <h2 className="mt-4 max-w-[16ch] font-display text-display-l font-semibold text-pran-ink">
-              The carbon market is fragmented.
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h2 className="mt-5 font-display text-display-l font-semibold leading-[1.08] text-pran-ink">
+              The world already agreed on the number.
+              <span className="block text-pran-muted">
+                It just has no way to reach it.
+              </span>
             </h2>
-            <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-pran-muted">
-              Developers, registries, buyers, governments, and consultants each
-              work in isolation — across incompatible systems, opaque pricing,
-              and manual settlement. Value leaks at every handoff.
-            </p>
-            <p className="mt-4 max-w-[58ch] text-lg leading-relaxed text-pran-muted">
-              PRAN connects every participant through one intelligent, verifiable
-              marketplace — so a credit moves cleanly from project to retirement.
-            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="mt-8 space-y-5 text-lg leading-relaxed text-pran-muted">
+              <p>
+                Cutting emissions is the first job, and it will not be enough on
+                its own. Everything that cannot be cut in time has to be paid to
+                be avoided or removed somewhere else — and that payment is what a
+                carbon market is.
+              </p>
+              <p>
+                <span className="font-medium text-pran-ink">
+                  So the money exists and the projects exist.
+                </span>{" "}
+                What is missing is the connection between them: no shared prices,
+                no comparable quality, no settlement anyone trusts.
+              </p>
+            </div>
           </Reveal>
         </div>
 
-        {/* Right — connect diagram */}
-        <Reveal delay={0.15}>
-          <div className="relative mx-auto aspect-[4/3.4] w-full max-w-[460px]">
-            <svg
-              viewBox="0 0 400 340"
-              preserveAspectRatio="none"
-              className="absolute inset-0 h-full w-full"
-              aria-hidden
-            >
-              {NODES.map((n, i) => (
-                <motion.line
-                  key={n.label}
-                  x1={CENTER.x}
-                  y1={CENTER.y}
-                  x2={n.x}
-                  y2={n.y}
-                  stroke="var(--pran-emerald)"
-                  strokeWidth={1.5}
-                  strokeLinecap="round"
-                  initial={reduce ? undefined : { pathLength: 0, opacity: 0 }}
-                  whileInView={reduce ? undefined : { pathLength: 1, opacity: 0.5 }}
-                  viewport={{ once: true, margin: "-15% 0px" }}
-                  transition={{ duration: 0.7, delay: 0.2 + i * 0.12, ease: "easeOut" }}
-                />
+        {/* The gap, drawn */}
+        <div ref={ref} className="mt-16">
+          <div className="grid gap-10 rounded-panel bg-pran-surface p-8 shadow-card sm:p-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+            {/* bars */}
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-muted">
+                Global emissions · {emissionsGap.unit}
+              </p>
+
+              <div className="mt-8 flex h-[240px] items-end gap-5 sm:gap-8">
+                {emissionsGap.points.map((p, i) => {
+                  const h = (p.value / max) * 100;
+                  const target = p.tone === "target";
+                  return (
+                    <div
+                      key={p.label}
+                      className="flex h-full flex-1 flex-col justify-end"
+                    >
+                      <span
+                        className={`mb-2 font-display text-xl font-semibold tabular-nums sm:text-2xl ${
+                          target ? "text-pran-emerald" : "text-pran-ink"
+                        }`}
+                      >
+                        {p.value}
+                      </span>
+                      <span
+                        className={`w-full rounded-t-lg ${
+                          target ? "bg-pran-emerald" : "bg-pran-forest"
+                        }`}
+                        style={{
+                          height: inView ? `${h}%` : "0%",
+                          transition: reduce
+                            ? "none"
+                            : `height 900ms cubic-bezier(.22,.9,.3,1) ${i * 120}ms`,
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-4 flex gap-5 sm:gap-8">
+                {emissionsGap.points.map((p) => (
+                  <p
+                    key={p.label}
+                    className="flex-1 text-[13px] leading-snug text-pran-muted"
+                  >
+                    {p.label}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            {/* the gap callout */}
+            <div className="flex flex-col justify-center border-t border-pran-hairline pt-8 lg:border-l lg:border-t-0 lg:pl-14 lg:pt-0">
+              <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-emerald">
+                {emissionsGap.gap.label}
+              </p>
+              <p className="mt-3 font-display text-display-l font-semibold leading-none tabular-nums text-pran-ink">
+                {emissionsGap.gap.value}
+                <span className="ml-2 align-top text-xl font-normal text-pran-muted">
+                  Gt / yr
+                </span>
+              </p>
+              <p className="mt-4 max-w-[34ch] leading-relaxed text-pran-muted">
+                {emissionsGap.gap.note}. That gap is the entire reason this
+                market has to work — and the reason it cannot stay a spreadsheet
+                business.
+              </p>
+              <p className="mt-6 text-xs text-pran-muted/80">
+                Source: {emissionsGap.source}, {emissionsGap.year}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* where it breaks */}
+        <Reveal delay={0.1}>
+          <div className="mt-12">
+            <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-muted">
+              Where it breaks today
+            </p>
+            <ol className="mt-6 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-2 lg:grid-cols-4">
+              {frictionPoints.map((f) => (
+                <li key={f.stage} className="bg-pran-paper p-6">
+                  <p className="font-display text-h3 font-semibold text-pran-ink">
+                    {f.stage}
+                  </p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-pran-muted">
+                    {f.problem}
+                  </p>
+                </li>
               ))}
-            </svg>
-
-            {/* Participant chips */}
-            {NODES.map((n, i) => (
-              <motion.span
-                key={n.label}
-                className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-pran-hairline bg-pran-surface px-3.5 py-1.5 text-xs font-medium text-pran-ink shadow-card"
-                style={{ left: `${(n.x / 400) * 100}%`, top: `${(n.y / 340) * 100}%` }}
-                initial={reduce ? undefined : { opacity: 0, scale: 0.9 }}
-                whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-15% 0px" }}
-                transition={{ duration: 0.4, delay: 0.15 + i * 0.1 }}
-              >
-                {n.label}
-              </motion.span>
-            ))}
-
-            {/* Central PRAN mark */}
-            <motion.span
-              className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-pran-forest px-5 py-2.5 font-display text-sm font-semibold tracking-tight text-white shadow-float"
-              style={{ left: "50%", top: `${(CENTER.y / 340) * 100}%` }}
-              initial={reduce ? undefined : { opacity: 0, scale: 0.8 }}
-              whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-15% 0px" }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              PRAN
-            </motion.span>
+            </ol>
           </div>
         </Reveal>
       </div>

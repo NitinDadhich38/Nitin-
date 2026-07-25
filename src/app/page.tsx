@@ -2,7 +2,6 @@ import { Hero } from "@/components/marketing/hero";
 import { ProofStrip } from "@/components/marketing/proof-strip";
 import { ProblemSection } from "@/components/marketing/problem-section";
 import { MarketplaceSection } from "@/components/marketing/marketplace-section";
-import { SettlementBand } from "@/components/marketing/settlement-band";
 import { WhatWeDo } from "@/components/marketing/what-we-do";
 import { ForWhom } from "@/components/marketing/for-whom";
 import { TrustSection } from "@/components/marketing/trust-section";
@@ -17,7 +16,6 @@ export default function Home() {
       <ProofStrip />
       <ProblemSection />
       <MarketplaceSection />
-      <SettlementBand />
       <WhatWeDo />
       <ForWhom />
       <TrustSection />
