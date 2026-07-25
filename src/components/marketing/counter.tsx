@@ -22,16 +22,20 @@ export function Counter({
   const ref = useRef<HTMLSpanElement>(null);
   const reduce = useReducedMotion();
   const [val, setVal] = useState(0);
-  const started = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
+    // `started` is scoped to this effect run, not a ref. Under StrictMode the
+    // effect mounts twice; a ref would stay true from the first run while its
+    // timers were already cleaned up, leaving the counter stranded at 0.
+    let started = false;
     let raf = 0;
+    let settle = 0;
     const start = () => {
-      if (started.current) return;
-      started.current = true;
+      if (started) return;
+      started = true;
       if (reduce) {
         setVal(to);
         return;
@@ -44,6 +48,10 @@ export function Counter({
         else setVal(to);
       };
       raf = requestAnimationFrame(tick);
+      // rAF is throttled in background tabs and paused when the page isn't
+      // compositing, which would strand the number mid-count. Guarantee the
+      // final value once the animation window has elapsed.
+      settle = window.setTimeout(() => setVal(to), duration * 1000 + 120);
     };
 
     const io = new IntersectionObserver(
@@ -60,12 +68,30 @@ export function Counter({
     );
     io.observe(el);
 
-    // Already in the viewport at mount? Start immediately.
-    const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight && r.bottom > 0) start();
+    // Belt and braces: an IntersectionObserver that never fires must not be
+    // able to leave a stat reading 0. Check on mount, on scroll, and once on
+    // a timer — whichever lands first wins, and `start()` is idempotent.
+    const inView = () => {
+      const r = el.getBoundingClientRect();
+      return r.top < window.innerHeight * 0.95 && r.bottom > 0;
+    };
+    const onScroll = () => {
+      if (inView()) {
+        start();
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    if (inView()) start();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Last resort, unconditional: a number that never arrives is a bug, a
+    // number that animated off-screen is not. Correctness beats choreography.
+    const fallback = window.setTimeout(start, 2000);
 
     return () => {
       io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(fallback);
+      window.clearTimeout(settle);
       cancelAnimationFrame(raf);
     };
   }, [to, reduce, duration]);
