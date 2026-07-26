@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PRAN Marketplace — Verified carbon projects, one transparent market.">
+  <title>Marketplace — PRAN</title>
+  <style>
+    :root {
+      --paper: #faf8f4;
+      --paper-warm: #f5f1ea;
+      --surface: #ffffff;
+      --ink: #0e1211;
+      --muted: #5f6b66;
+      --hairline: #e6e1d8;
+      --forest: #0f3d2e;
+      --forest-deep: #0a2a20;
+      --emerald: #16a34a;
+      --lime: #d9f99d;
+      --display: "Space Grotesk", "Geist", system-ui, -apple-system, sans-serif;
+      --body: "Inter", system-ui, -apple-system, sans-serif;
+      --content: 1200px;
+      --globeW: min(960px, 126vw);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: light;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-weight: 600;
+      margin: 0;
+      letter-spacing: -0.035em;
+      line-height: 1.02;
+      text-wrap: balance;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .banner {
+      background: var(--forest-deep);
+      color: #fff;
+      font-size: 13px;
+      padding: 10px 24px;
+      text-align: center;
+    }
+
+    .banner b {
+      color: var(--lime);
+    }
+
+    /* Header: flat illustrated scene */
+    .mkt-head {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(
+        180deg,
+        var(--paper) 0%,
+        #f2efe6 62%,
+        #eef2e4 100%
+      );
+    }
+
+    .head-inner {
+      position: relative;
+      z-index: 3;
+      max-width: var(--content);
+      margin: 0 auto;
+      padding: 76px 24px 0;
+      text-align: center;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .kicker .line {
+      width: 36px;
+      height: 1px;
+      background: var(--emerald);
+    }
+
+    .kicker .t {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--emerald);
+    }
+
+    .head-inner h1 {
+      margin-top: 18px;
+      font-size: clamp(2.1rem, 4.6vw, 3.5rem);
+      color: var(--ink);
+      max-width: 19ch;
+      margin-inline: auto;
+    }
+
+    .head-inner h1 em {
+      font-style: normal;
+      color: var(--emerald);
+    }
+
+    .head-inner .sub {
+      margin: 18px auto 0;
+      max-width: 56ch;
+      font-size: clamp(1rem, 1.25vw, 1.12rem);
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* The dome: flat earth, base cut by the band */
+    .scene {
+      position: relative;
+      z-index: 1;
+      margin: 34px auto 0;
+      width: var(--globeW);
+      height: calc(var(--globeW) * 0.52);
+      overflow: hidden;
+    }
+
+    .disc {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+    }
+
+    .disc canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Filter tabs */
+    .tabs {
+      position: relative;
+      z-index: 4;
+      margin: -24px auto 0;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: var(--content);
+      padding: 0 24px;
+    }
+
+    .tabs span {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 9999px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--ink);
+      box-shadow: 0 0.8px 1.4px rgba(10, 42, 32, 0.05),
+        0 3.9px 7px rgba(10, 42, 32, 0.05),
+        0 14.6px 26px rgba(10, 42, 32, 0.06), 0 32px 58px rgba(10, 42, 32, 0.12);
+    }
+
+    .tabs span:hover {
+      border-color: var(--ink);
+    }
+
+    .tabs span.on {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .after {
+      padding: 44px 0 90px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .after p {
+      max-width: 58ch;
+      margin: 0 auto;
+      font-size: 15px;
+    }
+
+    .note {
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    PRAN Marketplace · <b>flat illustrated earth</b> — clean rotating globe,
+    no props, no stats
+  </div>
+
+  <section class="mkt-head">
+    <div class="head-inner">
+      <span class="kicker"><span class="line"></span><span class="t">The marketplace</span></span>
+      <h1>Verified carbon projects, <em>one transparent market.</em></h1>
+      <p class="sub">
+        Every listing is a real, registry-issued project. Purchases move through
+        PRAN&rsquo;s escrow — you pay PRAN, credits transfer to your registry
+        account, and you receive a retirement certificate.
+      </p>
+    </div>
+
+    <div class="scene">
+      <div class="disc">
+        <canvas id="globe"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <div class="tabs">
+    <span class="on">All Projects</span>
+    <span>Forestry</span>
+    <span>Renewable</span>
+    <span>Blue Carbon</span>
+    <span>Agriculture</span>
+    <span>Waste &amp; Biogas</span>
+  </div>
+  <div class="after">
+    <p>↑ Filter rail and project grid would render below — this is the header preview only.</p>
+    <p class="note">
+      Original flat illustration in PRAN's palette. Clean rotating globe, no props,
+      no stats.
+    </p>
+  </div>
+
+  <script>
+    (() => {
+      const RAD = Math.PI / 180;
+      const cv = document.getElementById("globe");
+      const ctx = cv.getContext("2d");
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const TILT = 8 * RAD;
+      const sinT = Math.sin(TILT);
+      const cosT = Math.cos(TILT);
+      const TW = 2048;
+      const TH = 1024;
+      const DOME = 0.52;
+
+      // Flat illustration palette
+      const OCEAN = "#0f3d2e";
+      const LAND_A = "#3f9e5c";
+      const LAND_B = "#54b06c";
+      const OUTLINE = "#0a2a20";
+
+      const RES = 960;
+      cv.width = RES;
+      cv.height = RES;
+      const r = RES / 2 - 3;
+      const c = RES / 2;
+      const img = ctx.createImageData(RES, RES);
+      const D = img.data;
+
+      // Only the visible dome band is computed
+      const maxY = Math.min(RES, Math.ceil(RES * DOME) + 4);
+      const idx = [];
+      const la = [];
+      const dl = [];
+
+      for (let py = 0; py < maxY; py++) {
+        for (let px = 0; px < RES; px++) {
+          const nx = (px + 0.5 - c) / r;
+          const ny = (c - py - 0.5) / r;
+          const q = nx * nx + ny * ny;
+          if (q > 1) continue;
+          const nz = Math.sqrt(1 - q);
+          idx.push(py * RES + px);
+          la.push(Math.asin(Math.max(-1, Math.min(1, ny * cosT + nz * sinT))));
+          dl.push(Math.atan2(nx, -ny * sinT + nz * cosT));
+        }
+      }
+
+      const I = Int32Array.from(idx);
+      const LA = Float32Array.from(la);
+      const DL = Float32Array.from(dl);
+
+      // Build flat equirectangular texture
+      const tex = document.createElement("canvas");
+      tex.width = TW;
+      tex.height = TH;
+      const tc = tex.getContext("2d");
+      tc.fillStyle = OCEAN;
+      tc.fillRect(0, 0, TW, TH);
+
+      // For production, land data would come from TopoJSON
+      // For now: ocean-only placeholder
+      const TD = tc.getImageData(0, 0, TW, TH).data;
+
+      let lon0 = 100 * RAD;
+
+      function draw() {
+        for (let i = 0; i < I.length; i++) {
+          let lo = DL[i] + lon0;
+          lo = ((lo + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+          let tx = ((lo / Math.PI * 0.5 + 0.5) * TW) | 0;
+          let ty = ((0.5 - LA[i] / Math.PI) * TH) | 0;
+          if (tx < 0) tx = 0;
+          else if (tx >= TW) tx = TW - 1;
+          if (ty < 0) ty = 0;
+          else if (ty >= TH) ty = TH - 1;
+          const t = (ty * TW + tx) << 2;
+          const p = I[i] << 2;
+          D[p] = TD[t];
+          D[p + 1] = TD[t + 1];
+          D[p + 2] = TD[t + 2];
+          D[p + 3] = 255;
+        }
+        ctx.putImageData(img, 0, 0);
+
+        // Crisp illustrated outline
+        ctx.beginPath();
+        ctx.arc(c, c, r + 1.5, 0, 7);
+        ctx.strokeStyle = OUTLINE;
+        ctx.lineWidth = 5;
+        ctx.stroke();
+
+        // Flat mint highlight arc on the upper left
+        ctx.beginPath();
+        ctx.arc(c, c, r - 4, Math.PI * 1.06, Math.PI * 1.5);
+        ctx.strokeStyle = "rgba(217,249,157,.55)";
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        ctx.stroke();
+
+        if (!reduce) lon0 += 0.0013;
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+  </script>
+</body>
+</html>

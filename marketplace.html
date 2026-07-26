@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace · PRAN — Carbon Market Infrastructure</title>
+  <meta name="description" content="Browse verified, registry-backed carbon projects with transparent pricing and escrow-based settlement.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .marketplace-page {
+      padding-top: 7rem;
+      padding-bottom: 6rem;
+      background-color: var(--pran-paper);
+    }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding: 1.25rem;
+      background-color: var(--pran-surface);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--pran-hairline);
+      box-shadow: var(--shadow-card);
+    }
+    .search-input {
+      padding: 0.625rem 1rem;
+      border-radius: var(--radius-btn);
+      border: 1px solid var(--pran-border);
+      font-size: 0.875rem;
+      width: 100%;
+      max-width: 20rem;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--pran-emerald);
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+    }
+    .filter-select {
+      padding: 0.625rem 1rem;
+      border-radius: var(--radius-btn);
+      border: 1px solid var(--pran-border);
+      font-size: 0.875rem;
+      background-color: #ffffff;
+      outline: none;
+      cursor: pointer;
+    }
+    .full-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    @media (min-width: 640px) {
+      .full-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .full-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background-color: rgba(14, 18, 17, 0.6);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-content {
+      background-color: var(--pran-surface);
+      border-radius: var(--radius-panel);
+      max-width: 32rem;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: var(--shadow-float);
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header scrolled">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="brand-logo">
+          <svg class="logo-emblem" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2L4 8V24L16 30L28 24V8L16 2Z" fill="#12A33A"/>
+            <path d="M16 6L8 10.5V21.5L16 26L24 21.5V10.5L16 6Z" fill="#0F3D2E"/>
+          </svg>
+          <span>PRAN</span>
+        </a>
+
+        <nav class="main-nav">
+          <ul style="display: flex; gap: 0.25rem; align-items: center;">
+            <li class="nav-item"><a href="marketplace.html" class="nav-link" style="color: var(--pran-emerald); font-weight: 600;">Marketplace</a></li>
+            <li class="nav-item"><a href="calculator.html" class="nav-link">Calculator</a></li>
+            <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li class="nav-item"><a href="resources.html" class="nav-link">Resources</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          </ul>
+        </nav>
+
+        <div>
+          <a href="contact.html" class="btn btn-primary btn-sm">Contact Sourcing</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="marketplace-page">
+    <div class="container">
+      <div>
+        <p class="section-label">Marketplace</p>
+        <h1 class="section-title">Verified Carbon Credit Marketplace</h1>
+        <p class="section-description">Browse registry-backed carbon credits from verified projects across India. Instant escrow settlement and complete retirement traceability.</p>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="filter-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by project name, developer, region...">
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <select id="sectorFilter" class="filter-select">
+            <option value="ALL">All Sectors</option>
+            <option value="Forestry">Forestry & Mangrove</option>
+            <option value="Solar">Solar Power</option>
+            <option value="Wind">Wind Energy</option>
+            <option value="Biogas">Biogas & Waste</option>
+          </select>
+
+          <select id="registryFilter" class="filter-select">
+            <option value="ALL">All Registries</option>
+            <option value="Verra">Verra (VCS)</option>
+            <option value="Gold Standard">Gold Standard</option>
+            <option value="CCTS">India CCTS</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Project Cards Grid -->
+      <div class="full-grid" id="projectGrid">
+        <!-- Project 1 -->
+        <div class="project-card" data-sector="Forestry" data-registry="Verra" data-name="Western Ghats Afforestation">
+          <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&fit=crop');">
+            <span class="project-badge">Spot Delivery</span>
+          </div>
+          <div class="project-card-body">
+            <div class="project-tags">
+              <span class="tag-pill">Verra</span>
+              <span class="tag-pill">Forestry</span>
+            </div>
+            <h3 class="project-title">Western Ghats Afforestation</h3>
+            <p class="project-location">Western Ghats Developer · Maharashtra, India</p>
+            <p class="project-meta"><strong>45,000</strong> tCO₂e · Vintage 2023</p>
+            <div class="project-card-footer">
+              <span class="project-price">$24.50 <span class="price-unit">/ tCO₂e</span></span>
+              <button type="button" class="btn btn-primary btn-sm buy-btn" data-project="Western Ghats Afforestation" data-price="24.50">Buy Credits</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card" data-sector="Solar" data-registry="Gold Standard" data-name="Rajasthan Solar Grid Array">
+          <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1509391365360-2e959784a276?w=600&fit=crop');">
+            <span class="project-badge">Forward Delivery</span>
+          </div>
+          <div class="project-card-body">
+            <div class="project-tags">
+              <span class="tag-pill">Gold Standard</span>
+              <span class="tag-pill">Solar</span>
+            </div>
+            <h3 class="project-title">Rajasthan Solar Grid Array</h3>
+            <p class="project-location">SunPower Clean Energy · Rajasthan, India</p>
+            <p class="project-meta"><strong>120,000</strong> tCO₂e · Vintage 2024</p>
+            <div class="project-card-footer">
+              <span class="project-price">$18.20 <span class="price-unit">/ tCO₂e</span></span>
+              <button type="button" class="btn btn-primary btn-sm buy-btn" data-project="Rajasthan Solar Grid Array" data-price="18.20">Buy Credits</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card" data-sector="Wind" data-registry="CCTS" data-name="Tamil Nadu Offshore Wind">
+          <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&fit=crop');">
+            <span class="project-badge">Spot Delivery</span>
+          </div>
+          <div class="project-card-body">
+            <div class="project-tags">
+              <span class="tag-pill">CCTS Accredited</span>
+              <span class="tag-pill">Wind</span>
+            </div>
+            <h3 class="project-title">Tamil Nadu Offshore Wind</h3>
+            <p class="project-location">Indus Wind Corp · Tamil Nadu, India</p>
+            <p class="project-meta"><strong>85,000</strong> tCO₂e · Vintage 2023</p>
+            <div class="project-card-footer">
+              <span class="project-price">$21.00 <span class="price-unit">/ tCO₂e</span></span>
+              <button type="button" class="btn btn-primary btn-sm buy-btn" data-project="Tamil Nadu Offshore Wind" data-price="21.00">Buy Credits</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="project-card" data-sector="Forestry" data-registry="Verra" data-name="Sundarbans Blue Carbon Mangroves">
+          <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&fit=crop');">
+            <span class="project-badge">Spot Delivery</span>
+          </div>
+          <div class="project-card-body">
+            <div class="project-tags">
+              <span class="tag-pill">Verra</span>
+              <span class="tag-pill">Mangrove</span>
+            </div>
+            <h3 class="project-title">Sundarbans Blue Carbon Mangroves</h3>
+            <p class="project-location">Coastline Alliance · West Bengal, India</p>
+            <p class="project-meta"><strong>30,000</strong> tCO₂e · Vintage 2023</p>
+            <div class="project-card-footer">
+              <span class="project-price">$28.00 <span class="price-unit">/ tCO₂e</span></span>
+              <button type="button" class="btn btn-primary btn-sm buy-btn" data-project="Sundarbans Blue Carbon Mangroves" data-price="28.00">Buy Credits</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="project-card" data-sector="Biogas" data-registry="Gold Standard" data-name="Punjab Agricultural Biogas">
+          <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=600&fit=crop');">
+            <span class="project-badge">Spot Delivery</span>
+          </div>
+          <div class="project-card-body">
+            <div class="project-tags">
+              <span class="tag-pill">Gold Standard</span>
+              <span class="tag-pill">Biogas</span>
+            </div>
+            <h3 class="project-title">Punjab Agricultural Biogas</h3>
+            <p class="project-location">Green Energy Bio · Punjab, India</p>
+            <p class="project-meta"><strong>60,000</strong> tCO₂e · Vintage 2023</p>
+            <div class="project-card-footer">
+              <span class="project-price">$17.50 <span class="price-unit">/ tCO₂e</span></span>
+              <button type="button" class="btn btn-primary btn-sm buy-btn" data-project="Punjab Agricultural Biogas" data-price="17.50">Buy Credits</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 6 -->
+        <div class="project-card" data-sector="Solar" data-registry="CCTS" data-name="Gujarat Industrial Rooftop Solar">
+          <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1508873696983-2df515122519?w=600&fit=crop');">
+            <span class="project-badge">Spot Delivery</span>
+          </div>
+          <div class="project-card-body">
+            <div class="project-tags">
+              <span class="tag-pill">CCTS Accredited</span>
+              <span class="tag-pill">Solar</span>
+            </div>
+            <h3 class="project-title">Gujarat Industrial Rooftop Solar</h3>
+            <p class="project-location">Adani Solar Infrastructure · Gujarat, India</p>
+            <p class="project-meta"><strong>95,000</strong> tCO₂e · Vintage 2024</p>
+            <div class="project-card-footer">
+              <span class="project-price">$19.50 <span class="price-unit">/ tCO₂e</span></span>
+              <button type="button" class="btn btn-primary btn-sm buy-btn" data-project="Gujarat Industrial Rooftop Solar" data-price="19.50">Buy Credits</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Purchase Modal -->
+  <div class="modal-overlay" id="purchaseModal">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 class="font-display" style="font-size: 1.25rem; font-weight: 600;" id="modalProjectTitle">Project Title</h3>
+        <button type="button" id="closeModalBtn" style="background: none; border: none; font-size: 1.25rem; cursor: pointer;">✕</button>
+      </div>
+      <p style="font-size: 0.875rem; color: var(--pran-muted); margin-bottom: 1rem;">Escrow-protected settlement. Enter quantity of credits to purchase.</p>
+      
+      <div style="margin-bottom: 1rem;">
+        <label style="font-size: 0.8125rem; font-weight: 600; display: block; margin-bottom: 0.375rem;">Quantity (tCO₂e)</label>
+        <input type="number" id="creditQuantity" class="search-input" style="max-width: 100%;" value="100" min="1">
+      </div>
+
+      <div style="padding: 1rem; background-color: var(--pran-paper-warm); border-radius: var(--radius-card); margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.5rem;">
+          <span>Price per tCO₂e:</span>
+          <strong id="modalPricePerUnit">$0.00</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 1rem; font-weight: 700; color: var(--pran-emerald);">
+          <span>Total Investment:</span>
+          <strong id="modalTotalPrice">$0.00</strong>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" style="width: 100%;" onclick="alert('Demo Escrow Order Placed Successfully!')">Proceed to Escrow Settlement</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">© 2026 PRAN Platform. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Live Search and Filter
+    const searchInput = document.getElementById('searchInput');
+    const sectorFilter = document.getElementById('sectorFilter');
+    const registryFilter = document.getElementById('registryFilter');
+    const cards = document.querySelectorAll('.project-card');
+
+    function filterProjects() {
+      const q = searchInput.value.toLowerCase();
+      const sector = sectorFilter.value;
+      const registry = registryFilter.value;
+
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name').toLowerCase();
+        const cSector = card.getAttribute('data-sector');
+        const cRegistry = card.getAttribute('data-registry');
+
+        const matchQuery = !q || name.includes(q);
+        const matchSector = sector === 'ALL' || cSector === sector;
+        const matchRegistry = registry === 'ALL' || cRegistry === registry;
+
+        if (matchQuery && matchSector && matchRegistry) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    searchInput.addEventListener('input', filterProjects);
+    sectorFilter.addEventListener('change', filterProjects);
+    registryFilter.addEventListener('change', filterProjects);
+
+    // Modal
+    const modal = document.getElementById('purchaseModal');
+    const modalTitle = document.getElementById('modalProjectTitle');
+    const modalUnitPrice = document.getElementById('modalPricePerUnit');
+    const modalTotalPrice = document.getElementById('modalTotalPrice');
+    const creditQty = document.getElementById('creditQuantity');
+    const closeModal = document.getElementById('closeModalBtn');
+
+    let currentUnitPrice = 0;
+
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const title = btn.getAttribute('data-project');
+        currentUnitPrice = parseFloat(btn.getAttribute('data-price'));
+        modalTitle.textContent = title;
+        modalUnitPrice.textContent = `$${currentUnitPrice.toFixed(2)}`;
+        updateTotal();
+        modal.classList.add('open');
+      });
+    });
+
+    closeModal.addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
+
+    function updateTotal() {
+      const qty = parseInt(creditQty.value) || 0;
+      const total = qty * currentUnitPrice;
+      modalTotalPrice.textContent = `$${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+
+    creditQty.addEventListener('input', updateTotal);
+  </script>
+</body>
+</html>

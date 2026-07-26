@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRAN — Carbon Market Infrastructure</title>
+  <meta name="description" content="PRAN is the financial infrastructure layer for the carbon market — a verified carbon-credit marketplace, footprint calculators, and carbon intelligence.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       SITE HEADER / CHROME
+       ========================================================================== -->
+  <header class="site-header on-dark-hero">
+    <div class="container">
+      <div class="header-inner">
+        <!-- Logo -->
+        <a href="index.html" class="brand-logo" aria-label="PRAN Home">
+          <svg class="logo-emblem" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2L4 8V24L16 30L28 24V8L16 2Z" fill="#12A33A"/>
+            <path d="M16 6L8 10.5V21.5L16 26L24 21.5V10.5L16 6Z" fill="#0F3D2E"/>
+            <path d="M16 10L11 13V19L16 22L21 19V13L16 10Z" fill="#D9F99D"/>
+          </svg>
+          <span>PRAN</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+          <ul style="display: flex; gap: 0.25rem; align-items: center;">
+            <li class="nav-item">
+              <a href="marketplace.html" class="nav-link">Marketplace</a>
+            </li>
+
+            <!-- Carbon Intelligence Dropdown -->
+            <li class="nav-item">
+              <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+                <span>Carbon Intelligence</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="dropdown-menu">
+                <a href="intelligence.html#procurement" class="dropdown-link">Procurement & Decision Intelligence</a>
+                <a href="intelligence.html#esg" class="dropdown-link">AI ESG Reporting</a>
+                <a href="intelligence.html#brsr" class="dropdown-link">AI BRSR Reporting</a>
+                <a href="intelligence.html#cbam" class="dropdown-link">AI CBAM Alignment</a>
+              </div>
+            </li>
+
+            <!-- Solutions Dropdown -->
+            <li class="nav-item">
+              <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+                <span>Solutions</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="dropdown-menu">
+                <a href="solutions.html#enterprise" class="dropdown-link">Enterprise</a>
+                <a href="solutions.html#government" class="dropdown-link">Government</a>
+                <a href="solutions.html#developers" class="dropdown-link">Project Developers</a>
+                <a href="solutions.html#public" class="dropdown-link">General Public</a>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a href="dashboard.html" class="nav-link">Dashboard</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="calculator.html" class="nav-link">Calculator</a>
+            </li>
+
+            <!-- Resources Dropdown -->
+            <li class="nav-item">
+              <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+                <span>Resources</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="dropdown-menu">
+                <a href="resources.html" class="dropdown-link">All Resources</a>
+                <a href="resources.html#blog" class="dropdown-link">Blog & Insights</a>
+                <a href="resources.html#compliance" class="dropdown-link">Compliance Library</a>
+                <a href="resources.html#ccts" class="dropdown-link">India CCTS Explainer</a>
+                <a href="resources.html#voluntary" class="dropdown-link">Voluntary Market Explainer</a>
+              </div>
+            </li>
+
+            <!-- About Dropdown -->
+            <li class="nav-item">
+              <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+                <span>About</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="dropdown-menu">
+                <a href="about.html" class="dropdown-link">Why We Exist</a>
+                <a href="about.html#team" class="dropdown-link">Team</a>
+                <a href="contact.html" class="dropdown-link">Contact</a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- CTA & Mobile Toggle -->
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <a href="marketplace.html" class="btn btn-primary btn-sm">
+            Explore Marketplace
+          </a>
+          <button type="button" class="mobile-toggle" aria-label="Open navigation menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-progress-bar"></div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" aria-hidden="true">
+    <div class="drawer-backdrop"></div>
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <a href="index.html" class="brand-logo">
+          <svg class="logo-emblem" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2L4 8V24L16 30L28 24V8L16 2Z" fill="#12A33A"/>
+            <path d="M16 6L8 10.5V21.5L16 26L24 21.5V10.5L16 6Z" fill="#0F3D2E"/>
+          </svg>
+          <span>PRAN</span>
+        </a>
+        <button type="button" class="drawer-close btn-outline" style="padding: 0.25rem 0.5rem;" aria-label="Close menu">✕</button>
+      </div>
+      <div class="drawer-content">
+        <div>
+          <a href="marketplace.html" class="font-display" style="font-weight: 600; font-size: 1.125rem;">Marketplace</a>
+        </div>
+        <div>
+          <p class="drawer-nav-group-title">Carbon Intelligence</p>
+          <ul class="drawer-nav-list">
+            <li><a href="intelligence.html#procurement">Procurement Intelligence</a></li>
+            <li><a href="intelligence.html#esg">AI ESG Reporting</a></li>
+            <li><a href="intelligence.html#brsr">AI BRSR Reporting</a></li>
+            <li><a href="intelligence.html#cbam">AI CBAM Alignment</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="drawer-nav-group-title">Solutions</p>
+          <ul class="drawer-nav-list">
+            <li><a href="solutions.html#enterprise">Enterprise</a></li>
+            <li><a href="solutions.html#government">Government</a></li>
+            <li><a href="solutions.html#developers">Project Developers</a></li>
+          </ul>
+        </div>
+        <div>
+          <a href="calculator.html" class="font-display" style="font-weight: 600; font-size: 1.125rem;">Calculator</a>
+        </div>
+        <div>
+          <a href="dashboard.html" class="font-display" style="font-weight: 600; font-size: 1.125rem;">Dashboard</a>
+        </div>
+        <div style="margin-top: 1rem;">
+          <a href="marketplace.html" class="btn btn-primary" style="width: 100%;">Explore Marketplace</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ==========================================================================
+         HERO SECTION (Pure Photography + Kinetic Typography)
+         ========================================================================== -->
+    <section id="hero" class="hero-section">
+      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80" alt="Aerial view of dense forest canopy" class="hero-background">
+      <div class="hero-overlay-gradient"></div>
+      <div class="hero-overlay-radial"></div>
+      <div class="hero-grain"></div>
+
+      <div class="hero-content">
+        <p class="hero-label hero-rise" style="animation-delay: 0.5s;">Carbon Market Infrastructure</p>
+
+        <h1 class="hero-title">
+          <span class="hero-line">
+            <span class="hero-line-in" style="animation-delay: 1.3s;">India’s carbon market,</span>
+          </span>
+          <span class="hero-line">
+            <span class="hero-line-in" style="animation-delay: 1.75s;">
+              <span class="hero-em">finally connected.</span>
+            </span>
+          </span>
+        </h1>
+
+        <p class="hero-description hero-rise" style="animation-delay: 3.5s;">
+          The financial infrastructure layer for the carbon economy — a verified marketplace, footprint intelligence, and transparent settlement, connecting every side of the market in one place.
+        </p>
+
+        <div class="hero-cta hero-rise" style="animation-delay: 4s;">
+          <a href="marketplace.html" class="btn btn-primary btn-lg">
+            Explore Marketplace
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#problem" class="btn btn-secondary btn-lg" style="border: none; background: none; padding-left: 0; color: #ffffff;">
+            Why carbon markets
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="#d9f99d" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <span class="hero-cue" aria-hidden="true">↓</span>
+    </section>
+
+    <!-- ==========================================================================
+         PROOF STRIP SECTION (Scale Band)
+         ========================================================================== -->
+    <section class="proof-strip">
+      <div class="container">
+        <dl class="proof-stats-grid">
+          <div class="proof-stat-item reveal">
+            <dt class="proof-stat-val">80+</dt>
+            <dd class="proof-stat-label">Verified projects</dd>
+          </div>
+          <div class="proof-stat-item reveal" style="transition-delay: 0.08s;">
+            <dt class="proof-stat-val">14M+</dt>
+            <dd class="proof-stat-label">tCO₂e available</dd>
+          </div>
+          <div class="proof-stat-item reveal" style="transition-delay: 0.16s;">
+            <dt class="proof-stat-val">30+</dt>
+            <dd class="proof-stat-label">Countries</dd>
+          </div>
+          <div class="proof-stat-item reveal" style="transition-delay: 0.24s;">
+            <dt class="proof-stat-val">6</dt>
+            <dd class="proof-stat-label">Registry standards</dd>
+          </div>
+        </dl>
+
+        <div class="supply-mix-box reveal" style="transition-delay: 0.25s;">
+          <p class="supply-mix-title">Supply mix</p>
+          <div class="stacked-bar-track">
+            <span class="stacked-bar-seg" style="width: 35%; background: #0f3d2e;" title="Renewable Energy — 35%"></span>
+            <span class="stacked-bar-seg" style="width: 30%; background: #16a34a;" title="Forestry & Nature — 30%"></span>
+            <span class="stacked-bar-seg" style="width: 20%; background: #5fa97f;" title="Biogas & Methane — 20%"></span>
+            <span class="stacked-bar-seg" style="width: 15%; background: #c97a4a;" title="Community & Agriculture — 15%"></span>
+          </div>
+          <div class="supply-mix-legend">
+            <span class="legend-item-sm"><span class="legend-dot" style="background: #0f3d2e;"></span> Renewable Energy <span>35%</span></span>
+            <span class="legend-item-sm"><span class="legend-dot" style="background: #16a34a;"></span> Forestry & Nature <span>30%</span></span>
+            <span class="legend-item-sm"><span class="legend-dot" style="background: #5fa97f;"></span> Biogas & Waste <span>20%</span></span>
+            <span class="legend-item-sm"><span class="legend-dot" style="background: #c97a4a;"></span> Community <span>15%</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         PROBLEM SECTION
+         ========================================================================== -->
+    <section id="problem" class="problem-section">
+      <div class="container">
+        <div class="problem-grid">
+          <!-- Left side: Problem statement -->
+          <div class="reveal">
+            <p class="section-label section-label-lime">The problem</p>
+            <h2 class="section-title section-title-white">
+              The world already agreed on the number.
+              <span style="opacity: 0.6; font-weight: 400; display: block; margin-top: 0.25rem;">It just has no way to reach it.</span>
+            </h2>
+            <p class="section-description section-description-white">
+              Everything that can't be cut in time has to be paid to be removed somewhere else — and that payment <strong>is</strong> the carbon market. The money exists. The projects exist. What's missing is the connection between them.
+            </p>
+
+            <div class="emissions-stat">
+              <span class="stat-value" data-counter-to="24">0</span>
+              <div class="stat-label">
+                <div>Gt CO₂e / year</div>
+                <div class="stat-label-bold">the 2030 gap</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: UNEP Emissions Gap interactive SVG chart -->
+          <div class="reveal" style="transition-delay: 0.1s;">
+            <div class="chart-card">
+              <p class="chart-header">Global emissions · GtCO₂e per year</p>
+              
+              <svg class="emissions-svg" viewBox="0 0 600 300" aria-label="UNEP Emissions Gap Chart">
+                <defs>
+                  <linearGradient id="gapGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#d9f99d" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#d9f99d" stop-opacity="0.04"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Axis -->
+                <line x1="64" y1="250" x2="560" y2="250" stroke="rgba(255,255,255,0.16)"/>
+                <text x="64" y="275" fill="rgba(255,255,255,0.6)" font-size="13">2023</text>
+                <text x="560" y="275" fill="rgba(255,255,255,0.6)" font-size="13" text-anchor="end">2030</text>
+
+                <!-- Gap polygon fill -->
+                <path d="M 64 104 L 560 110 L 560 170 Z" fill="url(#gapGradient)"/>
+
+                <!-- Lines -->
+                <path class="current-line" d="M 64 104 L 560 110" stroke="#f4c9a0" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path class="target-line" d="M 64 104 L 560 170" stroke="#d9f99d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+                <!-- Points & Labels -->
+                <circle cx="64" cy="104" r="5" fill="#ffffff"/>
+                <text x="64" y="88" fill="#ffffff" font-size="14" font-weight="600">57.1 Gt</text>
+
+                <g class="end-point" style="opacity: 0;">
+                  <circle cx="560" cy="110" r="5" fill="#f4c9a0"/>
+                  <text x="545" y="100" fill="#f4c9a0" font-size="14" font-weight="600" text-anchor="end">57 Gt</text>
+                </g>
+
+                <g class="end-point" style="opacity: 0;">
+                  <circle cx="560" cy="170" r="5" fill="#d9f99d"/>
+                  <text x="545" y="195" fill="#d9f99d" font-size="14" font-weight="600" text-anchor="end">33 Gt</text>
+                </g>
+              </svg>
+
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <span class="legend-color-bar" style="background-color: #f4c9a0;"></span>
+                  <span>Current policies (57 Gt)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color-bar" style="background-color: #d9f99d;"></span>
+                  <span>1.5°C pathway (33 Gt)</span>
+                </div>
+              </div>
+              <p class="chart-source">Source: UNEP Emissions Gap Report, 2024</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Friction Cards -->
+        <div class="friction-section reveal" style="transition-delay: 0.1s;">
+          <p class="friction-label">Where it breaks today</p>
+          <ol class="friction-grid">
+            <li class="friction-card">
+              <span class="friction-number">01</span>
+              <h3 class="friction-title">Fragmentation</h3>
+              <p class="friction-text">Sellers, buyers, registries, and verifiers operate in disconnected silos.</p>
+            </li>
+            <li class="friction-card">
+              <span class="friction-number">02</span>
+              <h3 class="friction-title">Price opacity</h3>
+              <p class="friction-text">No standardized pricing mechanism; prices vary wildly by region and project type.</p>
+            </li>
+            <li class="friction-card">
+              <span class="friction-number">03</span>
+              <h3 class="friction-title">Settlement risk</h3>
+              <p class="friction-text">Manual, bilateral credit transfer creates counterparty risk and settlement delays.</p>
+            </li>
+            <li class="friction-card">
+              <span class="friction-number">04</span>
+              <h3 class="friction-title">No signal</h3>
+              <p class="friction-text">Corporate buyers struggle to trace credits from project to retirement.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         MARKETPLACE SECTION
+         ========================================================================== -->
+    <section id="marketplace" class="marketplace-section">
+      <div class="container">
+        <div class="marketplace-grid">
+          <!-- Left: Copy -->
+          <div class="reveal">
+            <p class="section-label section-label-lime">The marketplace</p>
+            <h2 class="section-title section-title-white">
+              A real, running marketplace — not a promise.
+            </h2>
+            <p class="section-description section-description-white">
+              Browse verified, registry-backed carbon projects with transparent pricing and escrow-based settlement. Every credit is traceable from project to retirement.
+            </p>
+            <div style="margin-top: 2rem;">
+              <a href="marketplace.html" class="btn btn-primary btn-lg">
+                Browse all projects
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Browser Mockup -->
+          <div class="reveal" style="transition-delay: 0.15s;">
+            <div class="browser-mockup">
+              <div class="browser-chrome">
+                <span class="dot-red"></span>
+                <span class="dot-yellow"></span>
+                <span class="dot-green"></span>
+                <div class="browser-url-bar">pranglobal.com/marketplace</div>
+              </div>
+              <div class="browser-content">
+                <div class="browser-tabs">
+                  <button type="button" class="tab-pill active">All Projects</button>
+                  <button type="button" class="tab-pill">Forestry</button>
+                  <button type="button" class="tab-pill">Solar</button>
+                  <button type="button" class="tab-pill">Wind</button>
+                  <button type="button" class="tab-pill">Biogas</button>
+                  <button type="button" class="tab-pill">Community</button>
+                </div>
+                <div class="browser-card-grid">
+                  <div class="mini-card">
+                    <div class="mini-card-thumb" style="background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);"></div>
+                    <div class="mini-card-body">
+                      <p class="mini-card-title">Biogas Recovery Project</p>
+                      <p class="mini-card-price">$18.50</p>
+                    </div>
+                  </div>
+                  <div class="mini-card">
+                    <div class="mini-card-thumb" style="background: linear-gradient(135deg, #ffb800 0%, #ffd700 100%);"></div>
+                    <div class="mini-card-body">
+                      <p class="mini-card-title">Solar Project Rajasthan</p>
+                      <p class="mini-card-price">$22.75</p>
+                    </div>
+                  </div>
+                  <div class="mini-card">
+                    <div class="mini-card-thumb" style="background: linear-gradient(135deg, #003d5c 0%, #0066aa 100%);"></div>
+                    <div class="mini-card-body">
+                      <p class="mini-card-title">Wind Farm Tamil Nadu</p>
+                      <p class="mini-card-price">$19.25</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Teaser Cards Row -->
+        <div class="project-teaser-row reveal" style="transition-delay: 0.1s;">
+          <div class="project-card">
+            <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80');">
+              <span class="project-badge">Spot Delivery</span>
+            </div>
+            <div class="project-card-body">
+              <div class="project-tags">
+                <span class="tag-pill">Verra</span>
+                <span class="tag-pill">Forestry</span>
+              </div>
+              <h3 class="project-title">Western Ghats Afforestation</h3>
+              <p class="project-location">Western Ghats Developer · India</p>
+              <p class="project-meta"><strong>45,000</strong> tCO₂e · Vintage 2023</p>
+              <div class="project-card-footer">
+                <span class="project-price">$24.50 <span class="price-unit">/ tCO₂e</span></span>
+                <a href="marketplace.html" class="arrow-circle-btn" aria-label="View project details">↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=600&q=80');">
+              <span class="project-badge">Forward Delivery</span>
+            </div>
+            <div class="project-card-body">
+              <div class="project-tags">
+                <span class="tag-pill">Gold Standard</span>
+                <span class="tag-pill">Solar</span>
+              </div>
+              <h3 class="project-title">Rajasthan Solar Grid Array</h3>
+              <p class="project-location">SunPower Clean Energy · India</p>
+              <p class="project-meta"><strong>120,000</strong> tCO₂e · Vintage 2024</p>
+              <div class="project-card-footer">
+                <span class="project-price">$18.20 <span class="price-unit">/ tCO₂e</span></span>
+                <a href="marketplace.html" class="arrow-circle-btn" aria-label="View project details">↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=600&q=80');">
+              <span class="project-badge">Spot Delivery</span>
+            </div>
+            <div class="project-card-body">
+              <div class="project-tags">
+                <span class="tag-pill">CCTS Accredited</span>
+                <span class="tag-pill">Wind</span>
+              </div>
+              <h3 class="project-title">Tamil Nadu Offshore Wind</h3>
+              <p class="project-location">Indus Wind Corp · India</p>
+              <p class="project-meta"><strong>85,000</strong> tCO₂e · Vintage 2023</p>
+              <div class="project-card-footer">
+                <span class="project-price">$21.00 <span class="price-unit">/ tCO₂e</span></span>
+                <a href="marketplace.html" class="arrow-circle-btn" aria-label="View project details">↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-image" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80');">
+              <span class="project-badge">Spot Delivery</span>
+            </div>
+            <div class="project-card-body">
+              <div class="project-tags">
+                <span class="tag-pill">Verra</span>
+                <span class="tag-pill">Mangrove</span>
+              </div>
+              <h3 class="project-title">Sundarbans Blue Carbon</h3>
+              <p class="project-location">Coastline Alliance · India</p>
+              <p class="project-meta"><strong>30,000</strong> tCO₂e · Vintage 2023</p>
+              <div class="project-card-footer">
+                <span class="project-price">$28.00 <span class="price-unit">/ tCO₂e</span></span>
+                <a href="marketplace.html" class="arrow-circle-btn" aria-label="View project details">↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         WHAT WE DO SECTION
+         ========================================================================== -->
+    <section id="what-we-do" class="what-we-do-section">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">What we do</p>
+          <h2 class="section-title">Three capabilities, fully integrated.</h2>
+        </div>
+
+        <div class="capabilities-grid">
+          <div class="capability-card reveal" style="transition-delay: 0.05s;">
+            <div class="capability-icon-box">📊</div>
+            <h3 class="capability-title">Market Intelligence</h3>
+            <p class="capability-text">Real-time pricing data, project ratings, and market trends — everything you need to trade with confidence.</p>
+          </div>
+
+          <div class="capability-card reveal" style="transition-delay: 0.1s;">
+            <div class="capability-icon-box">🔄</div>
+            <h3 class="capability-title">Transparent Settlement</h3>
+            <p class="capability-text">Escrow-based credit transfer with instant verification. Every transaction is auditable from point A to point B.</p>
+          </div>
+
+          <div class="capability-card reveal" style="transition-delay: 0.15s;">
+            <div class="capability-icon-box">🧮</div>
+            <h3 class="capability-title">Footprint Calculator</h3>
+            <p class="capability-text">Measure your scope 1, 2, and 3 emissions with cited factors. Know your number before you step into the market.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         FOR WHOM SECTION
+         ========================================================================== -->
+    <section id="for-whom" class="for-whom-section">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">For whom</p>
+          <h2 class="section-title">Built for every side of the market.</h2>
+        </div>
+
+        <div class="personas-grid">
+          <div class="persona-card reveal" style="transition-delay: 0.05s;">
+            <h3 class="persona-title">Project Developers</h3>
+            <p class="persona-text">List your projects to a national audience. Reach corporate and compliance buyers without intermediaries.</p>
+            <ul class="persona-features">
+              <li class="feature-item"><span class="check-icon">✓</span> Direct registry integration</li>
+              <li class="feature-item"><span class="check-icon">✓</span> Transparent market pricing</li>
+              <li class="feature-item"><span class="check-icon">✓</span> Instant escrow settlement</li>
+            </ul>
+          </div>
+
+          <div class="persona-card reveal" style="transition-delay: 0.1s;">
+            <h3 class="persona-title">Corporate Buyers</h3>
+            <p class="persona-text">Purchase verified credits with full traceability. Retire them instantly and publish your impact statement.</p>
+            <ul class="persona-features">
+              <li class="feature-item"><span class="check-icon">✓</span> Seamless compliance audit</li>
+              <li class="feature-item"><span class="check-icon">✓</span> Verified price discovery</li>
+              <li class="feature-item"><span class="check-icon">✓</span> Complete audit trail</li>
+            </ul>
+          </div>
+
+          <div class="persona-card reveal" style="transition-delay: 0.15s;">
+            <h3 class="persona-title">Traders & Investors</h3>
+            <p class="persona-text">Access market-wide liquidity and pricing. Make data-driven decisions with real-time intelligence.</p>
+            <ul class="persona-features">
+              <li class="feature-item"><span class="check-icon">✓</span> Deep market order book</li>
+              <li class="feature-item"><span class="check-icon">✓</span> Live pricing analytics</li>
+              <li class="feature-item"><span class="check-icon">✓</span> Portfolio management tools</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         TRUST SECTION
+         ========================================================================== -->
+    <section id="trust" class="trust-section">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label section-label-lime">Trust</p>
+          <h2 class="section-title section-title-white">Built on verifiable data, not promises.</h2>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card reveal" style="transition-delay: 0.05s;">
+            <p class="trust-stat" data-counter-to="100" data-counter-suffix="%">0%</p>
+            <p class="trust-label">Registry-backed credits</p>
+            <p class="trust-text">Every credit in PRAN is registered and verified before listing.</p>
+          </div>
+
+          <div class="trust-card reveal" style="transition-delay: 0.1s;">
+            <p class="trust-stat">ISO 14068</p>
+            <p class="trust-label">Compliance ready</p>
+            <p class="trust-text">Our settlement process aligns with global carbon accounting standards.</p>
+          </div>
+
+          <div class="trust-card reveal" style="transition-delay: 0.15s;">
+            <p class="trust-stat">Real Data</p>
+            <p class="trust-label">No fabrication</p>
+            <p class="trust-text">All projects, prices, and volumes are live and auditable.</p>
+          </div>
+
+          <div class="trust-card reveal" style="transition-delay: 0.2s;">
+            <p class="trust-stat">Escrow</p>
+            <p class="trust-label">Settlement assurance</p>
+            <p class="trust-text">Credits don't move until payment clears — and payment doesn't clear until credits are verified.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         LEADERSHIP SECTION
+         ========================================================================== -->
+    <section id="leadership" class="leadership-section">
+      <div class="container">
+        <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem;">
+          <div class="reveal">
+            <p class="section-label">Leadership</p>
+            <h2 class="section-title">Built by carbon market operators.</h2>
+          </div>
+          <div class="reveal" style="transition-delay: 0.1s;">
+            <a href="about.html#team" class="btn btn-outline" style="color: var(--pran-emerald); border-color: transparent;">Meet the full team →</a>
+          </div>
+        </div>
+
+        <div class="leadership-grid">
+          <div class="leader-card reveal" style="transition-delay: 0.05s;">
+            <div class="leader-avatar">NK</div>
+            <div>
+              <p class="leader-name">Nitin Khandelwal</p>
+              <p class="leader-role">Founder & CEO</p>
+              <p class="leader-bio">10+ years in carbon infrastructure & market design.</p>
+            </div>
+          </div>
+
+          <div class="leader-card reveal" style="transition-delay: 0.1s;">
+            <div class="leader-avatar">RK</div>
+            <div>
+              <p class="leader-name">Rajesh Kumar</p>
+              <p class="leader-role">VP Engineering</p>
+              <p class="leader-bio">Built scalable trading systems for commodity markets.</p>
+            </div>
+          </div>
+
+          <div class="leader-card reveal" style="transition-delay: 0.15s;">
+            <div class="leader-avatar">SP</div>
+            <div>
+              <p class="leader-name">Shruti Patel</p>
+              <p class="leader-role">Head of Compliance</p>
+              <p class="leader-bio">Expert in carbon accounting frameworks and UNFCCC standards.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         RESOURCES SECTION
+         ========================================================================== -->
+    <section id="resources" class="resources-section">
+      <div class="container">
+        <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem;">
+          <div class="reveal">
+            <p class="section-label">Resources</p>
+            <h2 class="section-title">Carbon markets, explained plainly.</h2>
+          </div>
+          <div class="reveal" style="transition-delay: 0.1s;">
+            <a href="resources.html" class="btn btn-outline" style="color: var(--pran-emerald); border-color: transparent;">Compliance library →</a>
+          </div>
+        </div>
+
+        <div class="resources-grid">
+          <a href="resources.html#ccts" class="resource-card reveal" style="transition-delay: 0.08s;">
+            <div class="resource-thumb" style="background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="resource-body">
+              <span class="resource-tag">Explainer</span>
+              <h3 class="resource-title">Understanding India's CCTS</h3>
+              <span class="resource-link">Read →</span>
+            </div>
+          </a>
+
+          <a href="resources.html#voluntary" class="resource-card reveal" style="transition-delay: 0.16s;">
+            <div class="resource-thumb" style="background-image: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="resource-body">
+              <span class="resource-tag">Explainer</span>
+              <h3 class="resource-title">The voluntary carbon market, explained</h3>
+              <span class="resource-link">Read →</span>
+            </div>
+          </a>
+
+          <a href="resources.html#claims" class="resource-card reveal" style="transition-delay: 0.24s;">
+            <div class="resource-thumb" style="background-image: url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="resource-body">
+              <span class="resource-tag">Insight</span>
+              <h3 class="resource-title">Why “carbon neutral” is the wrong claim</h3>
+              <span class="resource-link">Read →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         CLOSING CTA SECTION
+         ========================================================================== -->
+    <section id="cta" class="closing-section">
+      <div class="closing-content">
+        <div class="reveal">
+          <p class="section-label section-label-lime">Get started</p>
+          <h2 class="closing-title">Ready to connect to the carbon market?</h2>
+          <p class="closing-description">Explore verified projects, or talk to us about sourcing, reporting, and settlement built for your organisation.</p>
+
+          <div class="closing-cta-buttons" style="transition-delay: 0.12s;">
+            <a href="marketplace.html" class="btn btn-primary btn-lg">
+              Explore Marketplace
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="contact.html" class="btn btn-secondary btn-lg">
+              Talk to our team
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       SITE FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo" style="color: #ffffff;">
+            <svg class="logo-emblem" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 2L4 8V24L16 30L28 24V8L16 2Z" fill="#12A33A"/>
+              <path d="M16 6L8 10.5V21.5L16 26L24 21.5V10.5L16 6Z" fill="#0F3D2E"/>
+            </svg>
+            <span>PRAN</span>
+          </a>
+          <p>The financial infrastructure layer for the carbon market — verified credits, footprint intelligence, and transparent markets.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Product</h4>
+          <ul class="footer-nav-list">
+            <li><a href="marketplace.html" class="footer-nav-link">Marketplace</a></li>
+            <li><a href="calculator.html" class="footer-nav-link">Carbon Calculator</a></li>
+            <li><a href="dashboard.html" class="footer-nav-link">Market Dashboard</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Intelligence</h4>
+          <ul class="footer-nav-list">
+            <li><a href="intelligence.html#procurement" class="footer-nav-link">Procurement Intelligence</a></li>
+            <li><a href="intelligence.html#esg" class="footer-nav-link">AI ESG Reporting</a></li>
+            <li><a href="intelligence.html#brsr" class="footer-nav-link">AI BRSR Reporting</a></li>
+            <li><a href="intelligence.html#cbam" class="footer-nav-link">AI CBAM Alignment</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Solutions</h4>
+          <ul class="footer-nav-list">
+            <li><a href="solutions.html#enterprise" class="footer-nav-link">Enterprise</a></li>
+            <li><a href="solutions.html#government" class="footer-nav-link">Government</a></li>
+            <li><a href="solutions.html#developers" class="footer-nav-link">Project Developers</a></li>
+            <li><a href="solutions.html#public" class="footer-nav-link">General Public</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Resources</h4>
+          <ul class="footer-nav-list">
+            <li><a href="resources.html" class="footer-nav-link">All Resources</a></li>
+            <li><a href="resources.html#blog" class="footer-nav-link">Blog & Insights</a></li>
+            <li><a href="resources.html#compliance" class="footer-nav-link">Compliance Library</a></li>
+            <li><a href="resources.html#ccts" class="footer-nav-link">India CCTS Explainer</a></li>
+            <li><a href="resources.html#voluntary" class="footer-nav-link">Voluntary Market Explainer</a></li>
+            <li><a href="resources.html#glossary" class="footer-nav-link">Glossary</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Company</h4>
+          <ul class="footer-nav-list">
+            <li><a href="about.html" class="footer-nav-link">Why We Exist</a></li>
+            <li><a href="about.html#team" class="footer-nav-link">Team</a></li>
+            <li><a href="about.html#press" class="footer-nav-link">Press</a></li>
+            <li><a href="contact.html" class="footer-nav-link">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">
+          PRAN is a technology platform and facilitator. It is not an accredited verifier, auditor, broker-dealer, or financial advisor, and does not issue carbon credits. Verification is performed by registries and independent bodies.
+        </p>
+        <div class="footer-legal-row">
+          <p>© 2026 PRAN. All rights reserved.</p>
+          <div class="legal-links">
+            <a href="legal.html#terms" class="footer-nav-link">Terms</a>
+            <a href="legal.html#privacy" class="footer-nav-link">Privacy</a>
+            <a href="legal.html#compliance" class="footer-nav-link">Compliance Framework</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

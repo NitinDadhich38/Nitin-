@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Intelligence Dashboard · PRAN</title>
+  <meta name="description" content="Real-time pricing data, project ratings, and carbon market trends across India.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .dash-page {
+      padding-top: 7rem;
+      padding-bottom: 6rem;
+      background-color: var(--pran-paper);
+    }
+    .stats-row {
+      display: grid;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    @media (min-width: 640px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .stats-row { grid-template-columns: repeat(4, 1fr); } }
+    .dash-stat-card {
+      background-color: var(--pran-surface);
+      border-radius: var(--radius-card);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--pran-hairline);
+    }
+    .dash-stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--pran-ink);
+    }
+    .trend-up { color: var(--pran-emerald); font-size: 0.8125rem; font-weight: 600; }
+    .dash-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    @media (min-width: 1024px) { .dash-grid { grid-template-columns: 2fr 1fr; } }
+    .chart-box {
+      background-color: var(--pran-surface);
+      border-radius: var(--radius-panel);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--pran-hairline);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header scrolled">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="brand-logo">
+          <svg class="logo-emblem" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2L4 8V24L16 30L28 24V8L16 2Z" fill="#12A33A"/>
+            <path d="M16 6L8 10.5V21.5L16 26L24 21.5V10.5L16 6Z" fill="#0F3D2E"/>
+          </svg>
+          <span>PRAN</span>
+        </a>
+
+        <nav class="main-nav">
+          <ul style="display: flex; gap: 0.25rem; align-items: center;">
+            <li class="nav-item"><a href="marketplace.html" class="nav-link">Marketplace</a></li>
+            <li class="nav-item"><a href="calculator.html" class="nav-link">Calculator</a></li>
+            <li class="nav-item"><a href="dashboard.html" class="nav-link" style="color: var(--pran-emerald); font-weight: 600;">Dashboard</a></li>
+            <li class="nav-item"><a href="resources.html" class="nav-link">Resources</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          </ul>
+        </nav>
+
+        <div>
+          <a href="marketplace.html" class="btn btn-primary btn-sm">Explore Marketplace</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-page">
+    <div class="container">
+      <div>
+        <p class="section-label">Carbon Intelligence</p>
+        <h1 class="section-title">Market Dashboard</h1>
+        <p class="section-description">Live pricing index, registered credit volume, and settlement liquidity across Indian carbon markets.</p>
+      </div>
+
+      <!-- Top Stats -->
+      <div class="stats-row">
+        <div class="dash-stat-card">
+          <p style="font-size: 0.8125rem; color: var(--pran-muted);">Weighted Avg Price</p>
+          <div class="dash-stat-num">$21.40 <span style="font-size: 0.875rem; font-weight: 400; color: var(--pran-muted);">/ tCO₂e</span></div>
+          <p class="trend-up">↑ +4.2% vs last month</p>
+        </div>
+
+        <div class="dash-stat-card">
+          <p style="font-size: 0.8125rem; color: var(--pran-muted);">Live Listed Volume</p>
+          <div class="dash-stat-num">475,000 <span style="font-size: 0.875rem; font-weight: 400; color: var(--pran-muted);">tCO₂e</span></div>
+          <p class="trend-up">↑ 12 active projects</p>
+        </div>
+
+        <div class="dash-stat-card">
+          <p style="font-size: 0.8125rem; color: var(--pran-muted);">CCTS Market Volume</p>
+          <div class="dash-stat-num">180,000 <span style="font-size: 0.875rem; font-weight: 400; color: var(--pran-muted);">CCCs</span></div>
+          <p class="trend-up">Accredited registry</p>
+        </div>
+
+        <div class="dash-stat-card">
+          <p style="font-size: 0.8125rem; color: var(--pran-muted);">Settlement Speed</p>
+          <div class="dash-stat-num">&lt; 24 hrs</div>
+          <p style="font-size: 0.8125rem; color: var(--pran-muted);">Escrow clearance</p>
+        </div>
+      </div>
+
+      <!-- Main Graphs -->
+      <div class="dash-grid">
+        <div class="chart-box">
+          <h3 class="font-display" style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Average Credit Price Trend (USD / tCO₂e)</h3>
+          <svg viewBox="0 0 700 240" style="width: 100%; height: auto;">
+            <!-- Grid lines -->
+            <line x1="50" y1="40" x2="680" y2="40" stroke="var(--pran-hairline)" stroke-dasharray="4"/>
+            <line x1="50" y1="100" x2="680" y2="100" stroke="var(--pran-hairline)" stroke-dasharray="4"/>
+            <line x1="50" y1="160" x2="680" y2="160" stroke="var(--pran-hairline)" stroke-dasharray="4"/>
+            <line x1="50" y1="210" x2="680" y2="210" stroke="var(--pran-border)"/>
+
+            <text x="35" y="45" font-size="12" fill="var(--pran-muted)" text-anchor="end">$30</text>
+            <text x="35" y="105" font-size="12" fill="var(--pran-muted)" text-anchor="end">$20</text>
+            <text x="35" y="165" font-size="12" fill="var(--pran-muted)" text-anchor="end">$10</text>
+
+            <!-- Line Path -->
+            <path d="M 60 160 Q 180 140 280 110 T 500 80 T 670 65" fill="none" stroke="var(--pran-emerald)" stroke-width="3.5" stroke-linecap="round"/>
+            
+            <circle cx="670" cy="65" r="5" fill="var(--pran-emerald)"/>
+            <text x="670" y="48" font-size="13" font-weight="700" fill="var(--pran-emerald)" text-anchor="middle">$21.40</text>
+
+            <text x="60" y="230" font-size="12" fill="var(--pran-muted)">Jan</text>
+            <text x="180" y="230" font-size="12" fill="var(--pran-muted)">Mar</text>
+            <text x="300" y="230" font-size="12" fill="var(--pran-muted)">May</text>
+            <text x="420" y="230" font-size="12" fill="var(--pran-muted)">Jul</text>
+            <text x="540" y="230" font-size="12" fill="var(--pran-muted)">Sep</text>
+            <text x="660" y="230" font-size="12" fill="var(--pran-muted)">Nov</text>
+          </svg>
+        </div>
+
+        <div class="chart-box">
+          <h3 class="font-display" style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Volume Distribution by Sector</h3>
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.25rem;">
+                <span>Forestry & Nature-based</span>
+                <strong>40%</strong>
+              </div>
+              <div style="height: 8px; background: var(--pran-paper-warm); border-radius: 4px; overflow: hidden;">
+                <div style="width: 40%; height: 100%; background: var(--pran-forest);"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.25rem;">
+                <span>Solar Renewable Grid</span>
+                <strong>30%</strong>
+              </div>
+              <div style="height: 8px; background: var(--pran-paper-warm); border-radius: 4px; overflow: hidden;">
+                <div style="width: 30%; height: 100%; background: var(--pran-emerald);"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.25rem;">
+                <span>Wind Infrastructure</span>
+                <strong>20%</strong>
+              </div>
+              <div style="height: 8px; background: var(--pran-paper-warm); border-radius: 4px; overflow: hidden;">
+                <div style="width: 20%; height: 100%; background: #0284c7;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.25rem;">
+                <span>Biogas & Waste</span>
+                <strong>10%</strong>
+              </div>
+              <div style="height: 8px; background: var(--pran-paper-warm); border-radius: 4px; overflow: hidden;">
+                <div style="width: 10%; height: 100%; background: var(--pran-clay);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">© 2026 PRAN Platform. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
