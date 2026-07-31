@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Search, SlidersHorizontal, X, ArrowRight } from "lucide-react";
 import type { Project } from "@/lib/marketplace-data";
-import { facets } from "@/lib/marketplace-data";
+import { facets, projectHref } from "@/lib/marketplace-data";
 import { ProjectTeaser, priceLabel } from "@/components/marketing/project-teaser";
 import { photoForSector } from "@/lib/images";
 import { countryFlag } from "@/lib/sectors";
@@ -157,7 +157,7 @@ function DataPanel({
         </div>
 
         <Link
-          href={`/marketplace/${project.slug}`}
+          href={projectHref(project)}
           className={cn(buttonVariants({ size: "default" }), "group mt-6 w-full")}
         >
           View project

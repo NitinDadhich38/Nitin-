@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/marketplace-data";
+import { projectHref } from "@/lib/marketplace-data";
 import { photoForSector } from "@/lib/images";
 
 /** Long sector names → short "type" chip. */
@@ -59,7 +60,7 @@ export function ProjectTeaser({ project }: { project: Project }) {
 
   return (
     <Link
-      href={`/marketplace/${project.slug}`}
+      href={projectHref(project)}
       className="group flex w-full flex-col overflow-hidden rounded-panel bg-pran-surface shadow-card transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-float focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pran-emerald/50"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-pran-paper-warm">
