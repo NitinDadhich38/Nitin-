@@ -77,7 +77,7 @@ export type IrecListing = {
 export const projects: Project[] = [
   {
     "id": "VCS 5833",
-    "pranCode": "PRAN-1",
+    "pranCode": "PRAN-5833",
     "slug": "1397-tpd-bundled-project",
     "name": "1397 TPD Bundled Project",
     "developer": "Eastern Organic Fertilizer Pvt. Ltd.",
@@ -108,7 +108,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 3889",
-    "pranCode": "PRAN-2",
+    "pranCode": "PRAN-3889",
     "slug": "210-5-tpd-biogas-project",
     "name": "210.5 TPD Biogas Project",
     "developer": null,
@@ -139,7 +139,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 5296",
-    "pranCode": "PRAN-3",
+    "pranCode": "PRAN-5296",
     "slug": "300-tpd-baidyabati-project",
     "name": "300 TPD Baidyabati Project",
     "developer": "Eastern Organic Fertilizer Pvt. Ltd.",
@@ -170,7 +170,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 676",
-    "pranCode": "PRAN-4",
+    "pranCode": "PRAN-1650",
     "slug": "33-9-mw-wind-power-project",
     "name": "33.9 MW  Wind Power Project",
     "developer": null,
@@ -201,7 +201,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1990",
-    "pranCode": "PRAN-5",
+    "pranCode": "PRAN-1990",
     "slug": "40mw-bundled-solar-project-in-telangana-india",
     "name": "40MW Bundled Solar Project in Telangana, India",
     "developer": null,
@@ -232,12 +232,12 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 563",
-    "pranCode": "PRAN-6",
+    "pranCode": "PRAN-929",
     "slug": "biomass-based-steam-project",
     "name": "Biomass Based Steam Project",
     "developer": "Sterling Agro Industries Ltd.",
     "country": "India",
-    "sector": "energy industries",
+    "sector": "Energy Industries",
     "rawTech": "Energy Industries",
     "registry": "Verra",
     "standardCode": "VCS",
@@ -263,7 +263,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1457",
-    "pranCode": "PRAN-7",
+    "pranCode": "PRAN-1457",
     "slug": "bolu-waste-heat-recovery",
     "name": "Bolu Waste Heat Recovery",
     "developer": null,
@@ -303,7 +303,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 2889",
-    "pranCode": "PRAN-8",
+    "pranCode": "PRAN-2889",
     "slug": "boomitra-carbon-farming-south-of-the-vindhyas",
     "name": "Boomitra Carbon Farming South of the Vindhyas",
     "developer": null,
@@ -343,7 +343,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 3774",
-    "pranCode": "PRAN-9",
+    "pranCode": "PRAN-3774",
     "slug": "boomitra-carbon-farming-in-east-africa-through-soil-enrichment",
     "name": "Boomitra Carbon Farming in East Africa through Soil Enrichment",
     "developer": null,
@@ -374,7 +374,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS2887",
-    "pranCode": "PRAN-10",
+    "pranCode": "PRAN-2887",
     "slug": "boomitra-grassland-restoration-in-northern-mexico",
     "name": "Boomitra Grassland Restoration in Northern Mexico",
     "developer": null,
@@ -405,7 +405,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 2887",
-    "pranCode": "PRAN-11",
+    "pranCode": "PRAN-2887-VCS",
     "slug": "boomitra-grassland-restoration-in-northern-mexico-vcs-2887",
     "name": "Boomitra Grassland Restoration in Northern Mexico",
     "developer": null,
@@ -436,7 +436,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1767",
-    "pranCode": "PRAN-12",
+    "pranCode": "PRAN-985",
     "slug": "bundled-solar-power-project",
     "name": "Bundled Solar Power Project",
     "developer": "Mahindra Susten Private Limited",
@@ -467,7 +467,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 5047",
-    "pranCode": "PRAN-13",
+    "pranCode": "PRAN-5047",
     "slug": "earth-maa-llc-bamboo-cashewnut-and-mango-plantations-for-farmers-economic-upgrade",
     "name": "EARTH MAA LLC- BAMBOO, CASHEWNUT AND MANGO PLANTATIONS FOR FARMERS ECONOMIC UPGRADE",
     "developer": null,
@@ -498,7 +498,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 4229",
-    "pranCode": "PRAN-14",
+    "pranCode": "PRAN-4229",
     "slug": "enew-sakhi-improved-cookstoves-01",
     "name": "ENEW SAKHI - IMPROVED COOKSTOVES - 01",
     "developer": null,
@@ -529,7 +529,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1792",
-    "pranCode": "PRAN-15",
+    "pranCode": "PRAN-1792",
     "slug": "ghani-solar-renewable-power-project-by-greenko-group",
     "name": "Ghani Solar Renewable Power Project by Greenko Group",
     "developer": null,
@@ -560,7 +560,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 911",
-    "pranCode": "PRAN-16",
+    "pranCode": "PRAN-911",
     "slug": "grid-connected-wind-energy-project-in-tamil-nadu",
     "name": "Grid Connected Wind Energy Project in Tamil Nadu",
     "developer": null,
@@ -591,7 +591,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1530",
-    "pranCode": "PRAN-17",
+    "pranCode": "PRAN-1530",
     "slug": "grouped-project-for-commercial-forest-plantations-initiatives-in-the-department-of-vichada",
     "name": "Grouped Project for Commercial Forest Plantations Initiatives in the Department of Vichada",
     "developer": null,
@@ -622,7 +622,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 2890",
-    "pranCode": "PRAN-18",
+    "pranCode": "PRAN-2890",
     "slug": "installation-of-high-efficiency-wood-burning-cookstoves-in-zimbabwe-project-2",
     "name": "Installation of high efficiency wood burning cookstoves in Zimbabwe - Project 2",
     "developer": null,
@@ -653,12 +653,12 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1736",
-    "pranCode": "PRAN-19",
+    "pranCode": "PRAN-981",
     "slug": "jurong-island-plant",
     "name": "Jurong Island, Plant",
     "developer": "PacificLight Power Pte. Ltd.",
     "country": "Singapore",
-    "sector": "energy industries",
+    "sector": "Energy Industries",
     "rawTech": "Energy Industries",
     "registry": "Verra",
     "standardCode": "VCS",
@@ -684,7 +684,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 3425",
-    "pranCode": "PRAN-20",
+    "pranCode": "PRAN-3425",
     "slug": "kwamisa-other-reserves-community-forest-project",
     "name": "Kwamisa/Other reserves community Forest Project",
     "developer": null,
@@ -742,7 +742,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1791",
-    "pranCode": "PRAN-21",
+    "pranCode": "PRAN-1791",
     "slug": "pavagada-solar-renewable-power-project-by-greenko-group",
     "name": "Pavagada Solar Renewable Power Project by Greenko Group",
     "developer": null,
@@ -773,7 +773,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 4982",
-    "pranCode": "PRAN-22",
+    "pranCode": "PRAN-4982",
     "slug": "rbml-reliance-bp-mobility-limited-ev-charging-infrastructure-project",
     "name": "RBML (Reliance BP Mobility Limited) EV Charging Infrastructure Project",
     "developer": null,
@@ -804,7 +804,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS2590",
-    "pranCode": "PRAN-23",
+    "pranCode": "PRAN-2590",
     "slug": "regenerative-agriculture-in-rice-wheat-maize-system-for-income-generation",
     "name": "REGENERATIVE AGRICULTURE IN RICE-WHEAT-MAIZE SYSTEM FOR INCOME GENERATION",
     "developer": null,
@@ -835,7 +835,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1650",
-    "pranCode": "PRAN-24",
+    "pranCode": "PRAN-1650-VCS",
     "slug": "reduced-emissions-from-deforestation-and-degradation-in-keo-seima-wildlife-sanctuary",
     "name": "Reduced Emissions from Deforestation and Degradation in Keo Seima Wildlife Sanctuary",
     "developer": null,
@@ -866,7 +866,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 2404",
-    "pranCode": "PRAN-25",
+    "pranCode": "PRAN-2404",
     "slug": "reforestation-of-degraded-land",
     "name": "Reforestation of Degraded Land",
     "developer": "MTPL",
@@ -897,7 +897,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS1787",
-    "pranCode": "PRAN-26",
+    "pranCode": "PRAN-1787",
     "slug": "renewable-power-project-by-animala-wind-power-private-limited",
     "name": "Renewable Power Project by Animala Wind Power Private Limited",
     "developer": null,
@@ -928,7 +928,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1789",
-    "pranCode": "PRAN-27",
+    "pranCode": "PRAN-1789",
     "slug": "renewable-power-project-by-sei-kathiravan-power-private-limited",
     "name": "Renewable Power Project by SEI Kathiravan Power Private Limited",
     "developer": null,
@@ -959,7 +959,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1851",
-    "pranCode": "PRAN-28",
+    "pranCode": "PRAN-1851",
     "slug": "renewable-solar-power-project-by-renew-solar-power-private-limited",
     "name": "Renewable Solar Power Project by ReNew Solar Power Private Limited",
     "developer": null,
@@ -990,7 +990,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 2252",
-    "pranCode": "PRAN-29",
+    "pranCode": "PRAN-2252",
     "slug": "rio-anapu-pacaja-redd-project",
     "name": "Rio Anapu-Pacaja REDD Project",
     "developer": null,
@@ -1021,7 +1021,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 4000",
-    "pranCode": "PRAN-30",
+    "pranCode": "PRAN-4000",
     "slug": "rwanda-cookstoves",
     "name": "Rwanda Cookstoves",
     "developer": null,
@@ -1052,7 +1052,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 3699",
-    "pranCode": "PRAN-31",
+    "pranCode": "PRAN-3699",
     "slug": "rwanda-cookstoves-vcs-3699",
     "name": "Rwanda Cookstoves",
     "developer": null,
@@ -1083,7 +1083,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS2750",
-    "pranCode": "PRAN-32",
+    "pranCode": "PRAN-2750",
     "slug": "saving-colombia-s-cloud-forest",
     "name": "Saving Colombia's Cloud Forest",
     "developer": null,
@@ -1114,7 +1114,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS5035",
-    "pranCode": "PRAN-33",
+    "pranCode": "PRAN-5035",
     "slug": "silk-grass-biochar-project",
     "name": "Silk Grass Biochar Project",
     "developer": null,
@@ -1145,7 +1145,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1020",
-    "pranCode": "PRAN-34",
+    "pranCode": "PRAN-1020",
     "slug": "solar-power-plant-of-15mw-in-gujarat-by-palace-solar-energy-private-limited",
     "name": "Solar Power Plant of 15MW in Gujarat by Palace Solar Energy Private Limited",
     "developer": null,
@@ -1176,7 +1176,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1026",
-    "pranCode": "PRAN-35",
+    "pranCode": "PRAN-1026",
     "slug": "solar-power-plant-of-5-mw-in-rajasthan-by-essel-mining-and-refex-refrigerants-limited",
     "name": "Solar Power Plant of 5 MW in Rajasthan by Essel Mining and Refex Refrigerants Limited",
     "developer": null,
@@ -1216,7 +1216,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1748",
-    "pranCode": "PRAN-36",
+    "pranCode": "PRAN-1748",
     "slug": "the-southern-cardamom-redd-project-scrp",
     "name": "The Southern Cardamom REDD+ Project (SCRP)",
     "developer": null,
@@ -1256,7 +1256,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1941",
-    "pranCode": "PRAN-37",
+    "pranCode": "PRAN-1941",
     "slug": "sustainable-city-projects",
     "name": "Sustainable City Projects",
     "developer": "Indore Smart City Development Ltd.",
@@ -1287,7 +1287,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 2483",
-    "pranCode": "PRAN-38",
+    "pranCode": "PRAN-2483",
     "slug": "tavolo-community-forest-conservation-project",
     "name": "Tavolo Community Forest Conservation Project",
     "developer": null,
@@ -1327,7 +1327,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 2508",
-    "pranCode": "PRAN-39",
+    "pranCode": "PRAN-2508",
     "slug": "unitor-redd-project",
     "name": "UNITOR REDD+ PROJECT",
     "developer": null,
@@ -1358,7 +1358,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1404",
-    "pranCode": "PRAN-40",
+    "pranCode": "PRAN-1404",
     "slug": "vaspet-ii-and-vaspet-iii-wind-power-project-maharashtra",
     "name": "Vaspet-II and Vaspet-III Wind Power Project, Maharashtra",
     "developer": null,
@@ -1389,7 +1389,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1481",
-    "pranCode": "PRAN-41",
+    "pranCode": "PRAN-1481",
     "slug": "wind-power-project-in-maharashtra-india",
     "name": "Wind power project in Maharashtra, India",
     "developer": null,
@@ -1420,7 +1420,7 @@ export const projects: Project[] = [
   },
   {
     "id": "VCS 1480",
-    "pranCode": "PRAN-42",
+    "pranCode": "PRAN-1480",
     "slug": "wind-power-project-in-maharashtra-india-vcs-1480",
     "name": "Wind power project in Maharashtra, India",
     "developer": null,
@@ -1451,7 +1451,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 6290",
-    "pranCode": "PRAN-43",
+    "pranCode": "PRAN-6290",
     "slug": "200-mw-wind-power-project-in-tamil-nadu-by-orange-sironj",
     "name": "200 MW Wind Power Project in Tamil Nadu by Orange Sironj",
     "developer": null,
@@ -1482,7 +1482,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 6999",
-    "pranCode": "PRAN-44",
+    "pranCode": "PRAN-1190",
     "slug": "21-mw-wind-energy-project",
     "name": "21 MW Wind Energy Project",
     "developer": "Shree Cement Limited",
@@ -1513,7 +1513,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 7745",
-    "pranCode": "PRAN-45",
+    "pranCode": "PRAN-7745",
     "slug": "300-mw-wind-power-project-in-gujarat-by-alfanar",
     "name": "300 MW Wind Power Project in Gujarat by Alfanar",
     "developer": null,
@@ -1544,7 +1544,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 11401",
-    "pranCode": "PRAN-46",
+    "pranCode": "PRAN-1525",
     "slug": "bhesada-wind-power-project-in-rajasthan",
     "name": "Bhesada Wind Power Project in Rajasthan",
     "developer": null,
@@ -1583,7 +1583,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 11677",
-    "pranCode": "PRAN-47",
+    "pranCode": "PRAN-11677",
     "slug": "malawi-cookstoves",
     "name": "Malawi Cookstoves",
     "developer": null,
@@ -1614,7 +1614,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS12668",
-    "pranCode": "PRAN-48",
+    "pranCode": "PRAN-12668",
     "slug": "rvpa-1-water-purifier-project-in-maharashtra-india-by-seniority-pvt-ltd-vpa-2",
     "name": "RVPA-1 Water Purifier Project in Maharashtra, India by Seniority Pvt. Ltd. - VPA-2",
     "developer": null,
@@ -1645,7 +1645,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 11403",
-    "pranCode": "PRAN-49",
+    "pranCode": "PRAN-11403",
     "slug": "rajgarh-wind-power-project-in-rajasthan",
     "name": "Rajgarh Wind Power Project in Rajasthan",
     "developer": null,
@@ -1685,7 +1685,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 11405",
-    "pranCode": "PRAN-50",
+    "pranCode": "PRAN-11405",
     "slug": "renew-solar-power-project-in-ap",
     "name": "ReNew Solar Power Project in AP",
     "developer": null,
@@ -1734,7 +1734,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 12293",
-    "pranCode": "PRAN-51",
+    "pranCode": "PRAN-12293",
     "slug": "renew-sakhi-improved-cookstove-2",
     "name": "Renew Sakhi Improved Cookstove - 2",
     "developer": null,
@@ -1765,7 +1765,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS 11551",
-    "pranCode": "PRAN-52",
+    "pranCode": "PRAN-11551",
     "slug": "tasc-clean-cooking-poa-vpa-2-cicada-carbon-zimbabwe",
     "name": "TASC Clean Cooking PoA – VPA 2 Cicada Carbon (Zimbabwe)",
     "developer": null,
@@ -1796,7 +1796,7 @@ export const projects: Project[] = [
   },
   {
     "id": "CDM 9416",
-    "pranCode": "PRAN-53",
+    "pranCode": "PRAN-9416",
     "slug": "poa-9416-promotion-of-renewable-energy-generation-in-india-programme-of-activities",
     "name": "PoA 9416 : Promotion of renewable energy generation in India- Programme of Activities",
     "developer": null,
@@ -1827,7 +1827,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS7668/CDM8312",
-    "pranCode": "PRAN-54",
+    "pranCode": "PRAN-7668",
     "slug": "jeori-hydro-electric-project",
     "name": "Jeori Hydro-Electric Project",
     "developer": null,
@@ -1858,7 +1858,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS3969",
-    "pranCode": "PRAN-55",
+    "pranCode": "PRAN-3969",
     "slug": "100-5-mw-wind-power-project-in-madhya-pradesh-india",
     "name": "100.5 MW Wind Power Project in Madhya Pradesh, India",
     "developer": null,
@@ -1889,7 +1889,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS5614",
-    "pranCode": "PRAN-56",
+    "pranCode": "PRAN-5614",
     "slug": "100-8-mw-wind-power-project-in-beluguppa-andhra-pradesh",
     "name": "100.8 MW Wind Power Project in Beluguppa, Andhra Pradesh",
     "developer": null,
@@ -1920,7 +1920,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS3965",
-    "pranCode": "PRAN-57",
+    "pranCode": "PRAN-3965",
     "slug": "22-5-mw-wind-power-project-in-rajasthan-india",
     "name": "22.5 MW Wind Power Project in Rajasthan, India",
     "developer": null,
@@ -1951,7 +1951,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS5928",
-    "pranCode": "PRAN-58",
+    "pranCode": "PRAN-5928",
     "slug": "2x50-mw-orange-suvaan-solar-photovoltaic-power-project-in-maharashtra-india",
     "name": "2x50 MW Orange Suvaan Solar Photovoltaic Power Project in Maharashtra, India",
     "developer": null,
@@ -1982,7 +1982,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS4707",
-    "pranCode": "PRAN-59",
+    "pranCode": "PRAN-4707",
     "slug": "34-mw-wind-power-project-at-khanapur-sangli-maharashtra-india",
     "name": "34 MW Wind Power Project at Khanapur, Sangli, Maharashtra, India",
     "developer": null,
@@ -2013,7 +2013,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS5866",
-    "pranCode": "PRAN-60",
+    "pranCode": "PRAN-5866",
     "slug": "40-mw-orange-charanka-solar-power-project-in-gujarat-india",
     "name": "40 MW Orange Charanka Solar Power Project in Gujarat, India",
     "developer": null,
@@ -2044,7 +2044,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS5799",
-    "pranCode": "PRAN-61",
+    "pranCode": "PRAN-5799",
     "slug": "wind-power-project-in-karnataka-by-omwpl",
     "name": "Wind Power Project in Karnataka by OMWPL",
     "developer": null,
@@ -2075,7 +2075,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS4962",
-    "pranCode": "PRAN-62",
+    "pranCode": "PRAN-4962",
     "slug": "wind-power-project-in-madhya-pradesh-by-obwppl",
     "name": "Wind Power Project in Madhya Pradesh by OBWPPL",
     "developer": null,
@@ -2106,7 +2106,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS7630",
-    "pranCode": "PRAN-63",
+    "pranCode": "PRAN-7630",
     "slug": "wind-energy-project-by-kwepl-1",
     "name": "Wind energy project by KWEPL - 1",
     "developer": null,
@@ -2137,7 +2137,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS7628",
-    "pranCode": "PRAN-64",
+    "pranCode": "PRAN-7628",
     "slug": "wind-farm-at-lalpur-gujarat",
     "name": "Wind farm at Lalpur, Gujarat",
     "developer": null,
@@ -2168,7 +2168,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS7632",
-    "pranCode": "PRAN-65",
+    "pranCode": "PRAN-7632",
     "slug": "wind-power-project-in-gujarat-by-kaze-energy-limited",
     "name": "Wind power project in Gujarat by Kaze Energy Limited",
     "developer": null,
@@ -2199,7 +2199,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS7629",
-    "pranCode": "PRAN-66",
+    "pranCode": "PRAN-7629",
     "slug": "wind-power-project-in-madhya-pradesh-2-india",
     "name": "Wind power project in Madhya Pradesh (2), India",
     "developer": null,
@@ -2230,7 +2230,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS7633",
-    "pranCode": "PRAN-67",
+    "pranCode": "PRAN-7633",
     "slug": "wind-power-project-in-ratlam-mp",
     "name": "Wind power project in Ratlam, MP",
     "developer": null,
@@ -2261,7 +2261,7 @@ export const projects: Project[] = [
   },
   {
     "id": "GS7631",
-    "pranCode": "PRAN-68",
+    "pranCode": "PRAN-7631",
     "slug": "wind-project-by-lwepl-2",
     "name": "Wind project by LWEPL-2",
     "developer": null,
@@ -2292,7 +2292,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 48",
-    "pranCode": "PRAN-69",
+    "pranCode": "PRAN-48",
     "slug": "agroecology-italy",
     "name": "AgroEcology_Italy",
     "developer": "Alberami S.r.l.",
@@ -2323,7 +2323,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 17",
-    "pranCode": "PRAN-70",
+    "pranCode": "PRAN-17",
     "slug": "arnaldsstair",
     "name": "Arnaldsstaðir",
     "developer": "Yggdrasill Carbon ehf",
@@ -2354,7 +2354,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 91",
-    "pranCode": "PRAN-71",
+    "pranCode": "PRAN-91",
     "slug": "blue-carbon-project-mexico",
     "name": "Blue Carbon Project, Mexico",
     "developer": null,
@@ -2385,7 +2385,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 93",
-    "pranCode": "PRAN-72",
+    "pranCode": "PRAN-93",
     "slug": "bright-future-africa-vol-2",
     "name": "Bright Future Africa – Vol.2",
     "developer": "GRO Foundation",
@@ -2416,7 +2416,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 254",
-    "pranCode": "PRAN-73",
+    "pranCode": "PRAN-254",
     "slug": "compost-or",
     "name": "Compost Or",
     "developer": null,
@@ -2447,7 +2447,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 44",
-    "pranCode": "PRAN-74",
+    "pranCode": "PRAN-44",
     "slug": "emek-hefer-compost",
     "name": "Emek Hefer Compost",
     "developer": null,
@@ -2478,7 +2478,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 306",
-    "pranCode": "PRAN-75",
+    "pranCode": "PRAN-306",
     "slug": "evra-biomass-power-plant-project",
     "name": "Evra Biomass Power Plant Project",
     "developer": null,
@@ -2509,7 +2509,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 349",
-    "pranCode": "PRAN-76",
+    "pranCode": "PRAN-349",
     "slug": "forestal-rio-aquidaban",
     "name": "Forestal Río Aquidabán",
     "developer": null,
@@ -2549,7 +2549,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 57",
-    "pranCode": "PRAN-77",
+    "pranCode": "PRAN-57",
     "slug": "skogalfar-alfabrekka",
     "name": "Skógálfar, Álfabrekka",
     "developer": "Yggdrasill Carbon ehf",
@@ -2580,7 +2580,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 178",
-    "pranCode": "PRAN-78",
+    "pranCode": "PRAN-178",
     "slug": "the-bbb-embrasca-arr-project",
     "name": "The BBB/Embrasca ARR Project",
     "developer": null,
@@ -2611,7 +2611,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 315",
-    "pranCode": "PRAN-79",
+    "pranCode": "PRAN-315",
     "slug": "urstamm-ifim-switzerland",
     "name": "Urstamm IFIM Switzerland",
     "developer": null,
@@ -2642,7 +2642,7 @@ export const projects: Project[] = [
   },
   {
     "id": "ICR 326",
-    "pranCode": "PRAN-80",
+    "pranCode": "PRAN-326",
     "slug": "waste-management-at-multiple-locations-in-india",
     "name": "Waste management at multiple locations in India",
     "developer": null,
@@ -2673,7 +2673,7 @@ export const projects: Project[] = [
   },
   {
     "id": "UCR 487",
-    "pranCode": "PRAN-81",
+    "pranCode": "PRAN-487",
     "slug": "123-88-mw-kp-group-project",
     "name": "123.88 MW KP Group Project",
     "developer": "KP Group (KPI Green Energy / KP Energy)",
@@ -2704,7 +2704,7 @@ export const projects: Project[] = [
   },
   {
     "id": "UCR 455",
-    "pranCode": "PRAN-82",
+    "pranCode": "PRAN-455",
     "slug": "20-5-mw-pipl-heat-to-power",
     "name": "20.5 MW PIPL  Heat to Power",
     "developer": "Panoli Intermediates (India) Pvt. Ltd.",
@@ -2735,7 +2735,7 @@ export const projects: Project[] = [
   },
   {
     "id": "UCR 454",
-    "pranCode": "PRAN-83",
+    "pranCode": "PRAN-454",
     "slug": "4-2-mw-kcil-heat-to-power",
     "name": "4.2 MW KCIL  Heat to Power",
     "developer": null,
@@ -2766,7 +2766,7 @@ export const projects: Project[] = [
   },
   {
     "id": "UCR 451",
-    "pranCode": "PRAN-84",
+    "pranCode": "PRAN-451",
     "slug": "5-5-mw-kcil-pipl-wind-project",
     "name": "5.5 MW KCIL-PIPL Wind Project",
     "developer": "Panoli Intermediates (India) Pvt. Ltd.",
@@ -2797,7 +2797,7 @@ export const projects: Project[] = [
   },
   {
     "id": "UCR 449",
-    "pranCode": "PRAN-85",
+    "pranCode": "PRAN-449",
     "slug": "9-62-mw-pipl-solar-project",
     "name": "9.62 MW PIPL Solar Project",
     "developer": "Panoli Intermediates (India) Pvt. Ltd.",
@@ -3076,6 +3076,44 @@ export const irecListings: IrecListing[] = [
 
 export function getProjects(): Project[] {
   return projects;
+}
+
+/**
+ * I-REC inventory, surfaced for browsing.
+ *
+ * These 27 lines were already in the book but had no route into the UI. They
+ * are energy attribute certificates measured in MWh — NOT carbon credits, and
+ * never expressed in tCO2e. They are presented in their own clearly-labelled
+ * band rather than mixed into the carbon grid, so a buyer can never confuse
+ * the two instruments.
+ *
+ * Codes for the four Nepal lines match the live site, matched on volume.
+ */
+const IREC_LIVE_CODES: Record<number, string> = {
+  11419: "PRAN-2009",
+  38807: "PRAN-2019",
+  12820: "PRAN-2020",
+  42350: "PRAN-2024",
+};
+
+export type IrecEntry = IrecListing & {
+  pranCode: string;
+  /** Display name — the sheet's remark when it names a project, else derived. */
+  label: string;
+};
+
+export function getIrecEntries(): IrecEntry[] {
+  return irecListings.map((l, i) => ({
+    ...l,
+    pranCode:
+      (l.volumeMwh != null && IREC_LIVE_CODES[l.volumeMwh]) ||
+      `PRAN-IREC-${i + 1}`,
+    /* Only treat a remark as a name when it names a plant ("2.4 MW …
+       Project"); tags like "RE100" are attributes, not titles. */
+    label: l.remarks && /\bMW\b|\bProject\b/i.test(l.remarks)
+      ? l.remarks
+      : `${l.tech} I-REC · ${l.country}`,
+  }));
 }
 
 export function getProject(slug: string): Project | undefined {

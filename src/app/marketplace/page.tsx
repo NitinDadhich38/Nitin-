@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getProjects } from "@/lib/marketplace-data";
 import { MarketplaceBrowser } from "@/components/marketplace/marketplace-browser";
+import { IrecBand } from "@/components/marketplace/irec-band";
 
 export const metadata: Metadata = {
   title: "Marketplace",
@@ -23,10 +24,7 @@ export default function MarketplacePage() {
       {/* Compact forest header band (5_Design.md §4.2) */}
       <section className="bg-pran-forest text-white">
         <div className="mx-auto max-w-content px-6 pb-20 pt-16 sm:pb-24">
-          <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-lime">
-            The marketplace
-          </p>
-          <h1 className="mt-4 max-w-[20ch] font-display text-display-l font-semibold text-white">
+          <h1 className="max-w-[20ch] font-display text-display-l font-semibold text-white">
             Verified carbon projects, one transparent market.
           </h1>
           <p className="mt-5 max-w-[62ch] text-lg leading-relaxed text-white/70">
@@ -39,6 +37,9 @@ export default function MarketplacePage() {
 
       {/* Pill tabs overlap the band edge; three-column working layout below */}
       <MarketplaceBrowser projects={projects} priceBounds={priceBounds} />
+
+      {/* Energy attribute certificates — separate instrument, separate band */}
+      <IrecBand />
     </div>
   );
 }
