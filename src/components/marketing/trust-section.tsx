@@ -38,10 +38,7 @@ export function TrustSection() {
       <div className="relative mx-auto max-w-content px-6">
         <div className="max-w-[62ch]">
           <Reveal>
-            <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-lime">
-              Trust &amp; scale
-            </p>
-            <h2 className="mt-5 max-w-[20ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
+            <h2 className="max-w-[20ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
               Backed by registries, not by our word.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-white/70">
@@ -94,10 +91,10 @@ export function TrustSection() {
               </dl>
 
               <Link
-                href="/dashboard"
+                href="/marketplace"
                 className="group mt-8 inline-flex w-fit items-center gap-2 text-sm font-medium text-pran-lime"
               >
-                See the full market dashboard
+                Browse verified projects
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </div>

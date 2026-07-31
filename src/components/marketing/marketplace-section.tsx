@@ -24,10 +24,7 @@ export function MarketplaceSection() {
           {/* Header */}
           <div>
             <Reveal>
-              <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-lime">
-                The marketplace
-              </p>
-              <h2 className="mt-4 max-w-[16ch] font-display text-display-l font-semibold text-white">
+              <h2 className="max-w-[16ch] font-display text-display-l font-semibold text-white">
                 A real, running marketplace — not a promise.
               </h2>
               <p className="mt-6 max-w-[54ch] text-lg leading-relaxed text-white/70">

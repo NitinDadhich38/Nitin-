@@ -27,7 +27,6 @@ export const mainNav: NavGroup[] = [
       { label: "General Public", href: "/solutions/public" },
     ],
   },
-  { label: "Dashboard", href: "/dashboard" },
   {
     label: "Resources",
     children: [
@@ -43,10 +42,11 @@ export const mainNav: NavGroup[] = [
     label: "About",
     children: [
       { label: "Why We Exist", href: "/about" },
-      { label: "Team", href: "/about/team" },
+      { label: "Leadership", href: "/about/team" },
       { label: "Press", href: "/about/press" },
     ],
   },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const footerColumns: { title: string; links: NavLink[] }[] = [
@@ -55,7 +55,6 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     links: [
       { label: "Marketplace", href: "/marketplace" },
       { label: "Carbon Calculator", href: "/calculator" },
-      { label: "Market Dashboard", href: "/dashboard" },
     ],
   },
   {
@@ -74,7 +73,7 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     title: "Company",
     links: [
       { label: "Why We Exist", href: "/about" },
-      { label: "Team", href: "/about/team" },
+      { label: "Leadership", href: "/about/team" },
       { label: "Why Carbon Markets Matter", href: "/why-carbon-markets" },
       { label: "Contact", href: "/contact" },
     ],

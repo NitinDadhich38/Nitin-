@@ -4,7 +4,6 @@ import { MarketplaceSection } from "@/components/marketing/marketplace-section";
 import { WhatWeDo } from "@/components/marketing/what-we-do";
 import { ForWhom } from "@/components/marketing/for-whom";
 import { TrustSection } from "@/components/marketing/trust-section";
-import { LeadershipSection } from "@/components/marketing/leadership-section";
 import { ResourcesSection } from "@/components/marketing/resources-section";
 import { ClosingCta } from "@/components/marketing/closing-cta";
 
@@ -30,9 +29,6 @@ export default function Home() {
       </div>
       <div id="trust">
         <TrustSection />
-      </div>
-      <div id="leadership">
-        <LeadershipSection />
       </div>
       <div id="resources">
         <ResourcesSection />

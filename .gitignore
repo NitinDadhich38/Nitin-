@@ -54,3 +54,4 @@ Thumbs.db
 # Local design-review screenshots (scripts/shot.py)
 .screenshots/
 .chrome-shot-profile/
+.next-export/

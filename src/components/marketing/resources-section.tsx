@@ -33,10 +33,7 @@ export function ResourcesSection() {
       <div className="mx-auto max-w-content px-6">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <Reveal>
-            <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-emerald">
-              Resources
-            </p>
-            <h2 className="mt-4 max-w-[18ch] font-display text-display-l font-semibold text-pran-ink">
+            <h2 className="max-w-[18ch] font-display text-display-l font-semibold text-pran-ink">
               Carbon markets, explained plainly.
             </h2>
           </Reveal>

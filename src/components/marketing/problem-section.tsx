@@ -54,13 +54,8 @@ export function ProblemSection() {
         <div ref={ref} className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* The argument */}
           <div>
-            <Reveal>
-              <p className="text-xs font-medium uppercase tracking-[0.14em] text-pran-lime">
-                The problem
-              </p>
-            </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mt-5 font-display text-[clamp(2.6rem,5.6vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white">
+              <h2 className="font-display text-[clamp(2.6rem,5.6vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white">
                 The world already agreed on the number.
                 <span className="block text-white/50">
                   It just has no way to reach it.
@@ -197,10 +192,7 @@ export function ProblemSection() {
         {/* where it breaks */}
         <Reveal delay={0.1}>
           <div className="mt-16">
-            <p className="text-xs font-medium uppercase tracking-[0.14em] text-white/55">
-              Where it breaks today
-            </p>
-            <ol className="mt-6 grid gap-px overflow-hidden rounded-panel bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            <ol className="grid gap-px overflow-hidden rounded-panel bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
               {frictionPoints.map((f, i) => (
                 <li
                   key={f.stage}

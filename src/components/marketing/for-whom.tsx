@@ -55,10 +55,7 @@ export function ForWhom() {
     <section className="bg-pran-paper py-24 sm:py-32">
       <div className="mx-auto max-w-content px-6">
         <Reveal>
-          <p className="text-xs font-medium uppercase tracking-[0.14em] text-pran-emerald">
-            Built for
-          </p>
-          <h2 className="mt-4 max-w-[20ch] font-display text-display-l font-semibold tracking-[-0.03em] text-pran-ink">
+          <h2 className="max-w-[20ch] font-display text-display-l font-semibold tracking-[-0.03em] text-pran-ink">
             Every side of the carbon economy.
           </h2>
         </Reveal>

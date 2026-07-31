@@ -18,10 +18,7 @@ export function WhatWeDo() {
     <section className="bg-pran-paper-warm py-24 sm:py-32">
       <div className="mx-auto max-w-content px-6">
         <Reveal>
-          <p className="text-xs font-medium uppercase tracking-[0.14em] text-pran-emerald">
-            What we do
-          </p>
-          <h2 className="mt-4 max-w-[18ch] font-display text-display-l font-semibold tracking-[-0.03em] text-pran-ink">
+          <h2 className="max-w-[18ch] font-display text-display-l font-semibold tracking-[-0.03em] text-pran-ink">
             One platform, the whole carbon lifecycle.
           </h2>
           <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-pran-muted">

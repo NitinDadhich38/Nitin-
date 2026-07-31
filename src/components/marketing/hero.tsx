@@ -42,14 +42,7 @@ export function Hero() {
 
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-content px-6 pb-24 sm:pb-28">
-        <p
-          className="hero-rise text-xs font-medium uppercase tracking-[0.18em] text-pran-lime"
-          style={{ animationDelay: "0.5s" }}
-        >
-          Carbon Market Infrastructure
-        </p>
-
-        <h1 className="mt-6 max-w-[15ch] font-display text-[clamp(3rem,8vw,6.6rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-white">
+        <h1 className="max-w-[15ch] font-display text-[clamp(3rem,8vw,6.6rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-white">
           <span className="hero-line">
             <span className="hero-line-in" style={{ animationDelay: "1.3s" }}>
               India&rsquo;s carbon market,
