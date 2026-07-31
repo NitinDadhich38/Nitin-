@@ -288,17 +288,23 @@ function ComplianceBody() {
 function BlogBody() {
   return (
     <>
-      <h2>Notes from the desk</h2>
-      <p>
-        We publish short pieces on market structure, pricing behaviour, and
-        integrity as we observe them across the book — written for people
-        transacting, not for search engines.
-      </p>
+      <div className="!mt-4 rounded-panel border border-dashed border-pran-hairline bg-pran-paper-warm p-10 text-center">
+        <span className="inline-block rounded-[14px] bg-pran-ink px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-white">
+          Coming soon
+        </span>
+        <h2 className="!mt-5 font-display text-h2 font-semibold text-pran-ink">
+          Notes from the desk
+        </h2>
+        <p className="mx-auto !mt-3 max-w-[52ch]">
+          Short pieces on market structure, pricing behaviour, and integrity as
+          we observe them across the book — written for people transacting, not
+          for search engines. The first pieces are being written now.
+        </p>
+      </div>
       <Callout>
-        <strong>First pieces publishing soon.</strong> If there is something
-        specific you want explained — a methodology, a price movement, a
-        compliance deadline — <Link href="/contact">tell us</Link> and we will
-        write it.
+        <strong>Want something specific covered?</strong> A methodology, a price
+        movement, a compliance deadline —{" "}
+        <Link href="/contact">tell us</Link> and we will write it.
       </Callout>
     </>
   );
