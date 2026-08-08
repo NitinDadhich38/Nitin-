@@ -37,8 +37,7 @@ export function LegalNav() {
       </ul>
 
       <p className="mt-6 border-t border-pran-hairline pt-4 text-xs leading-relaxed text-pran-muted">
-        These documents are drafts prepared for legal review and are not yet
-        binding.
+        By using PRAN, you agree to these terms and conditions.
       </p>
     </nav>
   );

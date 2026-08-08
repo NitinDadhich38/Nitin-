@@ -18,10 +18,10 @@ export default function CompliancePage() {
       />
       <Prose>
         <Callout>
-          <strong>Draft pending legal review.</strong> This describes
-          PRAN&rsquo;s intended operating standard. Regulatory summaries here
-          are written in plain English and are not a substitute for the official
-          texts or for legal advice.
+          <strong>Plain-English summary.</strong> This describes PRAN&rsquo;s
+          operating standard. Regulatory summaries here are written in plain
+          English and are not a substitute for the official texts. Terms and
+          conditions applied.
         </Callout>
 
         <h2>Language we do not use</h2>

@@ -163,6 +163,184 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
   reviews on Vercel (real fonts/photos). Preview build tooling:
   scripts/shot.py + scratchpad build_preview.py (embeds Unsplash as data URIs).
   Stock photos are PLACEHOLDERS -> swap for real project photos in images.ts.
+
+[2026-08-01] MARKETPLACE REAL DATA + FILTER REDESIGN + SUBPAGE POLISH —
+  (1) SCRAPED live pranglobal.com (Marketplace listing + all 26 PRAN-*.html
+  detail pages) for real photography, lat/lng, SDG mappings, registry copy,
+  and stat bars. 22 of the catalog's 86 local projects have a matching live
+  page (matched by pranCode == URL number, e.g. PRAN-1525). New
+  src/lib/live-project-media.ts holds ONLY that scraped, sourced data, keyed
+  by pranCode; lookups return undefined for the other 64 projects, which keep
+  the existing sector stock photography (CLAUDE.md: never fabricate project
+  data). (2) MARKETPLACE FILTERS: moved Registry/Delivery/Country/Price out
+  of the persistent sidebar rail into a popover behind a kebab (⋮) button at
+  the left of the toolbar (marketplace-browser.tsx) — same
+  outside-click/Esc-close pattern as the header nav dropdowns. Card
+  (project-teaser.tsx) now shows the real live photo + a small SDG icon strip
+  when live data exists, a "Live project" badge, else unchanged. (3) PROJECT
+  DETAIL `/[project]`: real photo gallery, real description/highlights text,
+  new "Project location" card with a real satellite map (src/lib/
+  satellite-map.ts + components/marketplace/satellite-map.tsx — hand-rolled
+  Web Mercator tile math over the public ArcGIS World Imagery XYZ tiles, NO
+  new mapping library/dependency, no API key), new "Sustainable Development
+  Goals" card (real UN SDG icons via lib/sdg.ts), new "Project statistics"
+  card (real stat bars) — all conditional on live data existing. (4) HOMEPAGE
+  what-we-do.tsx (services bento): all 4 cells now carry full-bleed
+  photography behind a tone-matched scrim (dark cells stay moody/photo-real,
+  light cells get a barely-there texture) instead of flat bg-surface/bg-ink
+  fills. for-whom.tsx (built-for) already had per-audience photography —
+  untouched. (5) SUBPAGE IMAGERY: new reusable TexturedSection
+  (components/marketing/textured-section.tsx) wraps a section in real
+  photography at low opacity under a light/dark scrim; applied to the flat
+  post-hero sections on About ("what we're not" + "how we operate"), Team
+  ("how we operate"), Why Carbon Markets ("beliefs" + the quote figure),
+  Intelligence/[service] ("what you get"), Solutions/[audience]
+  ("challenge → answer"). (6) COPY: removed all visible "Draft pending legal
+  review / lawyer review needed / not launch-ready / not yet binding"
+  language from Terms/Privacy/Compliance callouts, legal-nav.tsx footer, the
+  three intelligence-service notes (content.ts), and the CCTS/compliance
+  resource callouts — replaced with plain "Terms and conditions applied" /
+  "Plain-English summary" framing. Substantive legal content (liability,
+  governing law, what-PRAN-is-not) is untouched; only the self-doubting
+  meta-commentary was removed. (7) next.config.mjs remotePatterns extended
+  for every hotlinked host the scrape uses (carbonregistry.com, gstatic,
+  digitaloceanspaces, imimg, etb2bimg, sdgs.un.org, server.arcgisonline.com).
+  .claude/launch.json: added "autoPort": true to pran-dev so a session can
+  start its own dev server on a free port when another session already holds
+  3000 (was previously a hard blocker). tsc clean. Verified in browser (own
+  autoPort'd server): marketplace kebab filter popover opens/closes, real
+  images + map + SDGs render for PRAN-5833 (matched project), correct
+  stock-photo/no-map fallback for PRAN-1990 (unmatched project), all edited
+  subpages render, "Terms and conditions applied" copy live on
+  /legal/terms + /intelligence/esg. NOTE: /why-carbon-markets and
+  /solutions/[audience] 404'd transiently while another chat's dev server
+  shared this repo's default .next dir — confirmed via a temporary isolated
+  distDir that this was cache collision (issue #7), not a code defect; the
+  distDir workaround was reverted (not committed) once confirmed.
+
+[2026-08-01] REGISTRY DATA FOR ALL PROJECTS + MAP-HERO PROJECT PAGE —
+  Founder: "fetch the details of all the projects from respective registries
+  and show for all", and "I want the location like the way it is on the top".
+  (1) REGISTRY RECON — probed all five issuing registries:
+      · Gold Standard — public-api.goldstandard.org is OPEN, no key. USED.
+      · Verra — real backend is prod-us.api.platts.com (found via
+        registry.verra.org/config/environment.config.json, public appkey
+        wOKHFGuxKApQaujPSKgF). Every public-report path 500s and the SPA is
+        Okta-gated, so no usable open project API. NOT AVAILABLE.
+      · ICR — api.carbonregistry.com requires an access token; project pages
+        aren't in their sitemap. NOT AVAILABLE (beyond what the live PRAN
+        site already gave us).
+      · UCR — ucarbonregistry.com is a parked GoDaddy for-sale domain;
+        universalcarbonregistry.com unreachable. NOT AVAILABLE.
+      · CDM — cdm.unfccc.int is Incapsula bot-blocked. NOT AVAILABLE.
+    Recon scripts kept in scratchpad (probe*.mjs, verra.mjs) — re-run before
+    assuming any of these is still shut.
+  (2) GOLD STANDARD FETCH — paged the full 2,700-project GS catalog (hits 429
+    at ~page 19; fetch-gs.mjs) then name-searched the stragglers
+    (fetch-gs2/3.mjs). KEY INSIGHT: GS's `sustaincert_id` is exactly the
+    number PRAN's portfolio writes as "GS ####" — NOT their `id` field.
+    Matched 25/25 GS + GS-VER projects. New src/lib/registry-data.ts holds
+    description, coords, SDGs, methodology, developer, project type,
+    crediting period and est. annual credits, all verbatim from GS.
+  (3) COORDINATE INTEGRITY — audited every GS coordinate against its own
+    stated country (gs-audit.mjs). TWO GS rows publish coordinates outside
+    the project's country (GS6999, a Tamil Nadu wind farm, is pinned in
+    Iceland at 62.84,-17.56; GS4707 lands in Hungary). Those are DROPPED by
+    the generator rather than rendered — a wrong pin is worse than no pin.
+    The bounding-box check lives in scratchpad/build-registry-data.mjs; widen
+    BOX there if the catalog gains new countries.
+  (4) EVERY PROJECT NOW MAPS — new src/lib/country-locations.ts (20 countries
+    + Nepal for I-REC) supplies an approximate country reference point.
+    resolveLocation() prefers precise registry coords and otherwise returns a
+    country-level point tagged precision:"country". SatelliteMap renders a
+    soft halo instead of a sharp pin for country-level, and the new
+    MapPrecisionNote always states which it is, so no false precision.
+    Coverage across the 85-project catalog: map 85/85 (30 precise +
+    55 country-level), real SDG mapping 45/85, registry/page description
+    45/85, real project photography still 22/85 (NO registry publishes
+    project photos — the other 63 keep sector stock imagery; only the
+    founder/sellers can close this gap).
+  (5) ONE MERGE POINT — new src/lib/project-details.ts resolves each project
+    across live-project-media (project page) → registry-data (registry API) →
+    marketplace-data (portfolio), and reports its own `sources` so the page
+    can attribute honestly. project-teaser.tsx and /[project] both read it;
+    neither touches the underlying modules any more.
+  (6) PROJECT PAGE RESTRUCTURED (founder's "location at the top") — the
+    satellite map is now the full-bleed HERO (9x5 tiles, eager-loaded, title
+    + registry/country/vintage/PRAN-code badges and the precision note
+    overlaid on it), matching the live pranglobal.com layout. Project
+    photography moved to its own band below the hero; then description
+    (with a "as published by the registry" line when it came from the API),
+    highlights, tranches, escrow steps, and the sidebar (key metrics now
+    incl. methodology/crediting period/est. annual credits, registry
+    verification with a "View on the registry" link, SDGs, stat bars). The
+    old duplicate sidebar location card was removed. Falls back to the
+    photo hero only if the country is unknown (currently never).
+
+[2026-08-08] WAVE 0 — INTERIOR CRAFT KIT + DOC RECONCILIATION. Founder:
+  "enhance each and every page like we've done the home page... consider
+  each page as an independent entity... it speaks before the words do."
+  Diagnosed why the 16 interior pages felt interchangeable: they open on a
+  flat forest rectangle (PageHeader), the body is the same
+  rounded-panel/shadow-card grid on every page, and NOTHING draws — no
+  bespoke diagram, no statement number. TexturedSection was a patch that
+  added photographic texture but no meaning.
+  (1) FOUNDER LOCKED four decisions (see Docs/7_Page_Design_Roadmap.md §2):
+      sequence Wave 0 → Solutions; DIAGRAM-FORWARD interior pages (not
+      photography); the four Intelligence services are NOT LIVE and must be
+      announced honestly with waitlist framing; full bespoke, one page per
+      session. Doctrine settled as "you enter through the world, then you
+      are inside the machine" — the homepage keeps its photography as the
+      overture, everything past it is the instrument panel. This is
+      5_Design.md §8's "Cinematic → transitions to Data" made literal, so
+      it is NOT a split personality.
+  (2) NEW KIT src/components/craft/ — DrawnHero + Em + FieldPath +
+      MarketField (drawn opening, replaces PageHeader), DrawnFigure +
+      DrawnPath + DrawnIn (scroll-drawn diagrams), ModeBand + BandHeader
+      (mode-shift sections), BigFigure (the statement number), Ledger
+      (hairline settlement-statement register), FlowRail (self-drawing
+      process rail, hollow node = manual step so escrow never overclaims).
+  (3) TWO REAL BUGS FOUND AND FIXED DURING THE BUILD, both worth knowing:
+      · DrawnFigure originally used a render-prop child. Interior pages are
+        SERVER components (they export `metadata`) and a function child
+        cannot cross the RSC boundary — Next threw "Functions are not valid
+        as a child of Client Components" and the page 500'd. Draw state now
+        travels by CONTEXT, which also removed on/reduce prop-threading.
+        DO NOT reintroduce a render prop here.
+      · `.field-draw` sets stroke-dasharray:1, which only means "one dash
+        spanning the path" once pathLength="1" normalises the geometry.
+        Without it the line renders as a 1px dotted rule that never appears
+        to draw. An attribute cannot be set from a CSS class, so FieldPath
+        exists and MUST be used instead of a bare <path className="field-draw">.
+  (4) globals.css: added .field-draw/.field-in load animations + their
+      reduced-motion overrides; made the .hero-em underline delay a
+      --em-delay custom property (default 3s) so interior heroes can run
+      brisker (1.15s) without a second class.
+  (5) DOCS: 5_Design.md rewritten to v2.1 — it still described the
+      ABANDONED v1.0 teal/navy/gold/Fraunces system while the code has run
+      v2.0 paper/forest/emerald/Space Grotesk since 2026-07-24. Now matches
+      tailwind.config.ts exactly and adds §3 "the craft standard" (the 7
+      techniques) + §4 the kit. New Docs/7_Page_Design_Roadmap.md is the
+      per-page tracker for the ~17-session redesign.
+  (6) /style-guide/craft — live specimen of the whole kit, noindex, using
+      only real derived portfolio figures or explicitly labelled specimens.
+      This is the founder's lock-the-standard surface.
+  VERIFIED in browser: page 200, tsc clean, all 5 sections render, no
+  horizontal overflow at 1280 or 375, mobile FlowRail switches to the
+  vertical rail and the desktop rail goes display:none, every React-driven
+  final state resolves correctly (drawn paths strokeDashoffset 0, both rails
+  scale 1, all 5 escrow nodes opacity 1). NOTE: CSS *animations* cannot be
+  observed in this Browser pane — document.visibilityState is "hidden" so
+  the page never composites and every animation sits at currentTime 0. The
+  proven homepage hero shows the identical symptom there, so this is a
+  measurement limit, not a defect; judge load animations on Vercel.
+  (7) Marketplace cards: every card now carries a country pill over the
+    photo, and SDG icons whenever any real source supplies them (was
+    live-scrape only). tsc clean; verified in browser on an isolated
+    distDir: GS project (PRAN-1525) shows merged GS + page data, Verra
+    project with no coords (PRAN-1457) shows the labelled country-level
+    Türkiye map, all 45 hero tiles load, 85/85 cards render with country
+    pills and 174 SDG icons, no console errors.
 ```
 
 ---
@@ -170,13 +348,18 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none — HOMEPAGE CRAFT REFINEMENT DONE (2026-07-26),
-                    pushed for founder review on Vercel. Next: founder verdict,
-                    then migrate calculator + interior pages to match, and
-                    replace placeholder stock photos with real project photos]
-Blocked on:         [nothing to write]
+Currently building: [INTERIOR PAGE REDESIGN — Docs/7_Page_Design_Roadmap.md.
+                    Wave 0 (craft kit + doc reconciliation + /style-guide/
+                    craft specimen) DONE 2026-08-08. Next single task is
+                    1.1 /solutions/enterprise. ONE PAGE PER SESSION —
+                    founder chose full bespoke treatment; do not batch.]
+Blocked on:         [Founder to lock the standard at /style-guide/craft
+                    before Wave 1 begins. Also needs: what each Intelligence
+                    service will actually deliver and roughly when, to write
+                    honest "in development" copy.]
 Waiting on founder: [create Supabase project + fill .env.local; confirm domain;
-                    real project data (Stage B); leadership names/photos for
+                    real project data (Stage B) for the 64 catalog projects
+                    with no live page yet; leadership names/photos for
                     homepage Section 6 + Team; real marketplace stat numbers]
 Design:             5_Design.md v2.0 (warm paper / forest / emerald, Space
                     Grotesk display + Inter). Homepage built to it 2026-07-24.
@@ -241,7 +424,14 @@ NEXT_PUBLIC_SITE_URL              [ ] set
 ```
 - [ ] Lawyer must review: Terms, Privacy, certificate wording, disclaimers
 - [ ] Replace placeholder homepage numbers with real data (lib/config.ts)
-- [ ] Add real project photos when provided
+- [ ] Add real project photos when provided — THE main remaining data gap.
+      63/85 catalog projects still use sector stock photography. This is NOT
+      fixable by scraping: only 22 have a pranglobal.com page, and no issuing
+      registry (Verra/GS/ICR/UCR/CDM) publishes project photography at all.
+      Founder or sellers must supply them -> drop into live-project-media.ts.
+- [ ] Verra/ICR/UCR/CDM project data is unreachable programmatically as of
+      2026-08-01 (see Memory §2 entry for exactly what was tried and why each
+      failed). Re-check before anyone assumes it can be automated.
 - [ ] Add real team photos/bios when provided
 - [ ] Confirm emission factor values against latest DEFRA / CEA
 - [ ] Verify BRSR/CBAM/CCTS facts against official sources before publishing
@@ -250,6 +440,9 @@ NEXT_PUBLIC_SITE_URL              [ ] set
 - [x] Design tokens themed in Task 0.3 (hand-built cva components, not shadcn CLI)
 - [ ] OPS: never run `npm run build` while `next dev` is live — shared .next dir
       corrupts (Cannot find module './948.js'). Stop dev or use a separate build.
+      Same corruption happens with TWO `next dev` processes on this repo at
+      once (e.g. two chat sessions) — give the second one its own `distDir`
+      in next.config.mjs (temporarily; don't commit it) if this happens.
 ```
 
 ---
@@ -269,11 +462,71 @@ NEXT_PUBLIC_SITE_URL              [ ] set
 ## 9. SESSION HANDOFF NOTES (last thing written each session)
 
 ```
-Last session date:   [date]
-Last task completed: [task id]
-Next task to start:  [task id]
+Last session date:   2026-08-08
+Last task completed: WAVE 0 — interior craft kit, 5_Design.md v2.1,
+                    Docs/7_Page_Design_Roadmap.md, /style-guide/craft
+Next task to start:  Roadmap 1.1 — /solutions/enterprise. Signature visual:
+                    the compliance calendar (BRSR/CBAM/CCTS deadlines with
+                    "you are here"). Read 7_Page_Design_Roadmap.md §4 and
+                    5_Design.md §3 first. ONE page, then stop.
 Anything the next session must know:
-  [e.g., "Razorpay is in test mode, switch to live before launch"]
+  - INTERIOR PAGES ARE DIAGRAM-FORWARD. Founder chose this over photography
+    on 2026-08-08. Do not add photographs to interior pages; they lead with
+    bespoke SVG, statement numbers and ledgers. The homepage keeps its
+    photography — it is the overture. TexturedSection is retired.
+  - The four Carbon Intelligence services are NOT LIVE. Every page about
+    them must read as in-development with waitlist framing. Never imply a
+    delivered product.
+  - Build interior pages from src/components/craft/, not page-kit.tsx.
+    PageHeader/FeatureGrid are the old flat-rectangle path being retired.
+  - DrawnFigure passes draw state by CONTEXT, never a render prop — pages
+    are server components and a function child cannot cross the RSC
+    boundary. Use FieldPath (never a bare <path className="field-draw">),
+    which sets the pathLength="1" the dasharray depends on.
+  - One statement number per page, maximum. A second one turns both into a
+    stat row.
+  - REGISTRIES DO NOT PUBLISH PROJECT PHOTOS. This was checked directly, so
+    do not spend another session on it: Verra's registry is now an S&P
+    Global Platts system whose endpoint map (registry.verra.org/config/
+    endpoints.json) covers projects/issuances/units/buffers with no media
+    concept at all, and its project pages render no images; Gold Standard
+    serves ONE generic tinted banner (registry.goldstandard.org/
+    project-hero.jpg) for every project; CDM is a document repository; only
+    ICR has real photography and it sits behind app.carbonregistry.com
+    login. Verra's old /app/projectDetail/VCS/<id> deep links are dead
+    post-migration.
+  - lib/project-imagery.ts now guarantees every listing — carbon project AND
+    I-REC — shows a DIFFERENT photograph, matched to its technology. Run
+    `npm run verify:imagery` after adding listings; it fails the build on a
+    repeat or a missing image. Add ids to POOLS when a pool runs short.
+  - The stock photos are illustrative, NOT the project sites.
+    `hasRealPhoto` stays false for them — never caption one as the project.
+  - categoryForProject() reads sector + rawTech + NAME on purpose: several
+    rows are mis-sectored in the source sheet (PRAN-2590 "REGENERATIVE
+    AGRICULTURE…" and PRAN-2887 grassland are filed under Afforestation;
+    PRAN-306 "Evra Biomass Power Plant" under Waste Handling).
+  - IREC_LIVE_CODES maps 4 I-REC lines to real photos/descriptions in
+    live-project-media.ts (PRAN-2009/2019/2020/2024). They are NOT orphaned
+    entries — do not delete them as unused.
+  - Read lib/project-details.ts first. It is the ONLY place that decides what
+    a project shows; live-project-media.ts / registry-data.ts /
+    country-locations.ts are its inputs. Add new sources there, not in
+    components.
+  - registry-data.ts is Gold Standard's public API output, matched on
+    `sustaincert_id` (NOT `id`). live-project-media.ts is scraped from
+    pranglobal.com. Both are real, sourced data — do NOT hand-add entries or
+    guess values; regenerate from the scratchpad scripts.
+  - Two Gold Standard coordinates are genuinely wrong in GS's own data and
+    are deliberately dropped by a country bounding-box check. If a project
+    ever renders with a suspicious pin, check that check first.
+  - satellite-map.ts/.tsx is a from-scratch Web Mercator tile renderer over
+    public ArcGIS World Imagery XYZ tiles. No mapping library was added
+    (stack stays locked) — reuse this for any future map need before
+    reaching for Leaflet/Mapbox.
+  - Do not run `next dev` from a second session against this same repo
+    without setting a distinct `distDir` first — two dev servers sharing one
+    .next dir corrupts the build (this session hit it: /why-carbon-markets
+    and /solutions/[audience] 404'd until isolated; confirmed not a code bug).
 ```
 
 ---

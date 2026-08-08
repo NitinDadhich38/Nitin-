@@ -1,136 +1,208 @@
-# Design.md — Visual Design System
+# Design.md — Visual Design System (v2.1)
 ### Project: PRAN | Phase 1 Build
-### Colors, theme, fonts, typography, motion. The AI follows this exactly.
+### The visual contract. Match it exactly.
+
+> **v2.1 — 2026-08-08.** Reconciles this doc with what the code has actually
+> shipped since 2026-07-24 (this file still described the abandoned v1.0
+> teal/navy/gold system), and adds **§3, the craft standard** — the techniques
+> that make the homepage work, written down so every interior page inherits them
+> instead of re-inventing them. Palette and type are unchanged from v2.0.
 
 ---
 
 ## 0. HOW THE AI MUST USE THIS FILE
 
 ```
-This is the single source of truth for how PRAN looks. Set all of this up
-as CSS variables and Tailwind config tokens. Never introduce a color,
-font, or component style not defined here. When unsure, match the closest
-existing element.
+This is the single source of truth for how PRAN looks. All of it lives as
+Tailwind tokens (tailwind.config.ts) and CSS variables (src/app/globals.css).
+Never introduce a color, font, radius or shadow not defined here.
+
+Before redesigning any page, read §3 (the craft standard) and §4 (the kit),
+then the page's row in 7_Page_Design_Roadmap.md.
 ```
 
 ---
 
-## 1. THE POSITIONING (Why the Design Is What It Is)
+## 1. THE POSITIONING (why the design is what it is)
 
 ```
 PRAN is financial infrastructure for carbon, not a "green" brand.
-Design language: numbers over adjectives, market depth over leaf icons,
-Bloomberg/Zerodha seriousness — not eco-startup cliché.
+Numbers over adjectives. Market depth over leaf icons. Bloomberg/Zerodha
+seriousness, not eco-startup cliche.
 
-The site shifts mood by section, intentionally:
-- Cinematic moments  → dark, filmic (the "Apple keynote" register)
-- Data moments       → cool, dense, teal (the "Bloomberg" register)
-- Trust moments      → navy + gold, institutional (the "Reliance" register)
+THE DOCTRINE (v2.1):
+  You enter through the world, then you are inside the machine.
+
+  The HOMEPAGE is the overture. It is the one cinematic moment and the one
+  place photography carries the argument: full-bleed forest, filmic push-in,
+  grain, kinetic type.
+
+  EVERY INTERIOR PAGE is the instrument panel. Diagram-forward — bespoke SVG,
+  statement numbers, ledgers, typography. Not photography.
+
+  This is not a contradiction; it is the §8 mode map made literal. A trading
+  terminal does not run forest photography, and neither does PRAN past the
+  front door.
 ```
 
 ---
 
-## 2. COLOR SYSTEM
+## 2. TOKENS
+
+### 2.1 Color (`tailwind.config.ts` → `colors.pran`)
 
 ```
-CINEMATIC MODE (homepage opening, mission statements)
-  --bg-cinematic:      #0A0A0A   near-black
-  --text-cinematic:    #FFFFFF   white
-  Used for: 3D globe hero, large mission statements
+CORE
+  paper         #FAF8F4   page background — warm, never pure white
+  paper-warm    #F5F1EA   alternating section background
+  surface       #FFFFFF   cards floating on paper
+  ink           #0E1211   primary text; ALSO the cinematic ground
+  muted         #5F6B66   secondary text
+  hairline      #E6E1D8   borders and rules (alias: border)
+  forest        #0F3D2E   dark sections, footer, institutional moments
+  forest-deep   #0A2A20   darker layer / hover
+  emerald       #16A34A   primary action
+  emerald-hover #15803D
+  lime          #D9F99D   rare highlight — the signal color
+  clay          #C97A4A   warm data accent (second series in charts)
+  green         #12A33A   brand logo emblem — FIXED, never restyled
 
-DATA MODE (marketplace, dashboard, calculator, intelligence)
-  --bg-data:           #FFFFFF   white
-  --primary-teal:      #0F5F5C   deep teal-green (primary working color)
-  --primary-teal-dark: #0A403E   hover/active
-  --text-data:         #0F1A1A   near-black text on white
-  --muted:             #5B6B6A   secondary text
-  --border:            #E2E8E7   subtle borders
-  Used for: all product surfaces, tables, filters, charts
+STATUS
+  success #15803D   pending #B45309   danger #B42318   info #1D4ED8
 
-TRUST MODE (team, why we exist, primary CTAs)
-  --navy:              #0A1F44   deep navy
-  --gold:              #C9A227   gold accent
-  --text-on-navy:      #FFFFFF
-  GOLD RULE: gold is ONLY for primary buttons and key numbers.
-  Never decorative. It must always signal "this matters."
+LIME RULE (inherits v1.0's gold rule)
+  Lime is a SIGNAL, never decoration. Statement numbers, the drawn
+  underline, active states. If it appears three times on a screen it has
+  stopped signalling anything.
 
-STATUS COLORS (badges, order/project states)
-  --success:  #1E7A46   green   (ACTIVE, COMPLETED, VERIFIED)
-  --pending:  #B7791F   amber   (PENDING, AWAITING, PAYMENT_PENDING)
-  --danger:   #B42318   red     (REJECTED, FAILED, CANCELLED)
-  --info:     #1F6FB2   blue    (INITIATED, PROCESSING)
+LEGACY ALIASES
+  teal/teal-dark/navy/gold are REPOINTED to the v2.0 palette so any
+  un-migrated page inherits the right look. Never use them in new work.
 ```
 
----
-
-## 3. TYPOGRAPHY
+### 2.2 Type
 
 ```
-HERO / STATEMENT TYPE (the "Growth is Life" register)
-  Font: an editorial serif or high-contrast display sans.
-  Recommended: "Fraunces" (serif) or "Clash Display" (display sans).
-  Use for: homepage beats, section headlines, mission statements.
-  Weight: 500-700. Large sizes. Generous line-height.
+DISPLAY   Space Grotesk   via next/font  (--font-display)
+BODY      Inter           via next/font  (--font-sans)
+Never load fonts via <link> or CDN.
 
-DATA / BODY TYPE (the Bloomberg register)
-  Font: a clean grotesk.
-  Recommended: "Inter" or "Geist".
-  Use for: all body text, tables, filters, forms, data, buttons.
-  Weight: 400 body, 500-600 emphasis.
+SCALE (tailwind fontSize)
+  display-xl  clamp(2.5rem, 7vw, 5.5rem)     homepage beats
+  display-l   clamp(2.25rem, 5vw, 3.75rem)
+  h2          clamp(1.75rem, 3vw, 2.5rem)
+  h3          1.375rem
+  body        1rem minimum — never smaller for body copy
 
-SETUP: load both via next/font. Never load fonts via <link> or CDN.
+  Interior hero: clamp(2.4rem, 5.6vw, 4.6rem). Deliberately below the
+  homepage — an interior headline shares the screen with its own diagram.
 
-TYPE SCALE (suggested, adjust in the style guide)
-  Display:  clamp(2.5rem, 6vw, 5rem)     hero statements
-  H1:       clamp(2rem, 4vw, 3.25rem)
-  H2:       clamp(1.5rem, 3vw, 2.25rem)
-  H3:       1.25rem
-  Body:     1rem  (16px min — never smaller for body)
-  Small:    0.875rem
-  Numbers (stat cards): use the display/serif for large figures to feel
-  "financial," with a monospace-tabular feel for aligned data tables.
+  Statement numbers: display font, tabular-nums, tracking -0.045em.
 ```
 
----
-
-## 4. COMPONENTS
+### 2.3 Radius / shadow / layout
 
 ```
-BUTTONS
-  Primary:    gold background (#C9A227), navy or black text, subtle
-              hover darken. Used for the ONE main action per screen.
-  Secondary:  teal outline or teal fill depending on context, white text.
-  Ghost:      transparent, teal text, for tertiary actions.
-  Radius:     8px consistently. Never mix radii.
-
-CARDS
-  White background, --border, 12px radius, soft shadow on hover only.
-  Stat cards (Bloomberg-style): NO icons. Large number + label. The
-  number uses the display font; the label uses the grotesk, muted.
-
-BADGES / STATUS CHIPS
-  Small, rounded-full, status color background at ~12% opacity with the
-  status color text. One badge component used everywhere.
-
-INPUTS / FORMS
-  Clean, --border, teal focus ring, 8px radius. Clear labels above.
-  Error text in --danger below the field. One form-field component reused.
-
-TABLES (marketplace, admin)
-  Dense but readable. Zebra rows optional and subtle. Tabular-aligned
-  numbers. Sticky header on scroll.
+RADIUS   btn 12  ·  card 16  ·  panel 24  ·  hero 32.  Never mix others.
+SHADOW   card / float / lift — all brand-tinted with forest (10,42,32),
+         never flat gray. Ledgers and rules carry NO shadow.
+WIDTH    max-w-content = 1200px, centered, 1.5rem gutters.
+RHYTHM   ModeBand sizes: sm 14/16 · md 20/24 · lg 24/32 · xl 32/40.
+         Never arbitrary vertical padding.
 ```
 
 ---
 
-## 5. LAYOUT
+## 3. THE CRAFT STANDARD  ← the heart of v2.1
+
+These seven techniques are why the homepage works. They are the definition of
+"impact" on this site. Every interior page uses them.
 
 ```
-  Max content width: 1280px, centered, with responsive gutters.
-  Marketplace uses a wider working area (three-panel).
-  Consistent vertical rhythm — use a spacing scale (4, 8, 12, 16, 24,
-  32, 48, 64, 96). Never arbitrary pixel values.
-  Generous whitespace at trust/mission moments; denser at data moments.
+1. THE OPENING IS AN IMAGE, NOT A RECTANGLE
+   A page never opens on a colored band with a heading in it. The homepage
+   opens on a photograph; interior pages open on a DRAWN FIELD — geometry
+   specific to that page's argument, behind the headline.
+
+2. KINETIC TYPOGRAPHY
+   The headline reveals line-by-line from behind a mask. One phrase gets the
+   emphasis treatment: lime, with an underline that draws itself.
+   (.hero-line / .hero-line-in / .hero-em in globals.css)
+
+3. ONE STATEMENT NUMBER PER PAGE
+   One enormous figure, set as a physical object, that makes the argument
+   before it is read (the homepage's glowing 24 Gt). AT MOST ONE per page —
+   a second turns both into a stat row, which is a weaker component.
+   Glow only in dark modes; on paper it reads as a smudge.
+
+4. BESPOKE GEOMETRY, NEVER A CHART LIBRARY
+   Diagrams are hand-built SVG that draw themselves on scroll. PRAN plots
+   only endpoints somebody published; a chart library will happily
+   interpolate a curve nobody did. Anything carrying real numbers carries
+   its source line.
+
+5. ALTERNATE THE REGISTER
+   Scrolling should feel like walking room to room: cinematic → paper →
+   forest. Never run three sections of the same mode in a row.
+
+6. SEQUENCES MOVE
+   Escrow is the product and escrow is movement. A process is a rail that
+   draws itself, not numbered boxes. Hollow nodes mark manual steps, so the
+   diagram never overclaims what PRAN automates.
+
+7. FACTS BELONG IN A LEDGER
+   Rounded cards with soft shadows are the register of a SaaS landing page.
+   Hairlines and right-aligned tabular figures are the register of a
+   settlement statement — which is what PRAN actually produces.
+```
+
+**The test for any page:** one signature visual, one sentence, one action. If
+the signature visual could move to another page unnoticed, it is decoration —
+cut it and start again.
+
+---
+
+## 4. THE INTERIOR KIT (`src/components/craft/`)
+
+```
+DrawnHero      Full-bleed drawn opening + kinetic headline. Replaces
+               PageHeader. `field` takes the page's bespoke SVG.
+               `underChrome={false}` on chrome-free pages.
+Em             The emphasis word with the self-drawing underline.
+FieldPath      A stroke inside a hero field. ALWAYS use this over a bare
+               <path className="field-draw"> — it sets pathLength={1},
+               without which the dasharray renders a 1px dotted rule.
+
+DrawnFigure    Scroll-drawn figure: in-view trigger, reduced motion, source
+               line. Draw state travels by CONTEXT — interior pages are
+               server components and a render-prop child cannot cross the
+               server/client boundary.
+DrawnPath      A stroke that draws itself.
+DrawnIn        A group that lands after its line has drawn.
+
+ModeBand       Section wrapper: cinematic | forest | data | warm.
+BandHeader     Section opener sized for interior pages.
+BigFigure      The statement number (technique 3).
+Ledger         Hairline data block (technique 7).
+FlowRail       Self-drawing process rail (technique 6).
+```
+
+Live specimen: **`/style-guide/craft`**. Tokens and base components:
+`/style-guide`.
+
+---
+
+## 5. COMPONENTS
+
+```
+BUTTONS   Primary emerald fill · outline · dark. Radius 12. One primary
+          action per screen.
+CARDS     surface on paper, radius 16, shadow-card; float on hover only.
+          Use a Ledger instead wherever the content is really facts.
+BADGES    rounded-full, status color at ~12% with status color text.
+INPUTS    hairline border, emerald focus ring, radius 12, labels above,
+          danger text below.
+TABLES    Dense, tabular-aligned numbers, sticky header, subtle zebra.
 ```
 
 ---
@@ -138,15 +210,19 @@ TABLES (marketplace, admin)
 ## 6. MOTION
 
 ```
-  The homepage opening (3D globe) is the ONE place for full authored
-  animation. Everywhere else, motion is restrained:
-  - Scroll-reveals: subtle fade + 12px rise, ~400ms, ease-out.
-  - Counters: numbers tick up when they scroll into view.
-  - Charts: gentle draw-in, once.
-  - Hover: subtle, fast (150ms). No bouncing, no spinning, no parallax
-    overload.
-  Use Framer Motion. Respect prefers-reduced-motion (disable animations
-  for users who request it).
+Homepage opening is the ONE place for full authored animation.
+Everywhere else motion is restrained:
+  - Scroll reveals: fade + 12-16px rise, ~400-500ms, ease-out, once.
+  - Diagrams: draw in once, on entry.
+  - Hover: 150ms, subtle. No bounce, no spin, no parallax.
+
+TWO HARD RULES
+  1. Respect prefers-reduced-motion — snap to the final visible state.
+  2. Content must NEVER strand hidden. Above-the-fold entrances are CSS
+     load animations (no IntersectionObserver). Scroll-triggered reveals go
+     through useInViewOnce, which layers four triggers including an
+     unconditional timer, because a missed trigger degrades to an invisible
+     page, not to "no animation".
 ```
 
 ---
@@ -154,11 +230,16 @@ TABLES (marketplace, admin)
 ## 7. IMAGERY
 
 ```
-  Real project sites and real people (farmers, developers, project areas)
-  — NOT stock leaf/globe icon sets.
-  Until real photos are provided: styled dark-gradient placeholder blocks
-  with a small label (e.g., "Project site — [Location]"). NEVER blank grey.
-  Optimize all images through next/image.
+DIAGRAM-FORWARD (v2.1). Interior pages lead with drawn geometry, statement
+numbers and typography — not photography.
+
+Photography is reserved for:
+  - the homepage (the overture),
+  - real project sites on marketplace and project pages.
+
+Never stock leaf/globe icon sets. Stock photography is ILLUSTRATIVE and must
+never be captioned as a project site (`hasRealPhoto` stays false).
+All images through next/image.
 ```
 
 ---
@@ -166,30 +247,36 @@ TABLES (marketplace, admin)
 ## 8. MODE-BY-PAGE MAP
 
 ```
-PAGE                          MODE
-────────────────────────────  ──────────────────────────────
-Homepage opening              Cinematic
-Homepage mission sections     Cinematic → transitions to Data
-Marketplace                   Data (teal)
-Carbon Market Dashboard       Data (teal)
-Calculator                    Data (teal), Personal side warmer/friendlier
-Carbon Intelligence pages     Data (teal)
-Solutions - General Public    Consumer-fintech (lighter, friendlier)
-Team / Why We Exist / CTAs    Trust (navy + gold)
-Admin panel                   Data (teal), utilitarian
+PAGE                        OPENING      BODY
+─────────────────────────  ───────────  ──────────────────────────
+/ (homepage)                Cinematic    photography → data → forest
+/why-carbon-markets         Cinematic    the most cinematic interior page
+/about                      Cinematic    → data
+/solutions/enterprise       Cinematic    → data
+/solutions/developers       Cinematic    → data
+/solutions/government       Forest       → data
+/solutions/public           Warm         consumer-fintech, lighter
+/intelligence + /[service]  Cinematic    → data
+/calculator                 Data         personal side warmer
+/marketplace, /[project]    Data         dense, working surfaces
+/resources/*                Data         editorial reading
+/contact                    Data         routed desk
+/legal/*                    Data         editorial legal, plain-English
+/admin                      Data         utilitarian
 ```
 
 ---
 
-## 9. THE STYLE GUIDE PAGE
+## 9. THE STYLE GUIDE PAGES
 
 ```
-Build a /style-guide page (internal) showing EVERY token: all colors,
-all text styles, all button variants, badges, cards, inputs, a sample
-stat card, a sample table row. The founder reviews this ONCE to lock the
-look before real pages are built. This is the visual contract.
+/style-guide        tokens, buttons, badges, cards, inputs (internal, noindex)
+/style-guide/craft  the craft standard, live (internal, noindex)
+
+The founder reviews /style-guide/craft ONCE to lock the interior standard
+before the remaining page templates are built from it.
 ```
 
 ---
 
-*Design.md — PRAN Phase 1 | The visual contract. Match it exactly.*
+*Design.md v2.1 — PRAN Phase 1. Supersedes v2.0 and the abandoned v1.0.*

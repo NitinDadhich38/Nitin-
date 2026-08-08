@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Check, ArrowRight, ArrowUpRight, Info } from "lucide-react";
 import { CtaBand } from "@/components/marketing/page-kit";
 import { Reveal } from "@/components/marketing/reveal";
+import { TexturedSection } from "@/components/marketing/textured-section";
 import { services, getService } from "@/lib/content";
 import { photos } from "@/lib/images";
 import { buttonVariants } from "@/components/ui/button";
@@ -31,6 +32,14 @@ const heroPhoto: Record<string, string> = {
   cbam: photos.farmland,
 };
 
+/** A second, distinct photo for the "What you get" band further down. */
+const secondaryPhoto: Record<string, string> = {
+  procurement: photos.wind,
+  esg: photos.greenHills,
+  brsr: photos.leaves,
+  cbam: photos.solar,
+};
+
 export default function ServicePage({
   params,
 }: {
@@ -40,6 +49,7 @@ export default function ServicePage({
   if (!s) notFound();
 
   const photo = heroPhoto[s.slug] ?? photos.forestMist;
+  const photo2 = secondaryPhoto[s.slug] ?? photos.leaves;
   const others = services.filter((x) => x.slug !== s.slug);
 
   return (
@@ -105,7 +115,11 @@ export default function ServicePage({
       </section>
 
       {/* What you get */}
-      <section className="border-t border-pran-hairline bg-pran-paper-warm py-20">
+      <TexturedSection
+        photo={photo2}
+        tone="light"
+        className="border-t border-pran-hairline py-20"
+      >
         <div className="mx-auto max-w-content px-6">
           <Reveal>
             <h2 className="max-w-[20ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
@@ -137,7 +151,7 @@ export default function ServicePage({
             </div>
           </Reveal>
         </div>
-      </section>
+      </TexturedSection>
 
       {/* Other services */}
       <section className="py-20">

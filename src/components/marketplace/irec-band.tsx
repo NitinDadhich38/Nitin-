@@ -1,15 +1,17 @@
-import { Zap, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { Reveal } from "@/components/marketing/reveal";
-import { countryFlag } from "@/lib/sectors";
 import { getIrecEntries } from "@/lib/marketplace-data";
+import { IrecCard } from "@/components/marketplace/irec-card";
 
 /**
  * I-REC band.
  *
- * Energy attribute certificates, kept visually and verbally separate from the
- * carbon grid above. Volumes are MWh and are never converted to tCO2e — an
- * I-REC evidences renewable generation, it does not represent an emission
- * reduction, and conflating the two is exactly the claim we refuse to make.
+ * Energy attribute certificates, presented as the same card grid as the
+ * carbon book above so the two read as one marketplace — but kept verbally
+ * and numerically separate. Volumes are MWh and are never converted to
+ * tCO2e: an I-REC evidences renewable generation, it does not represent an
+ * emission reduction, and conflating the two is exactly the claim we refuse
+ * to make. Each card opens a prefilled purchase request.
  */
 export function IrecBand() {
   const entries = getIrecEntries();
@@ -46,76 +48,9 @@ export function IrecBand() {
           </div>
         </Reveal>
 
-        <div className="mt-10 overflow-x-auto rounded-panel bg-pran-surface shadow-card">
-          <table className="w-full min-w-[720px] text-sm">
-            <thead>
-              <tr className="border-b border-pran-hairline">
-                {[
-                  "Listing",
-                  "Country",
-                  "Technology",
-                  "Vintage",
-                  "Volume (MWh)",
-                  "Delivery",
-                  "Price",
-                ].map((h, i) => (
-                  <th
-                    key={h}
-                    className={`px-5 py-3.5 text-[11px] font-medium uppercase tracking-[0.08em] text-pran-muted ${
-                      i >= 4 ? "text-right" : "text-left"
-                    }`}
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {entries.map((e) => (
-                <tr
-                  key={e.pranCode}
-                  className="border-b border-pran-hairline transition-colors last:border-b-0 hover:bg-pran-paper-warm"
-                >
-                  <td className="px-5 py-3.5">
-                    <span className="flex items-center gap-2 font-medium text-pran-ink">
-                      <Zap className="h-3.5 w-3.5 shrink-0 text-pran-emerald" />
-                      {e.label}
-                    </span>
-                    <span className="mt-0.5 flex items-center gap-2">
-                      <span className="font-mono text-[11px] text-pran-muted">
-                        {e.pranCode}
-                      </span>
-                      {e.remarks && e.remarks !== e.label && (
-                        <span className="rounded bg-pran-emerald/10 px-1.5 py-0.5 text-[10px] font-medium text-pran-emerald-hover">
-                          {e.remarks}
-                        </span>
-                      )}
-                    </span>
-                  </td>
-                  <td className="px-5 py-3.5 text-pran-ink">
-                    <span aria-hidden>{countryFlag(e.country)}</span>{" "}
-                    {e.country}
-                  </td>
-                  <td className="px-5 py-3.5 text-pran-muted">{e.tech}</td>
-                  <td className="px-5 py-3.5 tabular-nums text-pran-ink">
-                    {e.vintage}
-                  </td>
-                  <td className="px-5 py-3.5 text-right tabular-nums text-pran-ink">
-                    {e.volumeMwh ? e.volumeMwh.toLocaleString("en-US") : "—"}
-                  </td>
-                  <td className="px-5 py-3.5 text-right text-pran-muted">
-                    {e.delivery ?? "—"}
-                  </td>
-                  <td className="px-5 py-3.5 text-right font-medium tabular-nums text-pran-ink">
-                    {e.priceUsd != null ? `$${e.priceUsd.toFixed(2)}` : "On request"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="mt-6 flex items-start gap-3 rounded-card bg-pran-surface p-5">
+        {/* The separation note sits above the grid, not below it, so the
+            distinction is read before the listings rather than after. */}
+        <div className="mt-8 flex items-start gap-3 rounded-card bg-pran-surface p-5">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-pran-muted" />
           <p className="max-w-[86ch] text-sm leading-relaxed text-pran-muted">
             An I-REC evidences that one megawatt-hour of renewable electricity
@@ -123,6 +58,12 @@ export function IrecBand() {
             emission reduction — the two are reported separately and must not be
             added together.
           </p>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {entries.map((e) => (
+            <IrecCard key={e.pranCode} entry={e} />
+          ))}
         </div>
       </div>
     </section>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/marketing/page-kit";
 import { Reveal } from "@/components/marketing/reveal";
+import { TexturedSection } from "@/components/marketing/textured-section";
 import { photos } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -60,41 +61,54 @@ export default function WhyCarbonMarketsPage() {
         </div>
       </section>
 
-      {/* Beliefs — numbered editorial rows */}
-      <section className="mx-auto max-w-content px-6 py-20 sm:py-24">
-        <div className="space-y-px overflow-hidden rounded-panel bg-pran-hairline">
-          {beliefs.map((b, i) => (
-            <Reveal key={b.h} delay={i * 0.05}>
-              <div className="grid gap-4 bg-pran-surface p-8 sm:grid-cols-[auto_1fr_1.3fr] sm:items-start sm:gap-10 sm:p-10">
-                <span className="font-display text-sm font-semibold tabular-nums text-pran-emerald">
-                  0{i + 1}
-                </span>
-                <h2 className="font-display text-h2 font-semibold leading-tight tracking-[-0.02em] text-pran-ink">
-                  {b.h}
-                </h2>
-                <p className="text-[17px] leading-relaxed text-pran-muted">
-                  {b.p}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+      {/* Beliefs — numbered editorial rows over real photography */}
+      <TexturedSection photo={photos.greenHills} tone="light" className="py-20 sm:py-24">
+        <div className="mx-auto max-w-content px-6">
+          <div className="space-y-px overflow-hidden rounded-panel bg-pran-hairline">
+            {beliefs.map((b, i) => (
+              <Reveal key={b.h} delay={i * 0.05}>
+                <div className="grid gap-4 bg-pran-surface p-8 sm:grid-cols-[auto_1fr_1.3fr] sm:items-start sm:gap-10 sm:p-10">
+                  <span className="font-display text-sm font-semibold tabular-nums text-pran-emerald">
+                    0{i + 1}
+                  </span>
+                  <h2 className="font-display text-h2 font-semibold leading-tight tracking-[-0.02em] text-pran-ink">
+                    {b.h}
+                  </h2>
+                  <p className="text-[17px] leading-relaxed text-pran-muted">
+                    {b.p}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
 
-        {/* The claim rule, quoted as the standard it is */}
-        <Reveal delay={0.1}>
-          <figure className="mt-14 rounded-panel bg-pran-forest p-10 text-white sm:p-14">
-            <blockquote className="max-w-[46ch] font-display text-[clamp(1.5rem,3vw,2.1rem)] font-semibold leading-snug tracking-[-0.02em]">
-              &ldquo;Purchased and retired X&nbsp;tCO₂e of verified carbon
-              credits for this period.&rdquo;
-            </blockquote>
-            <figcaption className="mt-6 max-w-[56ch] leading-relaxed text-white/60">
-              This is the only claim PRAN puts on a certificate. It is a
-              statement of what happened, not a statement about your net
-              position — which is precisely why it holds up.
-            </figcaption>
-          </figure>
-        </Reveal>
-      </section>
+          {/* The claim rule, quoted as the standard it is */}
+          <Reveal delay={0.1}>
+            <figure className="relative mt-14 overflow-hidden rounded-panel bg-pran-forest p-10 text-white sm:p-14">
+              <Image
+                src={photos.forestMist}
+                alt=""
+                fill
+                sizes="(max-width:1024px) 100vw, 1200px"
+                className="object-cover opacity-20"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/75"
+              />
+              <blockquote className="relative z-10 max-w-[46ch] font-display text-[clamp(1.5rem,3vw,2.1rem)] font-semibold leading-snug tracking-[-0.02em]">
+                &ldquo;Purchased and retired X&nbsp;tCO₂e of verified carbon
+                credits for this period.&rdquo;
+              </blockquote>
+              <figcaption className="relative z-10 mt-6 max-w-[56ch] leading-relaxed text-white/60">
+                This is the only claim PRAN puts on a certificate. It is a
+                statement of what happened, not a statement about your net
+                position — which is precisely why it holds up.
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </TexturedSection>
 
       <CtaBand
         title="Build on infrastructure that takes carbon seriously."

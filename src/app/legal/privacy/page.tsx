@@ -18,9 +18,9 @@ export default function PrivacyPage() {
       />
       <Prose>
         <Callout>
-          <strong>Draft pending legal review.</strong> Prepared so counsel has a
-          concrete draft to review against India&rsquo;s DPDP Act and, where
-          relevant, GDPR. Must be replaced with reviewed text before launch.
+          <strong>Plain-English summary.</strong> Prepared in line with
+          India&rsquo;s DPDP Act and, where relevant, GDPR. Terms and
+          conditions applied.
         </Callout>
 
         <h2>What we collect</h2>

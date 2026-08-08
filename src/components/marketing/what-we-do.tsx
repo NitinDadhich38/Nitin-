@@ -29,9 +29,11 @@ export function WhatWeDo() {
 
         <Reveal delay={0.1}>
           <div className="mt-14 grid grid-cols-1 gap-4 lg:grid-cols-12">
-            {/* Marketplace — feature cell */}
+            {/* Marketplace — feature cell, full-bleed forest photography */}
             <BentoCell
               className="bg-pran-forest text-white lg:col-span-7"
+              bgPhoto={photos.forestCanopy}
+              scrim="dark"
               label="Marketplace"
               line="Verified, registry-backed credits with transparent pricing — filter by registry, technology, geography and delivery."
               cta="Browse projects"
@@ -54,9 +56,11 @@ export function WhatWeDo() {
               </div>
             </BentoCell>
 
-            {/* Carbon Intelligence — chart */}
+            {/* Carbon Intelligence — chart over wind-farm photography */}
             <BentoCell
               className="bg-pran-surface text-pran-ink lg:col-span-5"
+              bgPhoto={photos.wind}
+              scrim="light"
               label="Carbon Intelligence"
               line="Procurement, ESG, BRSR and CBAM analysis — underwrite carbon like any other asset."
               cta="See the intelligence layer"
@@ -74,9 +78,11 @@ export function WhatWeDo() {
               </div>
             </BentoCell>
 
-            {/* Footprint Calculator — gauge */}
+            {/* Footprint Calculator — gauge over sunlit-leaves photography */}
             <BentoCell
               className="bg-pran-surface text-pran-ink lg:col-span-5"
+              bgPhoto={photos.leaves}
+              scrim="light"
               label="Footprint Calculator"
               line="Estimate personal and business emissions on cited factors, then act on the number."
               cta="Estimate your footprint"
@@ -107,9 +113,11 @@ export function WhatWeDo() {
               </div>
             </BentoCell>
 
-            {/* Compliance — record rows */}
+            {/* Compliance — record rows over aerial-hills photography */}
             <BentoCell
               className="bg-pran-ink text-white lg:col-span-7"
+              bgPhoto={photos.greenHills}
+              scrim="dark"
               label="Compliance Infrastructure"
               line="The rails beneath it all — verifiable records, retirement certificates and audit-ready documentation."
               cta="How it works"
@@ -143,6 +151,8 @@ export function WhatWeDo() {
 
 function BentoCell({
   className,
+  bgPhoto,
+  scrim,
   label,
   line,
   cta,
@@ -151,6 +161,11 @@ function BentoCell({
   children,
 }: {
   className: string;
+  /** Full-bleed background photo — every cell gets one, never a flat fill. */
+  bgPhoto: string;
+  /** "dark" for the forest/ink cells (white text); "light" keeps the photo
+      as a barely-there texture behind white surfaces (dark text). */
+  scrim: "dark" | "light";
   label: string;
   line: string;
   cta: string;
@@ -160,22 +175,42 @@ function BentoCell({
 }) {
   return (
     <div
-      className={`group flex min-h-[280px] flex-col overflow-hidden rounded-panel p-8 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-float ${className}`}
+      className={`group relative flex min-h-[280px] flex-col overflow-hidden rounded-panel p-8 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-float ${className}`}
     >
-      <div className="font-display text-2xl font-semibold tracking-[-0.02em]">
-        {label}
+      <Image
+        src={bgPhoto}
+        alt=""
+        fill
+        sizes="(max-width:1024px) 100vw, 700px"
+        className={`object-cover transition-transform duration-700 group-hover:scale-105 ${
+          scrim === "light" ? "opacity-[0.14]" : "opacity-40"
+        }`}
+      />
+      <div
+        aria-hidden
+        className={`absolute inset-0 ${
+          scrim === "dark"
+            ? "bg-gradient-to-b from-black/10 via-black/40 to-black/70"
+            : "bg-gradient-to-b from-white/80 via-white/92 to-white/97"
+        }`}
+      />
+
+      <div className="relative z-10 flex flex-1 flex-col">
+        <div className="font-display text-2xl font-semibold tracking-[-0.02em]">
+          {label}
+        </div>
+        <p className="mt-2.5 max-w-[38ch] text-[15px] leading-relaxed opacity-80">
+          {line}
+        </p>
+        {children}
+        <Link
+          href={href}
+          className={`mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-medium ${ctaClass}`}
+        >
+          {cta}
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </Link>
       </div>
-      <p className="mt-2.5 max-w-[38ch] text-[15px] leading-relaxed opacity-80">
-        {line}
-      </p>
-      {children}
-      <Link
-        href={href}
-        className={`mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-medium ${ctaClass}`}
-      >
-        {cta}
-        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-      </Link>
     </div>
   );
 }

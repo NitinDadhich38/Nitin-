@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import { MoreVertical, Search, X } from "lucide-react";
 import type { Project } from "@/lib/marketplace-data";
 import { facets } from "@/lib/marketplace-data";
 import { ProjectTeaser } from "@/components/marketing/project-teaser";
@@ -103,7 +103,28 @@ export function MarketplaceBrowser({
   const [deliveries, setDeliveries] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState(priceBounds.max);
   const [sort, setSort] = useState<Sort>("featured");
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  // Filters live behind the kebab button as a popover card — closes on Esc
+  // or an outside click, same pattern as the header's nav dropdowns.
+  useEffect(() => {
+    if (!filtersOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setFiltersOpen(false);
+    };
+    const onClick = (e: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+        setFiltersOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
+    };
+  }, [filtersOpen]);
 
   // Only show pill types that actually have listings.
   const typePills = useMemo(
@@ -204,18 +225,7 @@ export function MarketplaceBrowser({
 
   const filterPanel = (
     <div>
-      <div className="flex items-center justify-between border-b border-pran-hairline pb-4">
-        <span className="text-sm font-semibold text-pran-ink">Filters</span>
-        {activeCount > 0 && (
-          <button
-            onClick={clearAll}
-            className="text-xs font-medium text-pran-emerald hover:underline"
-          >
-            Clear all ({activeCount})
-          </button>
-        )}
-      </div>
-      <div className="pt-5">
+      <div className="pt-1">
         <FilterGroup
           title="Registry"
           options={facets.registries}
@@ -289,28 +299,80 @@ export function MarketplaceBrowser({
         })}
       </div>
 
-      {/* Toolbar */}
+      {/* Toolbar — the kebab on the left is the ONLY way filters appear;
+          nothing sits open on the page until it's clicked. */}
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative w-full sm:max-w-xs">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-pran-muted" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search projects…"
-            className="h-11 w-full rounded-btn border border-pran-hairline bg-pran-surface pl-10 pr-3 text-sm text-pran-ink placeholder:text-pran-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pran-emerald/50"
-          />
+        <div className="flex items-center gap-2">
+          <div ref={filterRef} className="relative shrink-0">
+            <button
+              type="button"
+              aria-haspopup="true"
+              aria-expanded={filtersOpen}
+              aria-label="Show filters"
+              onClick={() => setFiltersOpen((v) => !v)}
+              className={cn(
+                "flex h-11 w-11 shrink-0 items-center justify-center rounded-btn border transition-colors",
+                filtersOpen || activeCount > 0
+                  ? "border-pran-ink bg-pran-ink text-white"
+                  : "border-pran-hairline bg-pran-surface text-pran-ink hover:border-pran-ink/30",
+              )}
+            >
+              <MoreVertical className="h-4 w-4" />
+              {activeCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-pran-emerald text-[10px] font-semibold text-white">
+                  {activeCount}
+                </span>
+              )}
+            </button>
+
+            {/* The filter card — only this popover holds Registry / Delivery /
+                Country / Price; it doesn't exist on the page until clicked. */}
+            {filtersOpen && (
+              <div className="absolute left-0 top-full z-30 mt-2 w-[320px] max-w-[85vw] rounded-panel border border-pran-hairline bg-pran-surface p-5 shadow-float">
+                <div className="flex items-center justify-between pb-1">
+                  <span className="text-sm font-semibold text-pran-ink">
+                    Filters
+                  </span>
+                  <div className="flex items-center gap-3">
+                    {activeCount > 0 && (
+                      <button
+                        onClick={clearAll}
+                        className="text-xs font-medium text-pran-emerald hover:underline"
+                      >
+                        Clear all ({activeCount})
+                      </button>
+                    )}
+                    <button
+                      onClick={() => setFiltersOpen(false)}
+                      aria-label="Close filters"
+                      className="rounded-btn p-1 text-pran-muted hover:text-pran-ink"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+                <div className="max-h-[70vh] overflow-y-auto">
+                  {filterPanel}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="relative w-full sm:max-w-xs">
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-pran-muted" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search projects…"
+              className="h-11 w-full rounded-btn border border-pran-hairline bg-pran-surface pl-10 pr-3 text-sm text-pran-ink placeholder:text-pran-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pran-emerald/50"
+            />
+          </div>
         </div>
+
         <div className="flex items-center gap-2">
           <span className="mr-1 hidden text-sm tabular-nums text-pran-muted sm:inline">
             {filtered.length} {filtered.length === 1 ? "project" : "projects"}
           </span>
-          <button
-            onClick={() => setMobileFiltersOpen(true)}
-            className="inline-flex items-center gap-2 rounded-btn border border-pran-hairline bg-pran-surface px-3.5 py-2.5 text-sm font-medium text-pran-ink lg:hidden"
-          >
-            <SlidersHorizontal className="h-4 w-4" />
-            Filters{activeCount > 0 && ` (${activeCount})`}
-          </button>
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as Sort)}
@@ -324,77 +386,37 @@ export function MarketplaceBrowser({
         </div>
       </div>
 
-      {/* Two-column layout — rail plus a wide listing grid */}
-      <div className="mt-8 grid grid-cols-1 gap-10 pb-24 lg:grid-cols-[240px_1fr] lg:gap-12">
-        {/* Left — flat filter rail */}
-        <aside className="hidden lg:block">
-          <div className="sticky top-24">{filterPanel}</div>
-        </aside>
-
-        {/* Right — listings */}
-        <div>
-          {filtered.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {filtered.map((p) => (
-                <ProjectTeaser key={p.id} project={p} />
-              ))}
-            </div>
-          ) : (
-            <div className="rounded-panel bg-pran-surface p-12 text-center shadow-card">
-              <h3 className="font-display text-h3 font-semibold text-pran-ink">
-                No projects match these filters.
-              </h3>
-              <p className="mx-auto mt-2 max-w-sm text-pran-muted">
-                Adjust your filters, or tell us what you&rsquo;re sourcing and
-                we&rsquo;ll find it for you.
-              </p>
-              <div className="mt-6 flex flex-wrap justify-center gap-3">
-                <button
-                  onClick={clearAll}
-                  className={buttonVariants({ variant: "secondary" })}
-                >
-                  Clear filters
-                </button>
-                <Link href="/contact" className={buttonVariants()}>
-                  Contact us for sourcing
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Mobile filter drawer */}
-      {mobileFiltersOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div
-            className="absolute inset-0 bg-pran-forest-deep/50"
-            onClick={() => setMobileFiltersOpen(false)}
-            aria-hidden
-          />
-          <div className="absolute bottom-0 left-0 right-0 max-h-[85vh] overflow-y-auto rounded-t-panel bg-pran-surface p-6 shadow-float">
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-base font-semibold text-pran-ink">
-                Filters
-              </span>
-              <button
-                onClick={() => setMobileFiltersOpen(false)}
-                aria-label="Close filters"
-                className="rounded-btn p-1 text-pran-ink"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            {filterPanel}
-            <button
-              onClick={() => setMobileFiltersOpen(false)}
-              className={cn(buttonVariants(), "mt-5 w-full")}
-            >
-              Show {filtered.length} results
-            </button>
+      {/* Listings — full-width now that filters live behind the kebab */}
+      <div className="mt-8 pb-24">
+        {filtered.length > 0 ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {filtered.map((p) => (
+              <ProjectTeaser key={p.id} project={p} />
+            ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="rounded-panel bg-pran-surface p-12 text-center shadow-card">
+            <h3 className="font-display text-h3 font-semibold text-pran-ink">
+              No projects match these filters.
+            </h3>
+            <p className="mx-auto mt-2 max-w-sm text-pran-muted">
+              Adjust your filters, or tell us what you&rsquo;re sourcing and
+              we&rsquo;ll find it for you.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <button
+                onClick={clearAll}
+                className={buttonVariants({ variant: "secondary" })}
+              >
+                Clear filters
+              </button>
+              <Link href="/contact" className={buttonVariants()}>
+                Contact us for sourcing
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

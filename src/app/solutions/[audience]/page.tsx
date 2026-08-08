@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Check, ArrowRight, ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/marketing/page-kit";
 import { Reveal } from "@/components/marketing/reveal";
+import { TexturedSection } from "@/components/marketing/textured-section";
 import { audiences, getAudience, services } from "@/lib/content";
 import { photos } from "@/lib/images";
 import { buttonVariants } from "@/components/ui/button";
@@ -32,6 +33,14 @@ const heroPhoto: Record<string, string> = {
   public: photos.seedling,
 };
 
+/** A second, distinct photo for the "challenge → answer" band further down. */
+const secondaryPhoto: Record<string, string> = {
+  enterprise: photos.forestCanopy,
+  government: photos.forestRiver,
+  developers: photos.farmland,
+  public: photos.leaves,
+};
+
 export default function AudiencePage({
   params,
 }: {
@@ -41,6 +50,7 @@ export default function AudiencePage({
   if (!a) notFound();
 
   const photo = heroPhoto[a.slug] ?? photos.forestCanopy;
+  const photo2 = secondaryPhoto[a.slug] ?? photos.forestMist;
 
   return (
     <>
@@ -91,58 +101,60 @@ export default function AudiencePage({
         </div>
       </section>
 
-      {/* Challenge → answer, paired row by row */}
-      <section className="mx-auto max-w-content px-6 py-20 sm:py-24">
-        <Reveal>
-          <h2 className="max-w-[24ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
-            What&rsquo;s in the way, and what we do about it.
-          </h2>
-        </Reveal>
+      {/* Challenge → answer, paired row by row, over real photography */}
+      <TexturedSection photo={photo2} tone="light" className="py-20 sm:py-24">
+        <div className="mx-auto max-w-content px-6">
+          <Reveal>
+            <h2 className="max-w-[24ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
+              What&rsquo;s in the way, and what we do about it.
+            </h2>
+          </Reveal>
 
-        <div className="mt-12 space-y-px overflow-hidden rounded-panel bg-pran-hairline">
-          {a.pains.map((pain, i) => (
-            <Reveal key={pain} delay={i * 0.05}>
-              <div className="grid gap-6 bg-pran-surface p-7 sm:grid-cols-2 sm:gap-10 sm:p-8">
-                <div className="flex gap-4">
-                  <span className="font-display text-sm font-semibold tabular-nums text-pran-muted">
-                    0{i + 1}
-                  </span>
-                  <p className="text-[17px] font-medium leading-snug text-pran-ink">
-                    {pain}
-                  </p>
-                </div>
-                {a.helps[i] && (
-                  <div className="flex gap-3 border-t border-pran-hairline pt-5 sm:border-l sm:border-t-0 sm:pl-10 sm:pt-0">
-                    <Check className="mt-1 h-4 w-4 shrink-0 text-pran-emerald" />
-                    <p className="leading-relaxed text-pran-muted">
-                      {a.helps[i]}
+          <div className="mt-12 space-y-px overflow-hidden rounded-panel bg-pran-hairline">
+            {a.pains.map((pain, i) => (
+              <Reveal key={pain} delay={i * 0.05}>
+                <div className="grid gap-6 bg-pran-surface p-7 sm:grid-cols-2 sm:gap-10 sm:p-8">
+                  <div className="flex gap-4">
+                    <span className="font-display text-sm font-semibold tabular-nums text-pran-muted">
+                      0{i + 1}
+                    </span>
+                    <p className="text-[17px] font-medium leading-snug text-pran-ink">
+                      {pain}
                     </p>
                   </div>
-                )}
-              </div>
-            </Reveal>
-          ))}
-        </div>
+                  {a.helps[i] && (
+                    <div className="flex gap-3 border-t border-pran-hairline pt-5 sm:border-l sm:border-t-0 sm:pl-10 sm:pt-0">
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-pran-emerald" />
+                      <p className="leading-relaxed text-pran-muted">
+                        {a.helps[i]}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </Reveal>
+            ))}
+          </div>
 
-        {/* Any answers beyond the paired pains */}
-        {a.helps.length > a.pains.length && (
-          <Reveal delay={0.1}>
-            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-              {a.helps.slice(a.pains.length).map((h) => (
-                <li
-                  key={h}
-                  className="flex items-start gap-3 rounded-card bg-pran-paper-warm p-5"
-                >
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-pran-emerald" />
-                  <span className="text-[15px] leading-relaxed text-pran-ink">
-                    {h}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        )}
-      </section>
+          {/* Any answers beyond the paired pains */}
+          {a.helps.length > a.pains.length && (
+            <Reveal delay={0.1}>
+              <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+                {a.helps.slice(a.pains.length).map((h) => (
+                  <li
+                    key={h}
+                    className="flex items-start gap-3 rounded-card bg-pran-surface p-5 shadow-card"
+                  >
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-pran-emerald" />
+                    <span className="text-[15px] leading-relaxed text-pran-ink">
+                      {h}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          )}
+        </div>
+      </TexturedSection>
 
       {/* Carbon Intelligence cross-links — not shown to consumers */}
       {!a.consumer && (

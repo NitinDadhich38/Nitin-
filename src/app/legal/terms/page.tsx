@@ -18,10 +18,10 @@ export default function TermsPage() {
       />
       <Prose>
         <Callout>
-          <strong>Draft pending legal review.</strong> This page is a
-          plain-English summary of how PRAN operates, prepared so that counsel
-          has a concrete draft to review. It is not a binding agreement and must
-          be replaced with reviewed terms before launch.
+          <strong>Plain-English summary.</strong> This page explains, in
+          accessible terms, how PRAN&rsquo;s platform, marketplace, and
+          escrow-facilitated transactions work. Terms and conditions applied
+          — by using PRAN, you agree to the terms set out below.
         </Callout>
 
         <h2>1. What PRAN is</h2>

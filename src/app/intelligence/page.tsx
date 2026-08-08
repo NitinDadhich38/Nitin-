@@ -6,8 +6,6 @@ import { CtaBand } from "@/components/marketing/page-kit";
 import { Reveal } from "@/components/marketing/reveal";
 import { services } from "@/lib/content";
 import { photos } from "@/lib/images";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Carbon Intelligence",

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import type { Project } from "@/lib/marketplace-data";
 import { projectHref } from "@/lib/marketplace-data";
-import { photoForSector } from "@/lib/images";
+import { getProjectDetails } from "@/lib/project-details";
+import { sdgIconUrl } from "@/lib/sdg";
 
 /** Long sector names → short "type" chip. */
 function shortType(sector: string): string {
@@ -57,6 +58,7 @@ export function deliveryLabel(project: Project): string | null {
 export function ProjectTeaser({ project }: { project: Project }) {
   const volume = volumeLabel(project.totalVolume);
   const delivery = deliveryLabel(project);
+  const details = getProjectDetails(project);
 
   return (
     <Link
@@ -65,9 +67,10 @@ export function ProjectTeaser({ project }: { project: Project }) {
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-pran-paper-warm">
         <Image
-          src={photoForSector(project.sector)}
+          src={details.image}
           alt=""
           fill
+          unoptimized={details.hasRealPhoto}
           sizes="(max-width: 768px) 90vw, 360px"
           className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
@@ -76,6 +79,11 @@ export function ProjectTeaser({ project }: { project: Project }) {
             {delivery}
           </span>
         )}
+        {/* Country is always known, so every card carries its location. */}
+        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-lg bg-black/55 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
+          <MapPin className="h-3 w-3" />
+          {project.country}
+        </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
@@ -103,6 +111,28 @@ export function ProjectTeaser({ project }: { project: Project }) {
             <span className="text-pran-hairline"> · </span>
             <span>Vintage {project.vintageLabel}</span>
           </p>
+        )}
+
+        {/* Sustainable Development Goals this project reports against —
+            real mapping only, from its project page or issuing registry. */}
+        {details.sdgGoals.length > 0 && (
+          <div className="mt-3 flex gap-1">
+            {details.sdgGoals.slice(0, 6).map((goal) => (
+              <div
+                key={goal}
+                title={`SDG ${goal}`}
+                className="relative h-6 w-6 shrink-0 overflow-hidden rounded"
+              >
+                <Image
+                  src={sdgIconUrl(goal)}
+                  alt={`SDG ${goal}`}
+                  fill
+                  sizes="24px"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
         )}
 
         <div className="mt-auto pt-4">

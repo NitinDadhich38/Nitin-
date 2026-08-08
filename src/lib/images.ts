@@ -43,15 +43,7 @@ export const photos = {
 
 export type PhotoKey = keyof typeof photos;
 
-/** Sector → representative photo, for marketplace teaser cards. */
-export function photoForSector(sector: string): string {
-  const s = sector.toLowerCase();
-  if (s.includes("solar") || s.includes("renewable")) return photos.solar;
-  if (s.includes("wind")) return photos.wind;
-  if (s.includes("agri")) return photos.farmland;
-  if (s.includes("blue") || s.includes("marine")) return photos.forestRiver;
-  if (s.includes("waste") || s.includes("industrial") || s.includes("energy"))
-    return photos.mountainForest;
-  // Afforestation / reforestation / AFOLU / default
-  return photos.forestCanopy;
-}
+/* Project and I-REC card imagery does NOT come from here — every listing has
+   its own distinct photograph, assigned in lib/project-imagery.ts. These
+   photos are section backgrounds only, and deliberately share no ids with
+   that library so a background never doubles as a card thumbnail. */

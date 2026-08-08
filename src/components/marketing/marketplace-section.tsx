@@ -8,7 +8,8 @@ import { Reveal } from "@/components/marketing/reveal";
 import { ProjectTeaser } from "@/components/marketing/project-teaser";
 import { buttonVariants } from "@/components/ui/button";
 import { getProjects, projectHref } from "@/lib/marketplace-data";
-import { photoForSector, photos } from "@/lib/images";
+import { getProjectDetails } from "@/lib/project-details";
+import { photos } from "@/lib/images";
 import { cn } from "@/lib/utils";
 
 /**
@@ -130,7 +131,9 @@ export function MarketplaceSection() {
                   </p>
                 ) : (
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    {framed.map((p) => (
+                    {framed.map((p) => {
+                      const details = getProjectDetails(p);
+                      return (
                       <Link
                         key={p.id}
                         href={projectHref(p)}
@@ -138,9 +141,10 @@ export function MarketplaceSection() {
                       >
                         <div className="relative aspect-[16/11] overflow-hidden">
                           <Image
-                            src={photoForSector(p.sector)}
+                            src={details.image}
                             alt=""
                             fill
+                            unoptimized={details.hasRealPhoto}
                             sizes="180px"
                             className="object-cover transition-transform duration-500 group-hover/card:scale-105"
                           />
@@ -164,7 +168,8 @@ export function MarketplaceSection() {
                           </div>
                         </div>
                       </Link>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>

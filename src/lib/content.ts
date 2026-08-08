@@ -50,7 +50,7 @@ export const services: Service[] = [
       "A human-review layer on every report",
       "Export-ready formatting",
     ],
-    note: "Reports are prepared by PRAN using AI-assisted analysis. They are not accredited verification or assurance. Lawyer review needed.",
+    note: "Reports are prepared by PRAN using AI-assisted analysis. They are not accredited verification or assurance. Terms and conditions applied.",
   },
   {
     slug: "brsr",
@@ -70,7 +70,7 @@ export const services: Service[] = [
       "A review checkpoint before filing",
       "A structured, submission-ready draft",
     ],
-    note: "BRSR requirements change; figures must be confirmed against official SEBI guidance. PRAN is not an auditor. Lawyer review needed.",
+    note: "BRSR requirements change; figures must be confirmed against official SEBI guidance. PRAN is not an auditor. Terms and conditions applied.",
   },
   {
     slug: "cbam",
@@ -90,7 +90,7 @@ export const services: Service[] = [
       "A clear methodology trail",
       "A human-reviewed final report",
     ],
-    note: "CBAM thresholds and methods change; confirm against official EU guidance. PRAN prepares, it does not certify. Lawyer review needed.",
+    note: "CBAM thresholds and methods change; confirm against official EU guidance. PRAN prepares, it does not certify. Terms and conditions applied.",
   },
 ];
 

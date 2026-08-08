@@ -90,14 +90,18 @@ const assurances = [
 export default function ContactPage({
   searchParams,
 }: {
-  searchParams: { interest?: string; project?: string };
+  searchParams: { interest?: string; project?: string; irec?: string };
 }) {
   const defaultInterest = interestMap[searchParams.interest ?? ""] ?? "demo";
   const copy = intents[defaultInterest] ?? intents.demo;
 
-  const defaultMessage = searchParams.project
-    ? `I'm interested in purchasing credits from: ${searchParams.project}.\n\nQuantity needed: \nIntended use: `
-    : "";
+  /* I-RECs are quoted in MWh and are not carbon credits, so a request that
+     starts from an I-REC card never uses the credit wording. */
+  const defaultMessage = searchParams.irec
+    ? `I'm interested in purchasing I-RECs from: ${searchParams.irec}.\n\nVolume needed (MWh): \nDelivery period: `
+    : searchParams.project
+      ? `I'm interested in purchasing credits from: ${searchParams.project}.\n\nQuantity needed: \nIntended use: `
+      : "";
 
   return (
     <div className="bg-pran-paper">

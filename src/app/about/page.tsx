@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/marketing/page-kit";
 import { Reveal } from "@/components/marketing/reveal";
+import { TexturedSection } from "@/components/marketing/textured-section";
 import { photos } from "@/lib/images";
 import { founderPrinciples } from "@/lib/leadership";
 
@@ -98,7 +99,11 @@ export default function AboutPage() {
       </section>
 
       {/* What we are not */}
-      <section className="border-t border-pran-hairline bg-pran-paper-warm py-20">
+      <TexturedSection
+        photo={photos.forestMist}
+        tone="light"
+        className="border-t border-pran-hairline py-20"
+      >
         <div className="mx-auto max-w-content px-6">
           <Reveal>
             <h2 className="max-w-[22ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
@@ -120,10 +125,10 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </TexturedSection>
 
       {/* Operating principles, shared with the leadership page */}
-      <section className="py-20">
+      <TexturedSection photo={photos.seedling} tone="light" className="py-20">
         <div className="mx-auto max-w-content px-6">
           <Reveal>
             <h2 className="max-w-[22ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
@@ -148,7 +153,7 @@ export default function AboutPage() {
             ))}
           </ol>
         </div>
-      </section>
+      </TexturedSection>
 
       <CtaBand
         title="Meet the person building it."

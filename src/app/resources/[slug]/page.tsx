@@ -180,7 +180,7 @@ function CctsBody() {
         This is a general orientation to India&rsquo;s scheme, not legal advice,
         and the rules continue to develop. Confirm specifics against official
         sources before acting.{" "}
-        <em>Regulatory content — lawyer review needed.</em>
+        <em>Terms and conditions applied.</em>
       </Callout>
 
       <h2>What the CCTS is</h2>
@@ -234,7 +234,7 @@ function ComplianceBody() {
       <Callout>
         <strong>Plain-English summaries.</strong> Each framework is described in
         our own words. None of this reproduces official text and none of it is
-        legal advice. <em>Regulatory content — lawyer review needed.</em>
+        legal advice. <em>Terms and conditions applied.</em>
       </Callout>
 
       <h2>BRSR — Business Responsibility and Sustainability Report</h2>

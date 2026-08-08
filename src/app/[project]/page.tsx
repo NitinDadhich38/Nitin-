@@ -9,14 +9,17 @@ import {
   FileText,
   Lock,
   Check,
+  MapPin,
+  Target,
 } from "lucide-react";
-import {
-  getProjectByCode,
-  getProjects,
-  projectHref,
-} from "@/lib/marketplace-data";
+import { getProjectByCode, getProjects } from "@/lib/marketplace-data";
 import { countryFlag } from "@/lib/sectors";
-import { photoForSector, photos } from "@/lib/images";
+import { getProjectDetails } from "@/lib/project-details";
+import { sdgIconUrl, sdgName } from "@/lib/sdg";
+import {
+  SatelliteMap,
+  MapPrecisionNote,
+} from "@/components/marketplace/satellite-map";
 import {
   ProjectTeaser,
   priceLabel,
@@ -30,13 +33,16 @@ import { cn } from "@/lib/utils";
 /**
  * Project detail at /PRAN-## — the public reference code is the URL.
  *
- * Layout follows the live pranglobal.com project page: hero, description,
- * highlights, key-metrics grid, registry verification, then the purchase CTA.
+ * Layout follows the live pranglobal.com project page: a full-bleed satellite
+ * map of the project's location as the hero (title + badges overlaid), then
+ * photography, description, highlights, key metrics, registry verification,
+ * SDGs, and the purchase CTA.
  *
- * Every field on this page is read from the portfolio data. Fields the live
- * page carries that the portfolio does not supply — third-party quality
- * ratings, SDG mappings, issued/estimated mitigation totals — are omitted
- * rather than invented (CLAUDE.md: no fabricated projects or facts).
+ * Everything shown is real: the portfolio record, the project's own published
+ * page, and the issuing registry's public API (see lib/project-details.ts).
+ * Fields no source supplies are omitted rather than invented, and the map
+ * says plainly when it is showing a country-level location rather than exact
+ * project coordinates (CLAUDE.md: no fabricated projects or facts).
  */
 
 export function generateStaticParams() {
@@ -79,22 +85,14 @@ export default function ProjectPage({
   const project = getProjectByCode(params.project);
   if (!project) notFound();
 
-  const photo = photoForSector(project.sector);
-  const gallery = [photo, photos.greenHills, photos.leaves];
+  /* Everything real we hold on this project, merged from the portfolio, the
+     project's published page, and the issuing registry's API. */
+  const details = getProjectDetails(project);
+
   const buyHref = `/contact?interest=purchase&project=${encodeURIComponent(
     project.name,
   )}`;
   const volume = volumeLabel(project.totalVolume);
-
-  /* Highlights are composed strictly from portfolio fields — no new claims. */
-  const highlights = [
-    `${project.sector} project registered under ${project.registry}`,
-    `Located in ${project.country}`,
-    project.totalVolume
-      ? `${project.totalVolume.toLocaleString("en-US")} tCO₂e available`
-      : "Volume confirmed on request",
-    `Vintage ${project.vintageLabel}`,
-  ];
 
   /* Mirrors the live key-metrics grid, using only supplied fields. */
   const metrics: { label: string; value: string }[] = [
@@ -109,9 +107,21 @@ export default function ProjectPage({
     { label: "Registry asset", value: project.pranCode },
     { label: "Registry ID", value: project.id },
     { label: "Standard", value: project.standardCode },
-    { label: "Project type", value: project.sector },
+    { label: "Project type", value: details.projectType ?? project.sector },
     { label: "Technology", value: project.rawTech },
-    { label: "Project owner", value: project.developer ?? "On request" },
+    ...(details.methodology ? [{ label: "Methodology", value: details.methodology }] : []),
+    ...(details.creditingPeriod
+      ? [{ label: "Crediting period", value: details.creditingPeriod }]
+      : []),
+    ...(details.estimatedAnnualCredits
+      ? [
+          {
+            label: "Est. annual credits",
+            value: `${details.estimatedAnnualCredits.toLocaleString("en-US")} tCO₂e`,
+          },
+        ]
+      : []),
+    { label: "Project owner", value: details.developer ?? "On request" },
     { label: "Delivery", value: deliveryLabel(project) ?? "On request" },
   ];
 
@@ -121,79 +131,97 @@ export default function ProjectPage({
     ...all.filter((p) => p.id !== project.id && p.sector !== project.sector),
   ].slice(0, 3);
 
+  /* Hero overlay — identical whether the backdrop is the map or a photo. */
+  const heroOverlay = (
+    <div className="mx-auto flex min-h-[clamp(360px,52vh,540px)] max-w-content flex-col justify-between px-6 pb-10 pt-6">
+      <Link
+        href="/marketplace"
+        className="inline-flex w-fit items-center gap-1.5 rounded-btn bg-black/30 px-3 py-1.5 text-sm font-medium text-white/85 backdrop-blur-sm transition-colors hover:text-white"
+      >
+        <ArrowLeft className="h-4 w-4" /> Back to marketplace
+      </Link>
+
+      <div className="mt-10">
+        <div className="mb-4 flex flex-wrap gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-lg bg-black/40 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white/90 backdrop-blur-sm">
+            <ShieldCheck className="h-3 w-3" /> {project.registry}
+          </span>
+          <span className="rounded-lg bg-black/40 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white/90 backdrop-blur-sm">
+            <span aria-hidden>{countryFlag(project.country)}</span>{" "}
+            {project.country}
+          </span>
+          <span className="rounded-lg bg-black/40 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white/90 backdrop-blur-sm">
+            Vintage {project.vintageLabel}
+          </span>
+          <span className="rounded-lg bg-black/40 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white/90 backdrop-blur-sm">
+            {project.pranCode}
+          </span>
+        </div>
+
+        <h1 className="max-w-[22ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+          {project.name}
+        </h1>
+
+        {details.location && (
+          <div className="mt-4 flex items-start gap-2 text-white/75">
+            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-pran-lime" />
+            <MapPrecisionNote
+              precision={details.location.precision}
+              country={project.country}
+              className="max-w-[64ch] text-white/75"
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  /* Map hero when we can place the project at all; otherwise fall back to
+     the sector photograph rather than showing an empty frame. */
+  const heroContent = details.location ? (
+    <section className="relative">
+      <SatelliteMap
+        lat={details.location.lat}
+        lng={details.location.lng}
+        zoom={details.location.zoom}
+        precision={details.location.precision}
+        cols={9}
+        rows={5}
+        priority
+        className="w-full"
+      >
+        {heroOverlay}
+      </SatelliteMap>
+    </section>
+  ) : (
+    <section className="relative overflow-hidden bg-pran-forest text-white">
+      <Image
+        src={details.image}
+        alt=""
+        fill
+        priority
+        unoptimized={details.hasRealPhoto}
+        sizes="100vw"
+        className="object-cover opacity-30"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg,rgba(5,14,9,.70) 0%,rgba(5,14,9,.90) 100%)",
+        }}
+      />
+      <div className="relative z-10">{heroOverlay}</div>
+    </section>
+  );
+
   return (
     <div className="bg-pran-paper">
-      {/* Hero — title, reference line, image set */}
-      <section className="relative overflow-hidden bg-pran-forest text-white">
-        <Image
-          src={photo}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-30"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg,rgba(5,14,9,.70) 0%,rgba(5,14,9,.90) 100%)",
-          }}
-        />
-        <div className="relative z-10 mx-auto max-w-content px-6 pb-14 pt-6 sm:pb-16">
-          <Link
-            href="/marketplace"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-white/70 transition-colors hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to marketplace
-          </Link>
-
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-            <div>
-              <h1 className="max-w-[20ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
-                {project.name}
-              </h1>
-              <p className="mt-4 font-mono text-sm tracking-wide text-pran-lime">
-                {project.pranCode} · {project.country} · {project.sector}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white/85">
-                  <ShieldCheck className="h-3 w-3" /> {project.registry}
-                </span>
-                <span className="rounded-lg bg-white/10 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white/85">
-                  <span aria-hidden>{countryFlag(project.country)}</span>{" "}
-                  {project.country}
-                </span>
-                <span className="rounded-lg bg-white/10 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white/85">
-                  Vintage {project.vintageLabel}
-                </span>
-              </div>
-            </div>
-
-            {/* Image set */}
-            <div className="grid grid-cols-3 gap-3">
-              {gallery.map((g, i) => (
-                <div
-                  key={i}
-                  className={cn(
-                    "relative overflow-hidden rounded-card",
-                    i === 0 ? "col-span-3 aspect-[16/9]" : "aspect-[4/3]",
-                  )}
-                >
-                  <Image
-                    src={g}
-                    alt=""
-                    fill
-                    sizes="(max-width:1024px) 100vw, 200px"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* HERO — the project's location, full-bleed, title overlaid.
+          Every project gets one: exact registry coordinates where they're
+          published, otherwise an explicitly country-level view. */}
+      {heroContent}
 
       {/* Price + buy strip */}
       <section className="border-b border-pran-hairline bg-pran-surface">
@@ -221,6 +249,40 @@ export default function ProjectPage({
         </div>
       </section>
 
+      {/* Project photography — only when it's the project's own. */}
+      {details.gallery.length > 0 && (
+        <section className="border-b border-pran-hairline bg-pran-paper-warm py-10">
+          <div className="mx-auto max-w-content px-6">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {details.gallery.slice(0, 4).map((g, i) => (
+                <div
+                  key={g}
+                  className={cn(
+                    "relative overflow-hidden rounded-card bg-pran-surface shadow-card",
+                    i === 0
+                      ? "col-span-2 row-span-2 aspect-[16/10]"
+                      : "aspect-[4/3]",
+                  )}
+                >
+                  <Image
+                    src={g}
+                    alt={`${project.name} — project photograph`}
+                    fill
+                    unoptimized
+                    sizes="(max-width:640px) 50vw, 300px"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-pran-muted">
+              Project photography as published on the project&rsquo;s registry
+              listing.
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* Description + highlights */}
       <section className="mx-auto max-w-content px-6 py-16 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-[1fr_360px] lg:gap-16">
@@ -228,15 +290,25 @@ export default function ProjectPage({
             <h2 className="font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
               About this project
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-pran-muted">
-              {project.description}
-            </p>
+            {details.description.split("\n\n").map((para, i) => (
+              <p
+                key={i}
+                className="mt-4 text-lg leading-relaxed text-pran-muted first:mt-4"
+              >
+                {para}
+              </p>
+            ))}
+            {details.descriptionSource === "registry" && (
+              <p className="mt-3 text-xs text-pran-muted">
+                Description as published by the project&rsquo;s registry.
+              </p>
+            )}
 
             <h3 className="mt-10 font-display text-h3 font-semibold text-pran-ink">
               Key highlights
             </h3>
             <ul className="mt-4 space-y-2.5">
-              {highlights.map((h) => (
+              {details.highlights.map((h) => (
                 <li key={h} className="flex items-start gap-3">
                   <Check className="mt-1 h-4 w-4 shrink-0 text-pran-emerald" />
                   <span className="leading-relaxed text-pran-ink">{h}</span>
@@ -327,8 +399,9 @@ export default function ProjectPage({
                 purchased and retired
               </span>{" "}
               on your behalf — it does not issue, create, or verify credits.
-              Imagery is representative; project photography is added at
-              onboarding.
+              {details.sources.length > 0
+                ? ` Project details on this page are sourced from ${details.sources.join(" and ")}.`
+                : " Imagery is representative; project photography is added at onboarding."}
             </p>
           </div>
 
@@ -401,11 +474,80 @@ export default function ProjectPage({
                 >
                   Request project documents
                 </Link>
+                {details.registryUrl && (
+                  <a
+                    href={details.registryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-pran-emerald hover:underline"
+                  >
+                    View on the registry
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </a>
+                )}
                 <p className="mt-3 text-xs leading-relaxed text-pran-muted">
                   Registry documentation is released to verified buyers through
                   PRAN.
                 </p>
               </div>
+
+              {/* Sustainable Development Goals — real mapping only. */}
+              {details.sdgGoals.length > 0 && (
+                <div className="rounded-panel bg-pran-surface p-6 shadow-card">
+                  <h3 className="flex items-center gap-2 font-display text-h3 font-semibold text-pran-ink">
+                    <Target className="h-4 w-4 text-pran-emerald" />
+                    Sustainable Development Goals
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-pran-muted">
+                    Goals this project reports progress against, as published
+                    on its registry listing.
+                  </p>
+                  <div className="mt-4 grid grid-cols-4 gap-2">
+                    {details.sdgGoals.map((goal) => (
+                      <div
+                        key={goal}
+                        title={`SDG ${goal} — ${sdgName(goal)}`}
+                        className="relative aspect-square overflow-hidden rounded-btn"
+                      >
+                        <Image
+                          src={sdgIconUrl(goal)}
+                          alt={`SDG ${goal} — ${sdgName(goal)}`}
+                          fill
+                          sizes="80px"
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Project statistics — real stat bars from the registry page. */}
+              {details.stats.length > 0 && (
+                <div className="rounded-panel bg-pran-surface p-6 shadow-card">
+                  <h3 className="font-display text-h3 font-semibold text-pran-ink">
+                    Project statistics
+                  </h3>
+                  <dl className="mt-5 space-y-4">
+                    {details.stats.map((s) => (
+                      <div key={s.label}>
+                        <div className="flex items-baseline justify-between gap-3 text-sm">
+                          <dt className="text-pran-muted">{s.label}</dt>
+                          <dd className="font-medium tabular-nums text-pran-ink">
+                            {s.value}
+                          </dd>
+                        </div>
+                        <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-pran-paper-warm">
+                          <div
+                            className="h-full rounded-full bg-pran-emerald"
+                            style={{ width: `${Math.min(100, s.pct)}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
             </div>
           </aside>
         </div>
