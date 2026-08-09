@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { PageHeader, Prose, Callout } from "@/components/marketing/page-kit";
+import { Prose, Callout } from "@/components/marketing/page-kit";
+import { DocHeader } from "@/components/craft/mode-band";
+import { ReadingProgress } from "@/components/resources/reading-progress";
 
 export const metadata: Metadata = {
   title: "Compliance Framework",
@@ -11,10 +13,11 @@ export const metadata: Metadata = {
 export default function CompliancePage() {
   return (
     <>
-      <PageHeader
+      <ReadingProgress />
+      <DocHeader
         eyebrow="Legal"
         title="Compliance Framework"
-        subtitle="The rules we hold ourselves to on claims, certificates, and the limits of our role."
+        sub="The rules we hold ourselves to on claims, certificates, and the limits of our role."
       />
       <Prose>
         <Callout>

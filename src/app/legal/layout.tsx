@@ -26,7 +26,8 @@ export default function LegalLayout({
             <LegalNav />
           </div>
         </aside>
-        <div className="min-w-0">{children}</div>
+        {/* Prose carries no padding of its own, so the shell owns the measure. */}
+        <div className="min-w-0 pb-24">{children}</div>
       </div>
     </div>
   );

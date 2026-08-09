@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Check, ArrowRight, ArrowUpRight, Info } from "lucide-react";
-import { CtaBand } from "@/components/marketing/page-kit";
+import { ArrowRight } from "lucide-react";
+import { DrawnHero, Em } from "@/components/craft/drawn-hero";
+import { ModeBand, BandHeader } from "@/components/craft/mode-band";
+import { Ledger } from "@/components/craft/ledger";
+import { FlowRail } from "@/components/craft/flow-rail";
 import { Reveal } from "@/components/marketing/reveal";
-import { TexturedSection } from "@/components/marketing/textured-section";
+import { CtaBand } from "@/components/marketing/page-kit";
+import { DocumentMock, artifacts, SheetField } from "@/components/intelligence/artifact";
 import { services, getService } from "@/lib/content";
-import { photos } from "@/lib/images";
+import { serviceStatus, STAGE_LABEL } from "@/lib/page-data";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -22,22 +25,38 @@ export function generateMetadata({
 }): Metadata {
   const s = getService(params.service);
   if (!s) return { title: "Not found" };
-  return { title: s.nav, description: s.subtitle };
+  return {
+    title: s.nav,
+    description: `${s.subtitle} Currently in development — see the structure and join early access.`,
+  };
 }
 
-const heroPhoto: Record<string, string> = {
-  procurement: photos.forestRiver,
-  esg: photos.forestCanopy,
-  brsr: photos.mountainForest,
-  cbam: photos.farmland,
-};
-
-/** A second, distinct photo for the "What you get" band further down. */
-const secondaryPhoto: Record<string, string> = {
-  procurement: photos.wind,
-  esg: photos.greenHills,
-  brsr: photos.leaves,
-  cbam: photos.solar,
+/** Headlines split for the masked reveal. Each names the pain, not the product. */
+const HEADLINE: Record<string, React.ReactNode[]> = {
+  procurement: [
+    "Underwrite a tonne",
+    <>
+      like you&rsquo;d underwrite <Em>any asset</Em>.
+    </>,
+  ],
+  esg: [
+    "Your data already",
+    <>
+      says this. It just <Em>isn&rsquo;t mapped</Em>.
+    </>,
+  ],
+  brsr: [
+    "Nine principles.",
+    <>
+      One <Em>defensible</Em> filing.
+    </>,
+  ],
+  cbam: [
+    "Your buyer in the EU",
+    <>
+      needs a <Em>number</Em>, not an estimate.
+    </>,
+  ],
 };
 
 export default function ServicePage({
@@ -48,147 +67,122 @@ export default function ServicePage({
   const s = getService(params.service);
   if (!s) notFound();
 
-  const photo = heroPhoto[s.slug] ?? photos.forestMist;
-  const photo2 = secondaryPhoto[s.slug] ?? photos.leaves;
-  const others = services.filter((x) => x.slug !== s.slug);
+  const status = serviceStatus[s.slug];
+  const stage = STAGE_LABEL[status.stage];
+  const spec = artifacts[s.slug];
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-pran-forest text-white">
-        <Image
-          src={photo}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-25"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(60%_55%_at_78%_18%,rgba(217,249,157,.12),transparent_60%),linear-gradient(180deg,rgba(5,14,9,.74),rgba(4,12,8,.94))]"
-        />
-        <div className="relative z-10 mx-auto max-w-content px-6 py-20 sm:py-28">
-          <Reveal>
-            <p className="font-display text-[13px] font-semibold tracking-[0.02em] text-pran-lime">
-              {s.eyebrow}
-            </p>
-            <h1 className="mt-4 max-w-[22ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
-              {s.title}
-            </h1>
-            <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-white/70">
-              {s.subtitle}
-            </p>
+      <DrawnHero
+        eyebrow={`Carbon Intelligence · ${stage}`}
+        lines={HEADLINE[s.slug] ?? [s.title]}
+        sub={s.subtitle}
+        field={<SheetField />}
+        actions={
+          <>
             <Link
               href={`/contact?interest=${s.slug}`}
-              className={cn(buttonVariants({ size: "lg" }), "group mt-9")}
+              className={cn(buttonVariants({ size: "lg" }), "group")}
             >
-              Request this service
+              Join early access
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
+            <Link
+              href="/intelligence"
+              className="text-[15px] font-medium text-white underline-offset-4 hover:underline"
+            >
+              All four services
+            </Link>
+          </>
+        }
+      />
+
+      {/* Status first — never let a visitor assume this ships today. */}
+      <ModeBand mode="warm" size="sm">
+        <Reveal>
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+            <span className="rounded-full bg-pran-clay/12 px-3.5 py-1.5 text-[12px] font-medium uppercase tracking-[0.1em] text-pran-clay">
+              {stage}
+            </span>
+            <p className="max-w-[68ch] text-lg leading-relaxed text-pran-ink">
+              {status.line}
+            </p>
+          </div>
+        </Reveal>
+      </ModeBand>
+
+      {/* The signature visual — the deliverable, as a structure. */}
+      <ModeBand mode="data" size="lg">
+        <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
+          <div className="lg:sticky lg:top-24">
+            <BandHeader
+              eyebrow="What you'll receive"
+              title="The document, before the content."
+              sub="These are the real section names. Showing you a populated report would mean inventing one, so this is the structure — and it is the part that determines whether the output is defensible."
+            />
+          </div>
+          <Reveal delay={0.06}>
+            <DocumentMock spec={spec} stageLabel={stage} />
           </Reveal>
         </div>
-      </section>
+      </ModeBand>
 
-      {/* How it works — a numbered spine */}
-      <section className="mx-auto max-w-content px-6 py-20 sm:py-24">
-        <Reveal>
-          <h2 className="max-w-[20ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
-            How it works
-          </h2>
-        </Reveal>
+      {/* How it will work. */}
+      <ModeBand mode="cinematic" size="lg">
+        <BandHeader
+          tone="dark"
+          eyebrow="The process"
+          title="Three steps, one of them a person."
+          sub="Automation drafts. A reviewer signs off. Nothing reaches your compliance team without that second step."
+        />
+        <div className="mt-14">
+          <FlowRail
+            tone="dark"
+            steps={[
+              { label: "You submit", detail: s.steps[0], meta: "Step 1" },
+              { label: "We draft", detail: s.steps[1], meta: "Step 2" },
+              { label: "A person reviews", detail: s.steps[2], meta: "Step 3", manual: true },
+            ]}
+            caption="The hollow node is the human review step. It is not optional and it is not automated away."
+          />
+        </div>
+      </ModeBand>
 
-        <ol className="mt-12 space-y-px overflow-hidden rounded-panel bg-pran-hairline">
-          {s.steps.map((step, i) => (
-            <Reveal key={step} delay={i * 0.06}>
-              <li className="flex flex-col gap-4 bg-pran-surface p-7 sm:flex-row sm:items-center sm:gap-8 sm:p-8">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10 font-display text-base font-semibold tabular-nums text-pran-emerald-hover">
-                  {i + 1}
-                </span>
-                <p className="text-[17px] leading-relaxed text-pran-ink">
-                  {step}
-                </p>
-              </li>
-            </Reveal>
-          ))}
-        </ol>
-      </section>
-
-      {/* What you get */}
-      <TexturedSection
-        photo={photo2}
-        tone="light"
-        className="border-t border-pran-hairline py-20"
-      >
-        <div className="mx-auto max-w-content px-6">
-          <Reveal>
-            <h2 className="max-w-[20ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
-              What you get
-            </h2>
-          </Reveal>
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
-            {s.youGet.map((item, i) => (
-              <Reveal key={item} delay={i * 0.05}>
-                <li className="flex h-full items-start gap-3.5 rounded-panel bg-pran-surface p-7 shadow-card">
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10">
-                    <Check className="h-4 w-4 text-pran-emerald" />
-                  </span>
-                  <span className="text-[15px] leading-relaxed text-pran-ink">
-                    {item}
-                  </span>
-                </li>
-              </Reveal>
-            ))}
-          </ul>
-
-          {/* Scope note — deliberately prominent, not fine print */}
-          <Reveal delay={0.1}>
-            <div className="mt-10 flex items-start gap-3.5 rounded-panel border border-pran-hairline bg-pran-surface p-7">
-              <Info className="mt-0.5 h-5 w-5 shrink-0 text-pran-muted" />
-              <p className="max-w-[76ch] text-[15px] leading-relaxed text-pran-muted">
+      {/* What's in it, and what it is not. */}
+      <ModeBand mode="data" size="lg">
+        <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
+          <div>
+            <BandHeader eyebrow="Scope" title="What's in it." />
+            <div className="mt-8">
+              <Ledger
+                rows={s.youGet.map((g, i) => ({
+                  label: g,
+                  value: `0${i + 1}`,
+                }))}
+              />
+            </div>
+          </div>
+          <div>
+            <BandHeader eyebrow="Limits" title="What it isn't." />
+            <Reveal delay={0.06}>
+              <p className="mt-8 rounded-card bg-pran-paper-warm p-7 text-[15px] leading-relaxed text-pran-muted">
                 {s.note}
               </p>
-            </div>
-          </Reveal>
-        </div>
-      </TexturedSection>
-
-      {/* Other services */}
-      <section className="py-20">
-        <div className="mx-auto max-w-content px-6">
-          <Reveal>
-            <h2 className="max-w-[24ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
-              Other intelligence services
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-3">
-            {others.map((o, i) => (
-              <Reveal key={o.slug} delay={i * 0.05}>
-                <Link
-                  href={`/intelligence/${o.slug}`}
-                  className="group flex h-full flex-col bg-pran-surface p-7 transition-colors hover:bg-pran-paper-warm"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-h3 font-semibold leading-snug text-pran-ink">
-                      {o.nav}
-                    </h3>
-                    <ArrowUpRight className="h-4 w-4 shrink-0 text-pran-muted transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-pran-emerald" />
-                  </div>
-                  <p className="mt-2.5 text-[15px] leading-relaxed text-pran-muted">
-                    {o.subtitle}
-                  </p>
-                </Link>
-              </Reveal>
-            ))}
+              <p className="mt-4 text-[15px] leading-relaxed text-pran-muted">
+                PRAN prepares and advises. It does not certify, audit, or
+                provide assurance, and it does not give investment advice on
+                carbon prices.
+              </p>
+            </Reveal>
           </div>
         </div>
-      </section>
+      </ModeBand>
 
       <CtaBand
-        title="Request this service"
-        subtitle="Tell us your goal — we'll show you exactly how it works for your organisation."
-        primary={{ label: "Request Demo", href: `/contact?interest=${s.slug}` }}
-        secondary={{ label: "Explore Marketplace", href: "/marketplace" }}
+        title="Want this one first?"
+        subtitle="Join the early-access list and we'll tell you honestly when it's ready — not before."
+        primary={{ label: "Join early access", href: `/contact?interest=${s.slug}` }}
+        secondary={{ label: "See all four", href: "/intelligence" }}
       />
     </>
   );

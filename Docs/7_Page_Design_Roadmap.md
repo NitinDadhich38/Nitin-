@@ -10,9 +10,10 @@
 READ this file plus 5_Design.md §3 before redesigning any page.
 UPDATE the status column the moment a page ships.
 
-This is the tracker for a ~17-session redesign. One page per session.
-Do NOT build ahead. Do NOT batch pages. The founder chose full bespoke
-treatment precisely so each page gets its own argument and its own drawing.
+STATUS 2026-08-08: founder said "implement everything", so Waves 0-4 were
+built in one pass rather than one page per session. Every interior page
+template now ships. What remains is listed in §7 — mostly work that needs
+founder input or a production build, not design work.
 ```
 
 ---
@@ -87,42 +88,42 @@ Status: `TODO` · `WIP` · `DONE` · `BLOCKED`
 
 | # | Page | Mode | Signature visual | The sentence (draft — founder to approve) | Status |
 |---|---|---|---|---|---|
-| 1.1 | `/solutions/enterprise` | cinematic → data | **The compliance calendar** — a scroll-driven timeline of BRSR / CBAM / CCTS obligation dates with "you are here" marked | "Your disclosure deadline is already set. The market you have to buy from isn't ready — so we built the part that is." | TODO |
-| 1.2 | `/solutions/developers` | cinematic → data | **The money path** — credit → registry → escrow → buyer, drawn as a rail with days and what the developer keeps | "You did the hard part. Getting paid for it shouldn't take another year." | TODO |
-| 1.3 | `/solutions/government` | forest → data | **Sovereign scale** — registry/standard/jurisdiction view at portfolio scale | "Policy sets the target. Infrastructure decides whether it's reachable." | TODO |
-| 1.4 | `/solutions/public` | warm (consumer-fintech register) | **Your footprint as an object** — one shape, sized against a real benchmark | "You can't manage what you've never been shown." | TODO |
-| 1.5 | `/intelligence` (hub) | cinematic | **Four doors, each showing its artifact** | "Reporting is a research problem before it's a writing problem." | TODO |
-| 1.6 | `/intelligence/[service]` ×4 | data | **The deliverable itself** — a real rendered page of the BRSR report / CBAM declaration / procurement brief, not a card describing it | per service — all framed as *in development*, waitlist CTA | TODO |
-| 1.7 | `/contact` | data | **A routed desk** — which door do you need; each routes to a short, distinct form | "Tell us which side of the market you're on." | TODO |
+| 1.1 | `/solutions/enterprise` | cinematic → data | **The compliance calendar** — a scroll-driven timeline of BRSR / CBAM / CCTS obligation dates with "you are here" marked | "Your disclosure deadline is already set. The market you have to buy from isn't ready — so we built the part that is." | **DONE** |
+| 1.2 | `/solutions/developers` | cinematic → data | **The money path** — credit → registry → escrow → buyer, drawn as a rail with days and what the developer keeps | "You did the hard part. Getting paid for it shouldn't take another year." | **DONE** |
+| 1.3 | `/solutions/government` | forest → data | **Sovereign scale** — registry/standard/jurisdiction view at portfolio scale | "Policy sets the target. Infrastructure decides whether it's reachable." | **DONE** |
+| 1.4 | `/solutions/public` | warm (consumer-fintech register) | **Your footprint as an object** — one shape, sized against a real benchmark | "You can't manage what you've never been shown." | **DONE** |
+| 1.5 | `/intelligence` (hub) | cinematic | **Four doors, each showing its artifact** | "Reporting is a research problem before it's a writing problem." | **DONE** |
+| 1.6 | `/intelligence/[service]` ×4 | data | **The deliverable itself** — a real rendered page of the BRSR report / CBAM declaration / procurement brief, not a card describing it | per service — all framed as *in development*, waitlist CTA | **DONE** |
+| 1.7 | `/contact` | data | **A routed desk** — which door do you need; each routes to a short, distinct form | "Tell us which side of the market you're on." | **DONE** |
 
 ### Wave 2 — Credibility pages
 
 | # | Page | Mode | Signature visual | The sentence (draft) | Status |
 |---|---|---|---|---|---|
-| 2.1 | `/why-carbon-markets` | cinematic (highest ceiling on the site) | **One tonne of CO₂ at human scale** — a tonne is roughly a 10 m sphere; render it beside a person, a car, a house. Then put a price on it, then show where the price sends the money. | "Nobody has an intuition for a tonne. That's exactly the problem." | TODO |
-| 2.2 | `/about` | cinematic → data | **The is/isn't contrast made visual** — struck-through claims resolving into what PRAN actually is (copy already exists, currently trapped in a 2×2 card grid) | "We are not a green brand. We are the plumbing." | TODO |
-| 2.3 | `/about/team` | data | One large editorial portrait, founder-led | — | BLOCKED — needs real photo + bio |
-| 2.4 | `/about/press` | data | A press **kit**: logo pack, boilerplate, founder bio, contact | — | BLOCKED — needs assets |
+| 2.1 | `/why-carbon-markets` | cinematic (highest ceiling on the site) | **One tonne of CO₂ at human scale** — a tonne is roughly a 10 m sphere; render it beside a person, a car, a house. Then put a price on it, then show where the price sends the money. | "Nobody has an intuition for a tonne. That's exactly the problem." | **DONE** |
+| 2.2 | `/about` | cinematic → data | **The is/isn't contrast made visual** — struck-through claims resolving into what PRAN actually is (copy already exists, currently trapped in a 2×2 card grid) | "We are not a green brand. We are the plumbing." | **DONE** |
+| 2.3 | `/about/team` | data | One large editorial portrait, founder-led | — | **DONE** (photo still missing — monogram fallback) |
+| 2.4 | `/about/press` | data | A press **kit**: logo pack, boilerplate, founder bio, contact | — | **DONE** (vector pack on request) |
 
 ### Wave 3 — Product surfaces
 
 | # | Page | Mode | Signature visual | Notes | Status |
 |---|---|---|---|---|---|
-| 3.1 | `/calculator` | data (warmer on the personal side) | **The result as a visual object**, benchmarked, with an honest bridge to the marketplace | HARD RULE: only "purchased and retired X tCO₂e". Never neutral / net zero / climate positive. | TODO |
-| 3.2 | `/marketplace` | data | Craft pass, not a rebuild — redesigned 2026-08-01 and already strong | Apply mode-shift + signature-visual test to the filter rail | TODO |
-| 3.3 | `/[project]` | data | Craft pass — the map hero already works | Keep the satellite map hero | TODO |
-| 3.4 | `/resources` + `/resources/[slug]` ×5 | data | Editorial reading experience: real hierarchy, sticky outline, plain-English margin notes | The glossary + CCTS explainer should be the best free explainers in the Indian market — a distribution asset, not a nav item | TODO |
+| 3.1 | `/calculator` | data (warmer on the personal side) | **The result as a visual object**, benchmarked, with an honest bridge to the marketplace | HARD RULE: only "purchased and retired X tCO₂e". Never neutral / net zero / climate positive. | **DONE** |
+| 3.2 | `/marketplace` | data | Craft pass, not a rebuild — redesigned 2026-08-01 and already strong | Apply mode-shift + signature-visual test to the filter rail | **DONE** |
+| 3.3 | `/[project]` | data | Craft pass — the map hero already works | NOT STARTED. Left deliberately untouched: the satellite-map hero is the strongest page on the site and it is the highest-risk file to disturb (590 lines, merges three data sources). Do this one on its own. | **TODO** |
+| 3.4 | `/resources` + `/resources/[slug]` ×5 | data | Editorial reading experience: real hierarchy, sticky outline, plain-English margin notes | The glossary + CCTS explainer should be the best free explainers in the Indian market — a distribution asset, not a nav item | **DONE** |
 
 ### Wave 4 — System & finish
 
 | # | Deliverable | Status |
 |---|---|---|
-| 4.1 | `/legal/terms`, `/legal/privacy`, `/legal/compliance` — dignity, not drama. Sticky outline, plain-English summaries beside clauses. **lawyer review needed** on any wording change. | TODO |
-| 4.2 | `not-found.tsx` — does not exist yet | TODO |
+| 4.1 | `/legal/*` — quiet DocHeader + reading progress. Wording untouched; **lawyer review still needed**. | **DONE** |
+| 4.2 | `not-found.tsx` | **DONE** |
 | 4.3 | OG images per page | TODO |
-| 4.4 | Full 375px pass + `prefers-reduced-motion` audit across all pages | TODO |
-| 4.5 | Performance check | TODO |
-| 4.6 | Retire `TexturedSection` + the unused `PageHeader`/`FeatureGrid` path once every page is migrated | TODO |
+| 4.4 | 375px pass — **DONE**, 14 pages, zero overflow. Reduced-motion honoured in code; unverifiable in this sandbox | **PARTIAL** |
+| 4.5 | Performance check (needs a production build) | TODO |
+| 4.6 | Retire `TexturedSection` + the unused `PageHeader`/`FeatureGrid` path once every page is migrated | **DONE** |
 
 ---
 
@@ -159,4 +160,37 @@ Status: `TODO` · `WIP` · `DONE` · `BLOCKED`
 
 ---
 
-*7_Page_Design_Roadmap.md — one page per session. Update status on ship.*
+## 7. WHAT REMAINS AFTER THE 2026-08-08 BUILD
+
+```
+DESIGN WORK STILL OPEN
+  3.3  /[project] craft pass — not started, deliberately. See its row.
+  4.3  OG images per page.
+  4.5  Performance check — needs a production build, which cannot run while
+       a dev server holds .next (6_Memory.md §7).
+
+VERIFIED THIS BUILD
+  · 27 routes return 200; /not-a-page correctly 404s with the new page.
+  · tsc clean. No server errors in the dev log.
+  · 14 pages measured at 375px — zero horizontal overflow on every one.
+  · Banned-claims audit across all of src/: every hit for "carbon neutral" /
+    "net zero" / "climate positive" is a prohibition, legal text, an
+    educational warning, or a sourced third-party target. No violations.
+
+NOT VERIFIABLE HERE (judge on Vercel)
+  · CSS load animations. The Browser pane runs with visibilityState
+    "hidden", so the page never composites and every animation sits at
+    currentTime 0. The proven homepage hero shows the same symptom. Only
+    React-applied state can be checked in this sandbox.
+  · Real fonts and any remote imagery (Google Fonts times out here).
+
+STILL BLOCKED ON THE FOUNDER
+  · Founder photo for /about/team (monogram fallback is live).
+  · Real proof numbers — see §5.
+  · What each Intelligence service will deliver, and roughly when.
+  · Lawyer review of /legal/* — wording was NOT touched in this build.
+```
+
+---
+
+*7_Page_Design_Roadmap.md — update status on ship.*

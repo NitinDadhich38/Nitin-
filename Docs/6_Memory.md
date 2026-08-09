@@ -334,6 +334,67 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
   the page never composites and every animation sits at currentTime 0. The
   proven homepage hero shows the identical symptom there, so this is a
   measurement limit, not a defect; judge load animations on Vercel.
+
+[2026-08-08] WAVES 1-4 — EVERY INTERIOR PAGE REDESIGNED. Founder followed
+  Wave 0 with "Implement everything", so the whole roadmap shipped in one
+  pass instead of one page per session. 15 of 16 interior templates rebuilt
+  on the craft kit, each with its OWN signature drawing (the roadmap's test:
+  a visual that could move to another page unnoticed is decoration).
+  (1) NEW DATA src/lib/page-data.ts — everything the diagrams PLOT, kept
+      apart from content.ts (prose) so a fabricated figure cannot hide in a
+      drawing: complianceTimeline (7 real BRSR/CBAM/CCTS milestones, all
+      sourced, ⚠️ VERIFY BEFORE LAUNCH), settlementPath, tonneScale (the 10 m
+      figure is CALCULATED from CO2 gas density, assumption printed on the
+      page), serviceStatus (all four Intelligence services marked not live).
+  (2) SOLUTIONS ×4 — four different arguments, not one template with a colour
+      prop: enterprise = the compliance calendar with TODAY marked and almost
+      every date already behind it; developers = the settlement rail (FlowRail,
+      hollow nodes = manual, NO fee figures because none are set anywhere —
+      "quoted per listing"); government = real volume-by-sector distribution
+      from the live portfolio; public = the DIET spread (0.9-2.5 t/yr, real
+      sourced averages) as "one ordinary choice, measured".
+  (3) INTELLIGENCE ×5 — reframed from "we deliver this" to in-development.
+      New DocumentMock shows the deliverable as a STRUCTURE (real framework
+      section names, empty bodies, build stage on the sheet) — showing a
+      populated report would have been a fabrication. Waitlist CTAs
+      throughout; new ?interest=intelligence route added to contact.
+  (4) /contact — the four routes moved from the bottom of the page to being
+      the page (a "routed desk"), each showing where it actually goes.
+  (5) /why-carbon-markets — the tonne drawn at human scale beside a person
+      and a double-decker bus. This is the page's whole thesis: nobody has an
+      intuition for the unit, so the price on it reads as an accounting trick.
+  (6) /about — the is/isn't copy (already the sharpest on the site) freed
+      from its 2x2 card grid; each claim is now struck through as it scrolls
+      in. /about/team says plainly it is one person. /about/press became a
+      real press KIT (boilerplate, a style guide for writers, brand rules).
+  (7) /calculator — hero moved OUT of the client component into the page so
+      it could be diagram-forward; calculation logic untouched. Added a
+      ledger stating the tool does NOT create credits and does not replace
+      reducing emissions.
+  (8) /resources — photo cards -> a numbered editorial index; article pages
+      got a two-column read with a sticky meta/next-reading rail and a
+      ReadingProgress bar. /marketplace kept its COMPACT band (a 68svh hero
+      would push the filters below the fold on the one page built for
+      filtering) but gained a drawn depth field and the exact portfolio
+      figures. /legal got DocHeader — a deliberately QUIET opener, because a
+      cinematic hero on a Terms page reads as marketing over a contract;
+      legal WORDING WAS NOT TOUCHED. New not-found.tsx (none existed).
+  (9) CLEANUP (roadmap 4.6): deleted textured-section.tsx and proof-strip.tsx
+      (both fully orphaned), and removed PageHeader/SectionHeader/FeatureGrid/
+      Steps from page-kit.tsx. Only CtaBand/Prose/Callout survive. Prose no
+      longer carries its own padding — it was double-padding inside the legal
+      layout; the legal shell now owns that measure.
+  (10) NEW KIT PRIMITIVE DrawnBar — bars grow by CSS transform, NOT SMIL
+      <animate>, because SMIL ignores prefers-reduced-motion and would keep
+      moving for a visitor who asked everything to stop.
+  VERIFIED: 27 routes 200 + /not-a-page 404s with the new page; tsc clean; no
+  server errors; 14 pages measured at 375px with ZERO horizontal overflow;
+  banned-claims audit across all of src/ found no violations (every hit is a
+  prohibition, legal text, an educational warning, or a sourced third-party
+  target such as India's 2070 commitment).
+  NOT DONE ON PURPOSE: /[project] (roadmap 3.3). It is 590 lines merging
+  three data sources behind the satellite-map hero — the strongest page on
+  the site and the riskiest to disturb. Give it its own session.
   (7) Marketplace cards: every card now carries a country pill over the
     photo, and SDG icons whenever any real source supplies them (was
     live-scrape only). tsc clean; verified in browser on an isolated
@@ -348,15 +409,14 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [INTERIOR PAGE REDESIGN — Docs/7_Page_Design_Roadmap.md.
-                    Wave 0 (craft kit + doc reconciliation + /style-guide/
-                    craft specimen) DONE 2026-08-08. Next single task is
-                    1.1 /solutions/enterprise. ONE PAGE PER SESSION —
-                    founder chose full bespoke treatment; do not batch.]
-Blocked on:         [Founder to lock the standard at /style-guide/craft
-                    before Wave 1 begins. Also needs: what each Intelligence
-                    service will actually deliver and roughly when, to write
-                    honest "in development" copy.]
+Currently building: [none — INTERIOR PAGE REDESIGN COMPLETE (2026-08-08).
+                    Founder said "implement everything", so Waves 0-4 shipped
+                    in one pass. 15 of 16 interior templates rebuilt on the
+                    craft kit. The ONE page deliberately not touched is
+                    /[project] (roadmap 3.3) — see below.]
+Blocked on:         [Founder review of the whole redesign. Then: founder
+                    photo, real proof numbers, Intelligence service detail,
+                    and lawyer review of /legal/*.]
 Waiting on founder: [create Supabase project + fill .env.local; confirm domain;
                     real project data (Stage B) for the 64 catalog projects
                     with no live page yet; leadership names/photos for
@@ -463,12 +523,12 @@ NEXT_PUBLIC_SITE_URL              [ ] set
 
 ```
 Last session date:   2026-08-08
-Last task completed: WAVE 0 — interior craft kit, 5_Design.md v2.1,
-                    Docs/7_Page_Design_Roadmap.md, /style-guide/craft
-Next task to start:  Roadmap 1.1 — /solutions/enterprise. Signature visual:
-                    the compliance calendar (BRSR/CBAM/CCTS deadlines with
-                    "you are here"). Read 7_Page_Design_Roadmap.md §4 and
-                    5_Design.md §3 first. ONE page, then stop.
+Last task completed: WAVES 0-4 — the whole interior redesign. 15 of 16
+                    templates rebuilt on the craft kit; see §2's two
+                    2026-08-08 entries.
+Next task to start:  Founder review. Then roadmap 3.3 (/[project] craft
+                    pass) — the only page left, kept separate on purpose.
+                    Also open: OG images (4.3), production perf check (4.5).
 Anything the next session must know:
   - INTERIOR PAGES ARE DIAGRAM-FORWARD. Founder chose this over photography
     on 2026-08-08. Do not add photographs to interior pages; they lead with

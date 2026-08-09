@@ -1,107 +1,163 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, UserCheck } from "lucide-react";
-import { CtaBand } from "@/components/marketing/page-kit";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { DrawnHero, Em } from "@/components/craft/drawn-hero";
+import { ModeBand, BandHeader } from "@/components/craft/mode-band";
+import { Ledger } from "@/components/craft/ledger";
 import { Reveal } from "@/components/marketing/reveal";
+import { CtaBand } from "@/components/marketing/page-kit";
+import { DocumentMock, artifacts, SheetField } from "@/components/intelligence/artifact";
 import { services } from "@/lib/content";
-import { photos } from "@/lib/images";
+import { serviceStatus, STAGE_LABEL } from "@/lib/page-data";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Carbon Intelligence",
   description:
-    "Procurement intelligence and AI-assisted ESG, BRSR, and CBAM reporting — every draft reviewed by our team before it reaches you.",
+    "Procurement intelligence and reporting for ESG, BRSR and CBAM — in development. See exactly what each will produce, and join the early-access list.",
 };
 
+/**
+ * /intelligence — the hub.
+ *
+ * Founder decision, 2026-08-08: none of these four services is live. So this
+ * page announces rather than sells. The persuasive move is still "show the
+ * deliverable" — but as a document STRUCTURE with its build stage on it, never
+ * as a finished report we do not yet produce.
+ */
 export default function IntelligenceHub() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-pran-forest text-white">
-        <Image
-          src={photos.forestCanopy}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-25"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(60%_55%_at_80%_20%,rgba(217,249,157,.12),transparent_60%),linear-gradient(180deg,rgba(5,14,9,.74),rgba(4,12,8,.94))]"
-        />
-        <div className="relative z-10 mx-auto max-w-content px-6 py-20 sm:py-28">
+      <DrawnHero
+        eyebrow="Carbon Intelligence"
+        lines={[
+          "Reporting is a research",
+          <>
+            problem <Em>before</Em> it&rsquo;s
+          </>,
+          "a writing problem.",
+        ]}
+        sub="Four services in development, built on the same registry data behind the marketplace. Below is exactly what each one will produce — structure, sections and standard — and where it currently stands."
+        field={<SheetField />}
+        actions={
+          <>
+            <Link
+              href="/contact?interest=intelligence"
+              className={cn(buttonVariants({ size: "lg" }), "group")}
+            >
+              Join the early-access list
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              href="/marketplace"
+              className="text-[15px] font-medium text-white underline-offset-4 hover:underline"
+            >
+              What&rsquo;s live today
+            </Link>
+          </>
+        }
+      />
+
+      {/* Honest status band — the first thing after the hero, deliberately. */}
+      <ModeBand mode="warm" size="sm">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <Reveal>
-            <h1 className="max-w-[22ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
-              Every procurement decision and disclosure, powered by one engine.
-            </h1>
-            <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-white/70">
-              AI-assisted analysis with a human-review checkpoint on every
-              output — the speed of automation, the safety of expert sign-off.
+            <h2 className="max-w-[20ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
+              None of this is live yet.
+            </h2>
+            <p className="mt-5 max-w-[54ch] text-lg leading-relaxed text-pran-muted">
+              We would rather show you the plan than a demo of something that
+              does not exist. The marketplace is live and transacting; Carbon
+              Intelligence is being built on top of it.
             </p>
-            <div className="mt-8 inline-flex items-center gap-2.5 rounded-btn border border-white/20 px-4 py-2.5 text-sm text-white/80">
-              <UserCheck className="h-4 w-4 text-pran-lime" />
-              Nothing reaches you without a human reviewing it first
-            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <Ledger
+              head={["Service", "Stage"]}
+              rows={services.map((s) => ({
+                label: s.nav,
+                value: STAGE_LABEL[serviceStatus[s.slug].stage],
+                note: serviceStatus[s.slug].line,
+              }))}
+            />
           </Reveal>
         </div>
-      </section>
+      </ModeBand>
 
-      {/* Services */}
-      <section className="mx-auto max-w-content px-6 py-20 sm:py-24">
-        <Reveal>
-          <h2 className="max-w-[22ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
-            Four services, one data spine.
-          </h2>
-          <p className="mt-4 max-w-[62ch] text-lg leading-relaxed text-pran-muted">
-            Procurement and disclosure run off the same operational data, so the
-            numbers in your report and the credits in your account agree.
-          </p>
-        </Reveal>
+      {/* Four doors, each showing its artifact. */}
+      <ModeBand mode="data" size="lg">
+        <BandHeader
+          eyebrow="The deliverables"
+          title="What each one will actually hand you."
+          sub="Section names below are the real framework structures — SEBI's nine BRSR principles, the CBAM embedded-emissions breakdown, the GRI and SDG mapping index. The bodies are empty because your data fills them."
+        />
 
-        <div className="mt-12 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-2">
-          {services.map((s, i) => (
-            <Reveal key={s.slug} delay={i * 0.06}>
-              <Link
-                href={`/intelligence/${s.slug}`}
-                className="group flex h-full flex-col bg-pran-surface p-8 transition-colors hover:bg-pran-paper-warm sm:p-9"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <span className="font-display text-sm font-semibold tabular-nums text-pran-emerald">
-                    0{i + 1}
-                  </span>
-                  <ArrowUpRight className="h-4 w-4 shrink-0 text-pran-muted transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-pran-emerald" />
+        <div className="mt-14 grid gap-12 lg:grid-cols-2">
+          {services.map((s, i) => {
+            const status = serviceStatus[s.slug];
+            return (
+              <Reveal key={s.slug} delay={i * 0.06}>
+                <div className="flex h-full flex-col">
+                  <DocumentMock
+                    spec={artifacts[s.slug]}
+                    stageLabel={STAGE_LABEL[status.stage]}
+                  />
+                  <div className="mt-6 flex-1">
+                    <h3 className="font-display text-h3 font-semibold text-pran-ink">
+                      {s.nav}
+                    </h3>
+                    <p className="mt-2.5 text-[15px] leading-relaxed text-pran-muted">
+                      {s.subtitle}
+                    </p>
+                  </div>
+                  <Link
+                    href={`/intelligence/${s.slug}`}
+                    className="group mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-pran-emerald"
+                  >
+                    How it will work
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </Link>
                 </div>
-                <h3 className="mt-4 font-display text-h3 font-semibold leading-snug text-pran-ink">
-                  {s.nav}
-                </h3>
-                <p className="mt-2.5 flex-1 text-[15px] leading-relaxed text-pran-muted">
-                  {s.subtitle}
-                </p>
-                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-pran-emerald">
-                  Learn more
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </Link>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
+      </ModeBand>
 
-        {/* Scope note — these pages carry real caveats */}
-        <Reveal delay={0.1}>
-          <p className="mt-10 max-w-[86ch] rounded-card bg-pran-paper-warm p-6 text-[15px] leading-relaxed text-pran-muted">
-            PRAN prepares and advises — it does not certify, audit, or provide
-            assurance, and it does not give investment advice on carbon prices.
-            Framework requirements change; figures must be confirmed against
-            official guidance before filing.
-          </p>
-        </Reveal>
-      </section>
+      {/* The one thing that will not change. */}
+      <ModeBand mode="cinematic" size="lg">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
+          <Reveal>
+            <h2 className="max-w-[18ch] font-display text-h2 font-semibold tracking-[-0.02em] text-white">
+              A person signs off on every output.
+            </h2>
+            <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-white/70">
+              Automation drafts; it does not file. Every report will pass a
+              human review step before it reaches you, because a disclosure your
+              board signs is not a place for an unreviewed machine output.
+            </p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <Ledger
+              tone="dark"
+              head={["PRAN is", "PRAN is not"]}
+              rows={[
+                { label: "A preparer", value: "Not an auditor" },
+                { label: "A mapper of your data", value: "Not an assurance provider" },
+                { label: "A procurement adviser", value: "Not a price forecaster" },
+                { label: "Reviewed by people", value: "Not fully automated", emphasis: true },
+              ]}
+              caption="Framework requirements change. Figures must be confirmed against official SEBI, EU or ministry guidance before filing."
+            />
+          </Reveal>
+        </div>
+      </ModeBand>
 
       <CtaBand
         title="Tell us which framework you're working to."
-        subtitle="We'll show you exactly how it works for your organisation."
-        primary={{ label: "Request Demo", href: "/contact?interest=demo" }}
+        subtitle="We'll put you on the early-access list for the one that matters to you, and tell you honestly when it's ready."
+        primary={{ label: "Join early access", href: "/contact?interest=intelligence" }}
         secondary={{ label: "Explore Marketplace", href: "/marketplace" }}
       />
     </>

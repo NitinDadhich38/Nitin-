@@ -1,167 +1,183 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { CtaBand } from "@/components/marketing/page-kit";
+import type { CSSProperties } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { DrawnHero, Em, FieldPath } from "@/components/craft/drawn-hero";
+import { ModeBand, BandHeader } from "@/components/craft/mode-band";
+import { Ledger } from "@/components/craft/ledger";
+import { IsIsNot } from "@/components/about/is-is-not";
 import { Reveal } from "@/components/marketing/reveal";
-import { TexturedSection } from "@/components/marketing/textured-section";
-import { photos } from "@/lib/images";
+import { CtaBand } from "@/components/marketing/page-kit";
 import { founderPrinciples } from "@/lib/leadership";
+import { frictionPoints } from "@/lib/market-data";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Why We Exist",
   description:
-    "PRAN is building the financial infrastructure layer for the carbon market — transparent, verifiable, and honest by design.",
+    "PRAN is not a green brand. It is the financial-infrastructure layer for the carbon market — transparent, verifiable, and honest by design.",
 };
 
 /** What PRAN is, stated against what it is not. The contrast is the point. */
 const isIsNot = [
   {
     not: "Not an issuer",
-    is: "Credits exist only because a registry issued them. PRAN lists what already exists.",
+    is: "Credits exist only because a registry issued them. PRAN lists what already exists — it has never created a tonne and never will.",
   },
   {
     not: "Not an auditor or verifier",
-    is: "Validation and verification are done by accredited third parties, on the registry's terms.",
+    is: "Validation and verification are done by accredited third parties, on the registry's terms. We do not grade projects.",
   },
   {
     not: "Not a financial advisor",
-    is: "We do not advise on carbon price direction or treat credits as an investment product.",
+    is: "We do not advise on carbon price direction, and we do not treat credits as an investment product.",
   },
   {
     not: "Not a green brand",
-    is: "We are market infrastructure. The product is settlement, records, and screening — not a message.",
+    is: "We are market infrastructure. The product is settlement, records and screening — not a message about the planet.",
   },
 ];
+
+/** Hero field — a settlement spine with branches. Infrastructure, drawn. */
+function SpineField() {
+  const branches = [
+    { y: 220, x: 520 },
+    { y: 300, x: 780 },
+    { y: 480, x: 660 },
+    { y: 560, x: 900 },
+  ];
+  return (
+    <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden>
+      <defs>
+        <radialGradient id="sp-glow" cx="58%" cy="50%" r="56%">
+          <stop offset="0%" stopColor="#16a34a" stopOpacity="0.26" />
+          <stop offset="100%" stopColor="#16a34a" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="1440" height="760" fill="url(#sp-glow)" />
+      <FieldPath d="M 40 390 L 1400 390" stroke="#d9f99d" strokeOpacity="0.5" strokeWidth="2.5" delay={0.35} />
+      {branches.map((b, i) => (
+        <FieldPath
+          key={i}
+          d={`M ${b.x} 390 L ${b.x} ${b.y} L ${b.x + 300} ${b.y}`}
+          stroke="#ffffff"
+          strokeOpacity="0.2"
+          strokeWidth="1.5"
+          delay={0.9 + i * 0.15}
+        />
+      ))}
+      {branches.map((b, i) => (
+        <circle
+          key={`n${i}`} cx={b.x} cy="390" r="5" fill="#d9f99d"
+          className="field-in"
+          style={{ "--field-opacity": "0.9", animationDelay: `${1.5 + i * 0.12}s` } as CSSProperties}
+        />
+      ))}
+    </svg>
+  );
+}
 
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-pran-forest text-white">
-        <Image
-          src={photos.mountainForest}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-25"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(60%_55%_at_80%_20%,rgba(217,249,157,.12),transparent_60%),linear-gradient(180deg,rgba(5,14,9,.74),rgba(4,12,8,.94))]"
-        />
-        <div className="relative z-10 mx-auto max-w-content px-6 py-20 sm:py-28">
-          <Reveal>
-            <h1 className="max-w-[20ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
-              The financial infrastructure for the carbon market.
-            </h1>
-            <p className="mt-6 max-w-[62ch] text-lg leading-relaxed text-white/70">
-              PRAN — operated by Pran Sustainability Pvt. Ltd. — exists to make
-              the carbon economy work like real financial infrastructure:
-              transparent, verifiable, and honest.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      <DrawnHero
+        eyebrow="Why we exist"
+        lines={[
+          "We are not a",
+          <>
+            green brand. We are <Em>the plumbing</Em>.
+          </>,
+        ]}
+        sub="PRAN — operated by Pran Sustainability Pvt. Ltd. — exists to make the carbon economy work like real financial infrastructure: transparent, verifiable, and boring in exactly the places that matter."
+        field={<SpineField />}
+        actions={
+          <>
+            <Link href="/about/team" className={cn(buttonVariants({ size: "lg" }), "group")}>
+              Meet the founder
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              href="/why-carbon-markets"
+              className="text-[15px] font-medium text-white underline-offset-4 hover:underline"
+            >
+              Why carbon markets matter
+            </Link>
+          </>
+        }
+      />
 
-      {/* The argument */}
-      <section className="mx-auto max-w-content px-6 py-20 sm:py-24">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+      {/* ── The signature visual: what we are, against what we are not ─── */}
+      <ModeBand mode="data" size="lg">
+        <BandHeader
+          eyebrow="Position"
+          title="Stated against what it isn't."
+          sub="Most of this industry describes itself in adjectives. The fastest way to say what PRAN is, is to strike out the four things people usually assume it must be."
+        />
+        <div className="mt-14">
+          <IsIsNot items={isIsNot} />
+        </div>
+      </ModeBand>
+
+      {/* ── The argument ────────────────────────────────────────────────── */}
+      <ModeBand mode="cinematic" size="lg">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <Reveal>
-            <h2 className="max-w-[18ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
+            <h2 className="max-w-[16ch] font-display text-h2 font-semibold tracking-[-0.02em] text-white">
               The gaps between participants are the cost.
             </h2>
+            <p className="mt-6 max-w-[48ch] text-lg leading-relaxed text-white/70">
+              Developers, registries, buyers, governments and consultants each
+              hold one piece of the picture. Every gap between them shows up as
+              delay, price dispersion, and distrust — and someone pays for all
+              three.
+            </p>
           </Reveal>
-          <div className="space-y-5 text-lg leading-relaxed text-pran-muted">
-            <Reveal delay={0.05}>
-              <p>
-                Carbon markets today are fragmented. Developers, registries,
-                buyers, governments, and consultants each hold a piece of the
-                picture — and the gaps between them create cost, delay, and
-                distrust.
-              </p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p>
-                PRAN connects those participants through one marketplace. We
-                list registry-issued projects, settle purchases through escrow,
-                and issue factual retirement certificates. We add intelligence —
-                procurement guidance and reporting — with a human review step on
-                every output.
-              </p>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <p className="font-medium text-pran-ink">
-                That discipline is what makes the market trustworthy.
-              </p>
-            </Reveal>
-          </div>
+          <Reveal delay={0.08}>
+            <Ledger
+              tone="dark"
+              head={["Where it breaks", "Stage"]}
+              rows={frictionPoints.map((f, i) => ({
+                label: f.stage,
+                value: `0${i + 1}`,
+                note: f.problem,
+              }))}
+              caption="Stated as claims we can defend, not percentages we invented."
+            />
+          </Reveal>
         </div>
-      </section>
+      </ModeBand>
 
-      {/* What we are not */}
-      <TexturedSection
-        photo={photos.forestMist}
-        tone="light"
-        className="border-t border-pran-hairline py-20"
-      >
-        <div className="mx-auto max-w-content px-6">
-          <Reveal>
-            <h2 className="max-w-[22ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
-              What PRAN is, stated against what it isn&rsquo;t.
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-2">
-            {isIsNot.map((x, i) => (
-              <Reveal key={x.not} delay={i * 0.05}>
-                <div className="h-full bg-pran-surface p-8">
-                  <p className="font-display text-h3 font-semibold text-pran-ink">
-                    {x.not}
-                  </p>
-                  <p className="mt-2.5 text-[15px] leading-relaxed text-pran-muted">
-                    {x.is}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </TexturedSection>
-
-      {/* Operating principles, shared with the leadership page */}
-      <TexturedSection photo={photos.seedling} tone="light" className="py-20">
-        <div className="mx-auto max-w-content px-6">
-          <Reveal>
-            <h2 className="max-w-[22ch] font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
-              How we operate.
-            </h2>
-          </Reveal>
-          <ol className="mt-10 grid gap-6 sm:grid-cols-2">
-            {founderPrinciples.map((p, i) => (
-              <Reveal key={p.title} delay={i * 0.05}>
-                <li className="flex h-full flex-col rounded-panel bg-pran-surface p-7 shadow-card">
-                  <span className="font-display text-sm font-semibold tabular-nums text-pran-emerald">
-                    0{i + 1}
-                  </span>
-                  <h3 className="mt-3 font-display text-h3 font-semibold text-pran-ink">
-                    {p.title}
-                  </h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-pran-muted">
-                    {p.body}
-                  </p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
-      </TexturedSection>
+      {/* ── How we operate ──────────────────────────────────────────────── */}
+      <ModeBand mode="warm" size="lg">
+        <BandHeader
+          eyebrow="Operating principles"
+          title="How we operate."
+          sub="These are constraints, not values. Each one costs us something, which is how you can tell we mean them."
+        />
+        <ol className="mt-12 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-2">
+          {founderPrinciples.map((p, i) => (
+            <Reveal key={p.title} delay={i * 0.05}>
+              <li className="flex h-full flex-col bg-pran-surface p-8">
+                <span className="font-display text-sm font-semibold tabular-nums text-pran-emerald">
+                  0{i + 1}
+                </span>
+                <h3 className="mt-3 font-display text-h3 font-semibold text-pran-ink">
+                  {p.title}
+                </h3>
+                <p className="mt-2.5 text-[15px] leading-relaxed text-pran-muted">
+                  {p.body}
+                </p>
+              </li>
+            </Reveal>
+          ))}
+        </ol>
+      </ModeBand>
 
       <CtaBand
         title="Meet the person building it."
         primary={{ label: "Leadership", href: "/about/team" }}
-        secondary={{
-          label: "Why carbon markets matter",
-          href: "/why-carbon-markets",
-        }}
+        secondary={{ label: "Why carbon markets matter", href: "/why-carbon-markets" }}
       />
     </>
   );

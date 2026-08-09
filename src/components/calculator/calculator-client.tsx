@@ -2,10 +2,8 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, ArrowLeft, RotateCcw } from "lucide-react";
 import { Reveal } from "@/components/marketing/reveal";
-import { photos } from "@/lib/images";
 import { buttonVariants } from "@/components/ui/button";
 import {
   PERSONAL,
@@ -125,33 +123,9 @@ export function CalculatorClient() {
 
   return (
     <div className="bg-pran-paper-warm">
-      {/* S1 — opener over photography */}
-      <section className="relative overflow-hidden bg-pran-forest text-white">
-        <Image
-          src={photos.seedling}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-25"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_10%,rgba(217,249,157,.12),transparent_60%),linear-gradient(180deg,rgba(5,14,9,.74),rgba(4,12,8,.94))]"
-        />
-        <div className="relative z-10 mx-auto max-w-3xl px-6 py-16 text-center sm:py-20">
-          <Reveal>
-            <h1 className="mx-auto max-w-[16ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
-              Know your number before you offset it.
-            </h1>
-            <p className="mx-auto mt-5 max-w-[54ch] text-lg leading-relaxed text-white/70">
-              A quick estimate built on cited factors — DEFRA, the GHG Protocol,
-              and the CEA grid factor for Indian electricity. No sign-up.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
+      {/* The opener lives on the page (a server component) so the hero can be
+         diagram-forward like every other interior page; this component owns
+         only the tool. */}
       <section className="mx-auto max-w-3xl px-6 pt-12 text-center sm:pt-14">
 
         <Reveal delay={0.1}>

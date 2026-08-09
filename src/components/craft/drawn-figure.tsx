@@ -141,6 +141,54 @@ export function DrawnPath({
 }
 
 /**
+ * A bar that grows from its left edge.
+ *
+ * Deliberately a CSS transform rather than SMIL `<animate>`: SMIL has no
+ * concept of `prefers-reduced-motion`, so an animated bar would keep moving
+ * for a visitor who asked everything to stop. Scaling also stays on the
+ * compositor, where animating `width` would not.
+ *
+ * `x` is passed separately from the transform origin so the bar grows out of
+ * its own baseline rather than the viewBox origin.
+ */
+export function DrawnBar({
+  x,
+  y,
+  width,
+  height,
+  delay = 0,
+  duration = 900,
+  style,
+  ...rest
+}: {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  /** ms */
+  delay?: number;
+  /** ms */
+  duration?: number;
+} & Omit<SVGProps<SVGRectElement>, "x" | "y" | "width" | "height">) {
+  const { on, reduce } = useDraw();
+  return (
+    <rect
+      {...rest}
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      style={{
+        ...style,
+        transformOrigin: `${x}px ${y + height / 2}px`,
+        transform: on ? "scaleX(1)" : "scaleX(0)",
+        transition: reduce ? "none" : `transform ${duration}ms ${EASE} ${delay}ms`,
+      }}
+    />
+  );
+}
+
+/**
  * A group that fades in on cue — for the labels, dots and fills that should
  * land *after* their line has finished drawing.
  */

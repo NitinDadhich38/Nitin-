@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import {
-  PageHeader,
-  Prose,
-  Callout,
-  CtaBand,
-} from "@/components/marketing/page-kit";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { Prose, Callout, CtaBand } from "@/components/marketing/page-kit";
+import { DrawnHero, Em, FieldPath } from "@/components/craft/drawn-hero";
+import { ReadingProgress } from "@/components/resources/reading-progress";
 import { articles, getArticle, glossary } from "@/lib/resources";
+import { cn } from "@/lib/utils";
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }));
@@ -24,42 +23,126 @@ export function generateMetadata({
   return { title: a.title, description: a.summary };
 }
 
+/** Hero field — a text block being set. Editorial, not industrial. */
+function TypeField() {
+  const lines = Array.from({ length: 13 }, (_, i) => 190 + i * 34);
+  return (
+    <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden>
+      <defs>
+        <radialGradient id="ty-glow" cx="70%" cy="48%" r="54%">
+          <stop offset="0%" stopColor="#16a34a" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#16a34a" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="1440" height="760" fill="url(#ty-glow)" />
+      <FieldPath d="M 760 150 L 760 660" stroke="#d9f99d" strokeOpacity="0.35" strokeWidth="1.5" delay={0.3} />
+      {lines.map((y, i) => (
+        <line
+          key={y}
+          x1={800}
+          y1={y}
+          x2={800 + (i % 5 === 4 ? 220 : 480 - (i % 3) * 70)}
+          y2={y}
+          stroke={i === 0 ? "#d9f99d" : "#ffffff"}
+          strokeWidth={i === 0 ? 4 : 3}
+          className="field-in"
+          style={
+            {
+              "--field-opacity": i === 0 ? "0.55" : `${0.11 - (i % 4) * 0.015}`,
+              animationDelay: `${0.45 + i * 0.05}s`,
+            } as CSSProperties
+          }
+        />
+      ))}
+    </svg>
+  );
+}
+
 export default function ResourcePage({ params }: { params: { slug: string } }) {
   const article = getArticle(params.slug);
   if (!article) notFound();
 
+  const others = articles.filter((a) => a.slug !== article.slug);
+
   return (
     <>
-      <PageHeader
-        eyebrow={`${article.tag} · ${article.readingMinutes} min read`}
-        title={article.title}
-        subtitle={article.summary}
-      />
+      <ReadingProgress />
 
-      <Prose>
-        <p>
+      <DrawnHero
+        eyebrow={`${article.tag} · ${article.readingMinutes} min read`}
+        lines={[article.title]}
+        sub={article.summary}
+        field={<TypeField />}
+        actions={
           <Link
             href="/resources"
-            className="inline-flex items-center gap-1.5 !text-pran-muted !no-underline hover:!text-pran-emerald"
+            className="inline-flex items-center gap-1.5 text-[15px] font-medium text-white/85 underline-offset-4 hover:text-pran-lime hover:underline"
           >
             <ArrowLeft className="h-4 w-4" /> All resources
           </Link>
-        </p>
+        }
+      />
 
-        {params.slug === "glossary" && <GlossaryBody />}
-        {params.slug === "voluntary-market" && <VoluntaryBody />}
-        {params.slug === "ccts" && <CctsBody />}
-        {params.slug === "compliance-library" && <ComplianceBody />}
-        {params.slug === "blog" && <BlogBody />}
+      {/* Editorial two-column: the read, with everything else parked beside it. */}
+      <div className="bg-pran-paper">
+        <div className="mx-auto grid max-w-content gap-12 px-6 py-16 lg:grid-cols-[1fr_260px] lg:gap-16 lg:py-20">
+          <div className="min-w-0">
+            <Prose>
+              {params.slug === "glossary" && <GlossaryBody />}
+              {params.slug === "voluntary-market" && <VoluntaryBody />}
+              {params.slug === "ccts" && <CctsBody />}
+              {params.slug === "compliance-library" && <ComplianceBody />}
+              {params.slug === "blog" && <BlogBody />}
+            </Prose>
+          </div>
 
-        <p className="!mt-12 text-sm !text-pran-muted">
-          Last updated {article.updated}.
-        </p>
-      </Prose>
+          <aside className="lg:sticky lg:top-24 lg:self-start">
+            <div className="border-t border-pran-hairline pt-5">
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-pran-muted">
+                This piece
+              </p>
+              <dl className="mt-3.5 space-y-2.5 text-[13px]">
+                {[
+                  ["Type", article.tag],
+                  ["Reading time", `${article.readingMinutes} min`],
+                  ["Last updated", article.updated],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex justify-between gap-4">
+                    <dt className="text-pran-muted">{k}</dt>
+                    <dd className="m-0 font-medium text-pran-ink">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div className="mt-9 border-t border-pran-hairline pt-5">
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-pran-muted">
+                Keep reading
+              </p>
+              <ul className="mt-3.5 space-y-3.5">
+                {others.map((a) => (
+                  <li key={a.slug}>
+                    <Link
+                      href={`/resources/${a.slug}`}
+                      className={cn(
+                        "group flex items-start justify-between gap-3 text-[14px] leading-snug",
+                        "text-pran-ink hover:text-pran-emerald",
+                      )}
+                    >
+                      <span>{a.title}</span>
+                      <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-pran-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-pran-emerald" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
 
       <CtaBand
         title="Ready to look at real supply?"
-        subtitle="Browse verified projects across six registry standards and twenty countries."
+        subtitle="Browse verified projects across every registry standard on the platform."
         primary={{ label: "Explore Marketplace", href: "/marketplace" }}
         secondary={{ label: "Talk to our team", href: "/contact" }}
       />

@@ -62,6 +62,48 @@ export function ModeBand({
 }
 
 /**
+ * The quiet page opener — DrawnHero's counterpart for documents.
+ *
+ * Legal pages, policies and anything a reader may need to cite get this
+ * instead of a drawn hero. A cinematic opening on a Terms of Service page
+ * reads as marketing over a contract, which is the one register those pages
+ * must never have. Typography and a hairline; nothing else.
+ */
+export function DocHeader({
+  eyebrow,
+  title,
+  sub,
+  meta,
+}: {
+  eyebrow?: string;
+  title: string;
+  sub?: ReactNode;
+  /** e.g. "Last updated July 2026" */
+  meta?: string;
+}) {
+  return (
+    <header className="border-b border-pran-hairline pb-10 pt-16">
+      {eyebrow && (
+        <p className="text-xs font-medium uppercase tracking-[0.14em] text-pran-emerald">
+          {eyebrow}
+        </p>
+      )}
+      <h1 className="mt-4 max-w-[20ch] font-display text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-pran-ink">
+        {title}
+      </h1>
+      {sub && (
+        <p className="mt-5 max-w-[62ch] text-lg leading-relaxed text-pran-muted">
+          {sub}
+        </p>
+      )}
+      {meta && (
+        <p className="mt-6 text-[13px] text-pran-muted">{meta}</p>
+      )}
+    </header>
+  );
+}
+
+/**
  * Section opener sized for interior pages.
  *
  * Deliberately narrower than the homepage display type: an interior headline

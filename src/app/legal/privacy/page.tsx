@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { PageHeader, Prose, Callout } from "@/components/marketing/page-kit";
+import { Prose, Callout } from "@/components/marketing/page-kit";
+import { DocHeader } from "@/components/craft/mode-band";
+import { ReadingProgress } from "@/components/resources/reading-progress";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -11,10 +13,11 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <PageHeader
+      <ReadingProgress />
+      <DocHeader
         eyebrow="Legal"
         title="Privacy Policy"
-        subtitle="What we collect, why we collect it, and what you can ask us to do with it."
+        sub="What we collect, why we collect it, and what you can ask us to do with it."
       />
       <Prose>
         <Callout>
