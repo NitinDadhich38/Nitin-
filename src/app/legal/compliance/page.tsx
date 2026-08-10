@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Prose, Callout } from "@/components/marketing/page-kit";
 import { DocHeader } from "@/components/craft/mode-band";
+import { pageImages } from "@/lib/images";
 import { ReadingProgress } from "@/components/resources/reading-progress";
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export default function CompliancePage() {
     <>
       <ReadingProgress />
       <DocHeader
+        image={pageImages.legalHero}
         eyebrow="Legal"
         title="Compliance Framework"
         sub="The rules we hold ourselves to on claims, certificates, and the limits of our role."

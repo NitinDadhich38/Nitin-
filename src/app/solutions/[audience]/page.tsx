@@ -10,7 +10,6 @@ import { FlowRail } from "@/components/craft/flow-rail";
 import { Reveal } from "@/components/marketing/reveal";
 import { CtaBand } from "@/components/marketing/page-kit";
 import {
-  audienceField,
   ComplianceCalendar,
   MarketShape,
   DietScale,
@@ -19,6 +18,7 @@ import { audiences, getAudience } from "@/lib/content";
 import { settlementPath } from "@/lib/page-data";
 import { portfolioStats } from "@/lib/marketplace-data";
 import { compact } from "@/lib/config";
+import { solutionImages } from "@/lib/images";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -70,7 +70,7 @@ const HEADLINE: Record<string, React.ReactNode[]> = {
   public: [
     "You can't manage",
     <>
-      what you've <Em>never seen</Em>.
+      what you&apos;ve <Em>never seen</Em>.
     </>,
   ],
 };
@@ -94,7 +94,6 @@ export default function AudiencePage({
   const a = getAudience(params.audience);
   if (!a) notFound();
 
-  const Field = audienceField[a.slug];
   const consumer = a.consumer === true;
 
   return (
@@ -104,7 +103,7 @@ export default function AudiencePage({
         lines={HEADLINE[a.slug] ?? [a.title]}
         sub={SUB[a.slug] ?? a.subtitle}
         mode={a.slug === "government" ? "forest" : "cinematic"}
-        field={Field ? <Field /> : undefined}
+        image={solutionImages[a.slug]}
         actions={
           <>
             <Link href={a.primary.href} className={cn(buttonVariants({ size: "lg" }), "group")}>
