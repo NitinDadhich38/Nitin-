@@ -3,15 +3,13 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { DrawnHero, Em, FieldPath } from "@/components/craft/drawn-hero";
-import { ModeBand, BandHeader } from "@/components/craft/mode-band";
-import { Ledger } from "@/components/craft/ledger";
+import { ModeBand } from "@/components/craft/mode-band";
 import { Reveal } from "@/components/marketing/reveal";
 import { CtaBand } from "@/components/marketing/page-kit";
 import { LinkedInIcon } from "@/components/shared/icons";
 import { FounderPortrait } from "@/components/marketing/founder-portrait";
 import { founder } from "@/lib/leadership";
-import { portfolioStats } from "@/lib/marketplace-data";
-import { compact } from "@/lib/config";
+import { pageImages } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Leadership",
@@ -65,12 +63,13 @@ export default function LeadershipPage() {
       <DrawnHero
         eyebrow="Leadership"
         lines={[
-          "One person, so far.",
+          "The people behind",
           <>
-            That&rsquo;s <Em>the honest version</Em>.
+            the <Em>infrastructure</Em>.
           </>,
         ]}
-        sub="PRAN is founder-led and early. We would rather tell you that than pad a page with a team we haven't hired yet."
+        sub="PRAN is built by people who work the carbon market directly — with the developers listing projects, and with the buyers who have to defend every tonne on their books."
+        image={pageImages.teamHorizon}
         field={<SoloField />}
       />
 
@@ -135,7 +134,7 @@ export default function LeadershipPage() {
             </h2>
             <p className="mt-6 max-w-[48ch] text-lg leading-relaxed text-white/70">
               Early-stage is a reason to check what actually exists, not to take
-              anyone's word for it. Every figure below is derived from the live
+              anyone&apos;s word for it. Every figure below is derived from the live
               portfolio behind the marketplace — go and look at it.
             </p>
             <Link
@@ -144,23 +143,6 @@ export default function LeadershipPage() {
             >
               Open the marketplace
             </Link>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <Ledger
-              tone="dark"
-              head={["On the platform", "Today"]}
-              rows={[
-                { label: "Listed projects", value: portfolioStats.projects },
-                { label: "Countries represented", value: portfolioStats.countries },
-                { label: "Registry standards", value: portfolioStats.registries },
-                {
-                  label: "Volume listed",
-                  value: `${compact(portfolioStats.totalVolume)} tCO₂e`,
-                  emphasis: true,
-                },
-              ]}
-              source="PRAN portfolio, derived"
-            />
           </Reveal>
         </div>
       </ModeBand>

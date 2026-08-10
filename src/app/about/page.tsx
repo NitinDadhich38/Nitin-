@@ -8,7 +8,8 @@ import { Ledger } from "@/components/craft/ledger";
 import { IsIsNot } from "@/components/about/is-is-not";
 import { Reveal } from "@/components/marketing/reveal";
 import { CtaBand } from "@/components/marketing/page-kit";
-import { founderPrinciples } from "@/lib/leadership";
+import { operatingSteps } from "@/lib/leadership";
+import { pageImages } from "@/lib/images";
 import { frictionPoints } from "@/lib/market-data";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -90,6 +91,7 @@ export default function AboutPage() {
           </>,
         ]}
         sub="PRAN — operated by Pran Sustainability Pvt. Ltd. — exists to make the carbon economy work like real financial infrastructure: transparent, verifiable, and boring in exactly the places that matter."
+        image={pageImages.aboutWhy}
         field={<SpineField />}
         actions={
           <>
@@ -150,26 +152,42 @@ export default function AboutPage() {
 
       {/* ── How we operate ──────────────────────────────────────────────── */}
       <ModeBand mode="warm" size="lg">
-        <BandHeader
-          eyebrow="Operating principles"
-          title="How we operate."
-          sub="These are constraints, not values. Each one costs us something, which is how you can tell we mean them."
-        />
-        <ol className="mt-12 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-2">
-          {founderPrinciples.map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.05}>
-              <li className="flex h-full flex-col bg-pran-surface p-8">
-                <span className="font-display text-sm font-semibold tabular-nums text-pran-emerald">
-                  0{i + 1}
-                </span>
-                <h3 className="mt-3 font-display text-h3 font-semibold text-pran-ink">
-                  {p.title}
-                </h3>
-                <p className="mt-2.5 text-[15px] leading-relaxed text-pran-muted">
-                  {p.body}
-                </p>
-              </li>
-            </Reveal>
+        <BandHeader eyebrow="How it works" title="How we operate." />
+
+        {/* A vertical sequence, not a card grid: each step enters from the
+            opposite side to the one before it, so the eye zig-zags down the
+            order of operations instead of scanning a matrix (founder
+            direction, 2026-08-09). The numeral is the anchor, set large. */}
+        <ol className="mx-auto mt-14 max-w-4xl">
+          {operatingSteps.map((step, i) => (
+            <li key={step.title}>
+              <Reveal from={i % 2 === 0 ? "left" : "right"}>
+                <div
+                  className={cn(
+                    "flex items-start gap-6 py-8 sm:gap-10",
+                    i % 2 === 1 && "sm:flex-row-reverse sm:text-right",
+                  )}
+                >
+                  <span
+                    aria-hidden
+                    className="font-display text-[clamp(3.25rem,9vw,5.5rem)] font-semibold leading-[0.8] tabular-nums text-pran-emerald/25"
+                  >
+                    {i + 1}
+                  </span>
+                  <div className="flex-1 pt-1">
+                    <h3 className="font-display text-h3 font-semibold text-pran-ink">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-[15px] leading-relaxed text-pran-muted sm:text-base">
+                      {step.body}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+              {i < operatingSteps.length - 1 && (
+                <div className="h-px bg-pran-hairline" />
+              )}
+            </li>
           ))}
         </ol>
       </ModeBand>
