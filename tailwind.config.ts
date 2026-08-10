@@ -55,7 +55,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["var(--font-display)", "Space Grotesk", "ui-sans-serif", "sans-serif"],
+        display: ["var(--font-display)", "Fraunces", "Georgia", "ui-serif", "serif"],
         sans: ["var(--font-sans)", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },

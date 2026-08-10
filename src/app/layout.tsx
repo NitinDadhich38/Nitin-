@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import { SiteChrome } from "@/components/shared/site-chrome";
 import "./globals.css";
 
-// Display / headline face — tight geometric sans (5_Design.md v2.0 §2.2).
-// Space Grotesk is self-hosted at build (no CDN). Swap for General Sans /
-// Satoshi here if/when the founder provides the woff2 files.
-const spaceGrotesk = Space_Grotesk({
+// Display / headline face. Space Grotesk was replaced 2026-08-09 — the
+// founder read it as generic ("purely AI"), and it is genuinely the most
+// over-used face on AI-generated startup sites. Fraunces is a variable
+// editorial serif: warm, high-contrast, and it belongs to the paper/forest
+// palette in a way a geometric sans never did. Self-hosted at build, no CDN.
+// TO SWAP: change the import and this one call — everything downstream reads
+// --font-display via tailwind.config.ts, so no other file needs touching.
+const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -45,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${inter.variable} ${fraunces.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <SiteChrome>{children}</SiteChrome>
       </body>
