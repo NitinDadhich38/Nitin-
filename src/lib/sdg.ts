@@ -25,9 +25,28 @@ export const SDG_NAMES: Record<number, string> = {
 };
 
 /** Official UN SDG square icon for a goal number (1–17). */
+/**
+ * SDG icons are SELF-HOSTED from /public/sdg (2026-08-09, performance pass).
+ *
+ * They were hotlinked from sdgs.un.org. There are only 17 of them, but the
+ * marketplace renders up to three per project across 85 projects — roughly
+ * 250 icon elements on one page, every one resolved through Next's image
+ * optimiser, which then has to fetch the source from an external host before
+ * it can serve anything. That is the slowest thing on the page and the most
+ * fragile: it puts a third party on the critical path of the site's main
+ * working surface, and the optimiser's server-side fetch to remote hosts
+ * already times out in some environments.
+ *
+ * Serving them from our own origin removes the external dependency entirely
+ * and lets them be cached like any other static asset.
+ *
+ * These are the official UN SDG icons, used to identify the goals a project
+ * reports against. Do not restyle or recolour them — the UN guidelines treat
+ * the icons as fixed artwork.
+ */
 export function sdgIconUrl(goal: number): string {
   const n = String(goal).padStart(2, "0");
-  return `https://sdgs.un.org/sites/default/files/goals/E_SDG_Icons-${n}.jpg`;
+  return `/sdg/${n}.webp`;
 }
 
 export function sdgName(goal: number): string {

@@ -53,37 +53,37 @@ export type PhotoKey = keyof typeof photos;
  */
 export const pageImages = {
   /** Aerial green hills — /about, "why we exist". */
-  aboutWhy: "/img/about-why.jpg",
+  aboutWhy: "/img/about-why.webp",
   /** Wide mountain-forest horizon — /about/team. */
-  teamHorizon: "/img/team-horizon.jpg",
+  teamHorizon: "/img/team-horizon.webp",
   /** Industrial emissions against sky — /why-carbon-markets. */
-  whyClimate: "/img/why-climate.jpg",
+  whyClimate: "/img/why-climate.webp",
   /** Solar array — /resources/compliance-library. */
-  resourcesCompliance: "/img/resources-compliance.jpg",
+  resourcesCompliance: "/img/resources-compliance.webp",
   /** Forest canopy — /resources/voluntary-market. */
-  resourcesVoluntary: "/img/resources-voluntary.jpg",
+  resourcesVoluntary: "/img/resources-voluntary.webp",
   /** Open landscape — /resources/blog. */
-  resourcesBlog: "/img/resources-blog.jpg",
+  resourcesBlog: "/img/resources-blog.webp",
   /** Wind turbine against sky — /calculator. */
-  calculatorHero: "/img/calculator-hero.jpg",
+  calculatorHero: "/img/calculator-hero.webp",
   /** Misty forest — /resources/[slug] hero. */
-  resourcesHero: "/img/resources-hero.jpg",
+  resourcesHero: "/img/resources-hero.webp",
   /** Aerial river through forest — /marketplace band. */
-  marketplaceHero: "/img/marketplace-hero.jpg",
+  marketplaceHero: "/img/marketplace-hero.webp",
   /** Data / analysis — /intelligence. */
-  intelligenceHero: "/img/intelligence-hero.jpg",
+  intelligenceHero: "/img/intelligence-hero.webp",
   /** Open desk — /contact. */
-  contactHero: "/img/contact-hero.jpg",
+  contactHero: "/img/contact-hero.webp",
   /** Wide horizon — /legal/* letterhead band. */
-  legalHero: "/img/legal-hero.jpg",
+  legalHero: "/img/legal-hero.webp",
 } as const;
 
 /** Per-audience hero photography for /solutions/[audience]. */
 export const solutionImages: Record<string, string> = {
-  enterprise: "/img/solutions-enterprise.jpg",
-  government: "/img/solutions-government.jpg",
-  developers: "/img/solutions-developers.jpg",
-  public: "/img/solutions-public.jpg",
+  enterprise: "/img/solutions-enterprise.webp",
+  government: "/img/solutions-government.webp",
+  developers: "/img/solutions-developers.webp",
+  public: "/img/solutions-public.webp",
 };
 
 /**

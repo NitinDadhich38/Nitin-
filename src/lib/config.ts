@@ -61,13 +61,20 @@ export const brand = {
  * the founder is speaking as himself.
  *
  * `whatsapp` is stored as digits only — country code, no `+`, no spaces —
- * because that is the exact shape wa.me requires. `whatsappDisplay` is the
- * human-readable version; never build the link from it.
+ * because that is the exact shape wa.me requires.
+ *
+ * ⚠ DO NOT PRINT THE NUMBER AS VISIBLE TEXT (founder direction 2026-08-09,
+ * anti-scraping). A formatted "+91 72968 15012" matches the phone-number
+ * regexes harvesters run over page text; "wa.me/917296815012" inside an href
+ * does not. So link to it, label the link, and never render the formatted
+ * version. `whatsappDisplay` is kept ONLY for places a human must read the
+ * number back — an email body, an invoice — never for a web page.
  */
 export const pranSocial = {
   linkedin: "https://www.linkedin.com/company/pranapp",
   email: "contact@pranapp.in",
   whatsapp: "917296815012",
+  /** Not for rendering on the site — see the warning above. */
   whatsappDisplay: "+91 72968 15012",
 } as const;
 

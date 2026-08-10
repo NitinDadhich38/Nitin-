@@ -159,7 +159,7 @@ export default function ContactPage({
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10">
                       <WhatsAppIcon className="h-4 w-4 text-pran-emerald" />
                     </span>
-                    {pranSocial.whatsappDisplay}
+                    Message us on WhatsApp
                   </a>
                   <a
                     href={pranSocial.linkedin}
