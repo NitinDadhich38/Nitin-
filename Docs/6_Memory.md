@@ -26,13 +26,20 @@ Keep entries short and factual. This is a log, not an essay.
 Domain:            pranglobal.com   (CONFIRM — earlier docs said pranapp.in)
 Stack:             Next.js 14 + TypeScript + Tailwind + shadcn/ui +
                    Supabase + Razorpay + Resend + Vercel
-Current phase:     Phase 1
-Current stage:     FULL-SITE BUILD (founder: "build whole website, deployable to
-                   replace pranglobal.com"). Building all pages w/ static seed
-                   data + honest placeholders; wiring forms for keys. Not strict
-                   one-task order. Done: Stage 0, Marketplace (listing+detail).
+Current phase:     Phase 1 → "Phase 1.5" (founder re-sequence, 2026-08-09)
+Current stage:     GOING LIVE + CONNECTION LAYER. The whole site is built
+                   against static TS data. Founder's order (Phases.md
+                   "REVISED BUILD ORDER"): (1) content pass, (2) emails +
+                   WhatsApp + calculator, (3) admin project console.
+                   DROPPED from this phase: buyer/seller accounts, KYC,
+                   seller self-registration, buyer/seller dashboards.
+                   DEFERRED: Razorpay/escrow, certificates, /verify.
 Repo:              github.com/NitinDadhich38/Nitin- (PRIVATE) — code + docs
 Live URL:          [Vercel not connected yet]  (old HTML site: pranglobal.com, repo techzedd/codepran — context only)
+Hosting plan:      hosteasy.in keeps DNS + @pranglobal.com mailboxes.
+                   Vercel runs the app. Supabase for the admin DB.
+                   hosteasy CANNOT run Next.js (PHP-only shared hosting).
+                   Going live = edit A + CNAME records; NEVER nameservers.
 Supabase project:  [add project ref once created]
 Local runtime:     Node 24.18.0 + npm 11.16.0 (installed 2026-07-23)
 ```
@@ -409,18 +416,26 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none — INTERIOR PAGE REDESIGN COMPLETE (2026-08-08).
-                    Founder said "implement everything", so Waves 0-4 shipped
-                    in one pass. 15 of 16 interior templates rebuilt on the
-                    craft kit. The ONE page deliberately not touched is
-                    /[project] (roadmap 3.3) — see below.]
-Blocked on:         [Founder review of the whole redesign. Then: founder
-                    photo, real proof numbers, Intelligence service detail,
-                    and lawyer review of /legal/*.]
-Waiting on founder: [create Supabase project + fill .env.local; confirm domain;
-                    real project data (Stage B) for the 64 catalog projects
-                    with no live page yet; leadership names/photos for
-                    homepage Section 6 + Team; real marketplace stat numbers]
+Currently building: [none started. Next up = Stage 2 (connection layer), per
+                    Phases.md "REVISED BUILD ORDER". Stage 1 (content pass)
+                    is founder-driven and runs alongside it.]
+Blocked on:         [Founder must supply the VALUES for Stage 2 — see
+                    "Waiting on founder" below. Nothing can be delivered by
+                    email until those exist.]
+Waiting on founder: [STAGE 2 VALUES — purchase-enquiry inbox address; PRAN
+                    contact inbox address; founder's direct email; WhatsApp
+                    number (country code, no +/spaces, for wa.me); the
+                    auto-reply response-time wording (24h / 1 working day /
+                    48h — asked 2026-08-09, not yet answered).
+                    STAGE 3 — create the Supabase project + fill .env.local.
+                    ALSO STILL OPEN: real project photos for the 63 catalog
+                    projects with none (registries publish NONE — only the
+                    founder/developers can close this); leadership photos;
+                    real marketplace stat numbers; lawyer review of /legal/*.]
+Deploy readiness:   [`npm run build` PASSES as of 2026-08-09 (27 routes).
+                    Four ESLint errors that were BLOCKING the build were
+                    fixed that day (2 unused imports, 2 unescaped
+                    apostrophes) — uncommitted at time of writing.]
 Design:             5_Design.md v2.0 (warm paper / forest / emerald, Space
                     Grotesk display + Inter). Homepage built to it 2026-07-24.
                     (Supersedes the 2026-07-23 teal-UI lock.)
@@ -442,6 +457,17 @@ Logo:               received from techzedd/codepran, built as Logo component
 - Phase 1 = website + marketplace + calculator only. AI reporting is
   Phase 4, not now.
 - Projects are admin-entered in Phase 1 (no seller self-registration yet).
+- [2026-08-09] SCOPE HELD, THEN CUT. The founder first asked for buyer/seller
+  self-registration, on-platform KYC, and buyer/seller dashboards — then
+  withdrew all of it the same day ("it may make it quite complex, and I may
+  not handle it widely"). So the line above STANDS: projects stay
+  admin-entered. The founder onboards on behalf of developers, who send
+  details directly. Buyer side is managed off-platform.
+- [2026-08-09] NO TECH-STACK CHANGE was needed for any of this. Supabase +
+  Resend were already installed and unused; this phase switches them on.
+- [2026-08-09] Ship order is deliberate: the connection layer (emails,
+  WhatsApp, calculator) needs NO database, so it goes live first and starts
+  capturing enquiries while the admin console is built behind it.
 ```
 
 ---
@@ -522,14 +548,32 @@ NEXT_PUBLIC_SITE_URL              [ ] set
 ## 9. SESSION HANDOFF NOTES (last thing written each session)
 
 ```
-Last session date:   2026-08-08
-Last task completed: WAVES 0-4 — the whole interior redesign. 15 of 16
-                    templates rebuilt on the craft kit; see §2's two
-                    2026-08-08 entries.
-Next task to start:  Founder review. Then roadmap 3.3 (/[project] craft
-                    pass) — the only page left, kept separate on purpose.
-                    Also open: OG images (4.3), production perf check (4.5).
+Last session date:   2026-08-09
+Last task completed: No code feature. Session was DEPLOYMENT PLANNING +
+                    SCOPE RESET. Fixed the 4 ESLint errors blocking
+                    `npm run build`; audited the real vs. installed stack;
+                    rewrote Phases.md/Architecture.md/Memory.md for the
+                    founder's re-sequenced phase.
+Next task to start:  Stage 2.1-2.4 (the connection layer) AS SOON AS the
+                    founder supplies the email addresses + WhatsApp number.
+                    Stage 2.5 (calculator factor verification) needs no
+                    founder input and can start immediately.
 Anything the next session must know:
+  - THE FOUNDER HAS NO HOSTING BACKGROUND and previously deployed only
+    static HTML/PHP via cPanel. Explain deployment concretely, never
+    assume familiarity with DNS, env vars, or build steps.
+  - hosteasy.in CANNOT run this app. It keeps the domain and the mailboxes
+    only. Do not suggest uploading anything to public_html.
+  - THREE HEAVY DEPS ARE DEAD: three (25MB), @react-three (4MB),
+    recharts (9MB) — the globe was banned and every chart is hand-drawn
+    SVG. Also unused: qrcode, @react-pdf/renderer, razorpay. They do NOT
+    bloat the client bundle (Next tree-shakes; shared First Load JS is
+    87.3 kB) — only install time. Left installed on purpose: Supabase and
+    Razorpay are imminent scope.
+  - lib/supabase/{client,server,admin}.ts EXIST but are imported by
+    NOTHING. They are correct and ready; Stage 3 is their first consumer.
+  - THE ORDER MATTERS: Stage 2 needs no database. Do not let it get
+    entangled with Supabase work — it ships to the live domain first.
   - INTERIOR PAGES ARE DIAGRAM-FORWARD. Founder chose this over photography
     on 2026-08-08. Do not add photographs to interior pages; they lead with
     bespoke SVG, statement numbers and ledgers. The homepage keeps its

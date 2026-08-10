@@ -109,6 +109,28 @@ Contact submissions       View all form submissions
 Due diligence checklist   Forced checks before a project goes live
 ```
 
+**REVISION 2026-08-09 — the admin panel is now the CENTREPIECE of this
+phase, and order management is deferred with the escrow flow.** The founder
+onboards projects on behalf of developers, who send details directly. Three
+ingest paths, in order of expected use:
+
+```
+1. EXCEL IMPORT (primary)   Upload a developer's sheet → map columns →
+                            preview every row → commit. Nothing is written
+                            until the founder confirms the preview.
+2. MANUAL FORM              Single project, for one-offs.
+3. GOLD STANDARD PRE-FILL   Auto-fill from GS's open public API.
+                            ⚠ GOLD STANDARD ONLY. Verra / ICR / UCR / CDM
+                            have NO reachable public API (probed
+                            2026-08-01). Do not offer auto-fetch for them.
+```
+
+A published project must render what the live site already renders: the
+satellite map hero with its location, the registry ID, the details, and
+imagery. **Imagery cannot come from a registry — none publish project
+photos.** It comes from developer-supplied uploads, else the sector stock
+fallback, which stays honestly labelled and uncaptioned.
+
 ---
 
 ## 5. EXPLICITLY OUT OF SCOPE FOR PHASE 1
@@ -123,6 +145,21 @@ Do NOT build these now, even if easy.
 ⏳ Blockchain / tokenization                   → not in roadmap
 ⏳ Real-time registry API integration          → later (no access yet)
 ⏳ Seller self-registration + self-listing     → Phase 2 (admin enters now)
+```
+
+**ADDED TO OUT-OF-SCOPE 2026-08-09** — the founder raised these, then
+withdrew them the same day ("it may make it quite complex, and I may not
+handle it widely"). Recorded so they are not silently rebuilt:
+
+```
+⏳ Buyer / seller self-registration + login    → founder manages off-platform
+⏳ On-platform KYC collection + review         → deferred (also: DPDP Act
+                                                 obligations + lawyer review
+                                                 needed before it is built)
+⏳ Buyer dashboard / purchase history          → deferred with escrow
+⏳ Seller dashboard / self-upload to market    → admin uploads on their behalf
+⏳ Razorpay escrow pay-in + live payments      → next phase, after this works
+⏳ Retirement certificates + /verify pages     → deferred with escrow
 ```
 
 ---

@@ -31,6 +31,74 @@ in the separate build playbook — NOT built now.
 
 ---
 
+## ⚑ REVISED BUILD ORDER — FOUNDER DECISION 2026-08-09
+
+```
+THIS SECTION SUPERSEDES THE STAGE A/B/C ORDER BELOW.
+The website (Stage A) and the marketplace UI (B.3/B.4) are already BUILT
+against static TypeScript data. The founder has re-sequenced what remains.
+```
+
+**What the founder dropped from this phase** (explicitly, 2026-08-09):
+buyer/seller self-registration, buyer & seller dashboards, and on-platform
+KYC. Reason: "it may make it quite complex, and I may not handle it widely."
+The buyer side is managed by the founder off-platform for now. This reverses
+nothing that was built — it defers work that had not started.
+
+**What replaces it:** an admin-only project console. The founder onboards
+projects *on behalf of* developers, who send details directly.
+
+```
+STAGE 1 — CONTENT PASS                                    founder-driven
+  The founder reads every page and specifies content changes. No new
+  technology. Can run in parallel with everything else.
+
+STAGE 2 — THE CONNECTION LAYER            "so that I can connect to everyone"
+  2.1  Buy request → email. "Request to Buy" becomes a real form
+       (project pre-filled) that emails the purchase inbox via Resend.
+  2.2  Contact form → live PRAN inbox. Route already exists at
+       src/app/api/contact/route.ts; needs real keys + delivery.
+  2.3  Auto-reply on every submission. Timeframe wording TBC by founder.
+  2.4  WhatsApp click-to-chat link + direct email, in footer + /contact.
+  2.5  Calculator: verify DEFRA / GHG Protocol / CEA factors against
+       current published values, expand business mode to Scope 1/2/3,
+       cite every source on-page.
+  ★ SHIP STAGE 2 TO THE LIVE DOMAIN. No database needed for any of it.
+
+STAGE 3 — ADMIN PROJECT CONSOLE                     the only DB work now
+  3.1  Supabase: `projects` table + Storage bucket + RLS. Founder runs SQL.
+  3.2  Admin auth (Supabase Auth, single admin). Server-checked on every
+       /admin route — CLAUDE.md hard rule, no exceptions.
+  3.3  /admin/projects — list, edit, publish, unpublish, delete.
+  3.4  EXCEL IMPORT (the primary path). Upload the developer's sheet,
+       map columns, preview every row, then commit. The existing
+       PRΛN_Portfolio.xlsx shape is the reference format.
+  3.5  Manual single-project form for one-offs.
+  3.6  "Fetch from Gold Standard" pre-fill button. GOLD STANDARD ONLY —
+       see the registry-access table in Memory.md §2 (2026-08-01 probe).
+       Verra / ICR / UCR / CDM have no reachable public API; those fields
+       stay manual. Do NOT promise auto-fetch in the UI for them.
+  3.7  Cut the marketplace over from static TS to the DB, behind the
+       existing getProjects()/getProject() accessors in marketplace-data.ts.
+       Static files remain the seed/fallback.
+
+DEFERRED — NOT THIS PHASE
+  Razorpay + escrow pay-in, retirement certificates, /verify pages,
+  buyer/seller accounts, KYC, seller self-registration. Revisit once
+  Stages 1-3 are live and working.
+```
+
+**Two constraints that bind the admin console** (both verified, not assumed):
+
+1. **No registry publishes project photography.** Not one. Images come from
+   the developer or from the existing sector stock fallback. `hasRealPhoto`
+   must stay false for stock — never caption one as the project site.
+2. **Registry auto-fetch is Gold Standard only**, matched on GS's
+   `sustaincert_id` (NOT their `id`). Re-probe before assuming any other
+   registry has opened up.
+
+---
+
 ## STAGE 0 — SETUP (Day 1-2)
 
 ```
@@ -173,11 +241,31 @@ Do not pull them into Phase 1.
 ## PROGRESS TRACKER (update as you go)
 
 ```
-Stage 0:  [ ] 0.1  [ ] 0.2  [ ] 0.3  [ ] 0.4
-Stage A:  [ ] A.1  [ ] A.2  [ ] A.3  [ ] A.4  [ ] A.5
-          [ ] A.6  [ ] A.7  [ ] A.8  [ ] A.9  [ ] A.10
-Stage B:  [ ] B.1  [ ] B.2  [ ] B.3  [ ] B.4  [ ] B.5  [ ] B.6  [ ] B.7
-Stage C:  [ ] C.1  [ ] C.2  [ ] C.3  [ ] C.4
+Stage 0:  [x] 0.1  [x] 0.2  [x] 0.3  [x] 0.4
+Stage A:  [—] A.1  [x] A.2  [x] A.3  [x] A.4  [x] A.5
+          [x] A.6  [x] A.7  [—] A.8  [x] A.9  [~] A.10
+Stage B:  [ ] B.1  [ ] B.2  [x] B.3  [x] B.4  [ ] B.5  [ ] B.6  [ ] B.7
+Stage C:  [x] C.1  [x] C.2  [ ] C.3  [ ] C.4
+
+  [x] done   [~] partial   [—] cancelled/superseded   [ ] not started
+
+  A.1  CANCELLED — the 3D globe was banned by Design v2.0 (2026-07-24) and
+       globe.tsx deleted. three/@react-three remain installed but unused.
+  A.8  Superseded — the standalone dashboard page was folded into other pages.
+  A.10 PARTIAL — the contact form and its API route exist and validate, but
+       no keys are set, so nothing is delivered. Stage 2.2 finishes it.
+  B.3/B.4 Built against STATIC TypeScript data, not the DB. Stage 3.7 cuts over.
+  C.1/C.2 Calculator built; factor values still need founder/source
+       verification — that is Stage 2.5, and it is flagged in §7 of Memory.md.
+```
+
+### Revised order tracker (2026-08-09 — the live one)
+
+```
+Stage 1 (content):     [ ] founder-driven, ongoing
+Stage 2 (connection):  [ ] 2.1  [ ] 2.2  [ ] 2.3  [ ] 2.4  [ ] 2.5
+Stage 3 (admin):       [ ] 3.1  [ ] 3.2  [ ] 3.3  [ ] 3.4
+                       [ ] 3.5  [ ] 3.6  [ ] 3.7
 ```
 
 ---

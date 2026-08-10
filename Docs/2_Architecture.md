@@ -35,7 +35,25 @@ Email            Resend                    Transactional email
 PDF              @react-pdf/renderer       Certificates
 Forms            react-hook-form + zod     All forms + validation
 Hosting          Vercel                    Deploy from GitHub
-Domain           pranglobal.com            Via Cloudflare
+Domain           pranglobal.com            Registered/DNS at hosteasy.in.
+                                           NOT Cloudflare (corrected 2026-08-09).
+```
+
+### How the domain actually works (founder has no hosting background)
+
+```
+hosteasy.in  →  keeps the DOMAIN (DNS zone) and the @pranglobal.com MAILBOXES
+Vercel       →  runs the Next.js app
+Supabase     →  database + auth + file storage
+
+hosteasy CANNOT run this app — it serves PHP, not Node. The old static
+HTML/CSS/JS/PHP site in public_html is superseded, but is left in place as a
+rollback: flipping the A record back restores it.
+
+GOING LIVE = edit two records in hosteasy's Zone Editor (A for the root,
+CNAME for www) to the values Vercel displays. Do NOT change nameservers —
+that would break the founder's email. Resend also needs TXT records added
+for domain verification; TXT records do not disturb MX.
 ```
 
 ### Libraries NOT to use
@@ -104,6 +122,33 @@ src/
 ---
 
 ## 3. THE DATA MODEL (Supabase Tables)
+
+```
+SCOPE NOTE 2026-08-09 — Only `projects` is built in the current phase, plus
+Supabase Auth for a SINGLE admin account and a Storage bucket for project
+images/documents. `orders` is DEFERRED with the escrow flow. There are NO
+user/buyer/seller/KYC tables in this phase — the founder dropped that scope
+on 2026-08-09; the buyer side is handled off-platform.
+
+Until `projects` exists, the marketplace reads static TypeScript from
+src/lib/marketplace-data.ts through getProjects()/getProject(). Those two
+accessors are the seam: the DB cutover happens inside them and nothing in
+the UI changes. Keep the static files afterwards as seed + fallback.
+
+INGEST PATHS into `projects` (admin console, Phase 1.5):
+  1. EXCEL IMPORT — primary. Upload sheet → map columns → preview rows →
+     commit. PRΛN_Portfolio.xlsx is the reference shape.
+  2. MANUAL FORM — one-offs.
+  3. GOLD STANDARD PRE-FILL — public API, no key, matched on
+     `sustaincert_id` (NOT `id`). Fills description, coords, SDGs,
+     methodology, crediting period, est. annual credits.
+     ⚠ NO OTHER REGISTRY IS REACHABLE. Verra is Okta-gated, ICR needs a
+     token, UCR's domain is parked, CDM is bot-blocked (all probed
+     2026-08-01). Never show an auto-fetch affordance for those four.
+  ⚠ NO REGISTRY PUBLISHES PROJECT PHOTOS — verified directly. Images come
+     from the developer via upload, or the sector stock fallback. Stock
+     photos keep hasRealPhoto=false and are never captioned as the site.
+```
 
 ```
 TABLE: projects
