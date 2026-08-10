@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Prose, Callout, CtaBand } from "@/components/marketing/page-kit";
-import { DrawnHero, Em, FieldPath } from "@/components/craft/drawn-hero";
+import { DrawnHero } from "@/components/craft/drawn-hero";
 import { ReadingProgress } from "@/components/resources/reading-progress";
-import { articles, getArticle, glossary } from "@/lib/resources";
+import { articles, getArticle } from "@/lib/resources";
+import { complianceLinks, voluntaryLinks } from "@/lib/resource-links";
+import { posts } from "@/lib/posts";
+import { pageImages } from "@/lib/images";
+import { CreditedImage, ResourceList } from "@/components/resources/resource-list";
 import { cn } from "@/lib/utils";
 
 export function generateStaticParams() {
@@ -23,41 +26,6 @@ export function generateMetadata({
   return { title: a.title, description: a.summary };
 }
 
-/** Hero field — a text block being set. Editorial, not industrial. */
-function TypeField() {
-  const lines = Array.from({ length: 13 }, (_, i) => 190 + i * 34);
-  return (
-    <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden>
-      <defs>
-        <radialGradient id="ty-glow" cx="70%" cy="48%" r="54%">
-          <stop offset="0%" stopColor="#16a34a" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#16a34a" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="1440" height="760" fill="url(#ty-glow)" />
-      <FieldPath d="M 760 150 L 760 660" stroke="#d9f99d" strokeOpacity="0.35" strokeWidth="1.5" delay={0.3} />
-      {lines.map((y, i) => (
-        <line
-          key={y}
-          x1={800}
-          y1={y}
-          x2={800 + (i % 5 === 4 ? 220 : 480 - (i % 3) * 70)}
-          y2={y}
-          stroke={i === 0 ? "#d9f99d" : "#ffffff"}
-          strokeWidth={i === 0 ? 4 : 3}
-          className="field-in"
-          style={
-            {
-              "--field-opacity": i === 0 ? "0.55" : `${0.11 - (i % 4) * 0.015}`,
-              animationDelay: `${0.45 + i * 0.05}s`,
-            } as CSSProperties
-          }
-        />
-      ))}
-    </svg>
-  );
-}
-
 export default function ResourcePage({ params }: { params: { slug: string } }) {
   const article = getArticle(params.slug);
   if (!article) notFound();
@@ -72,15 +40,7 @@ export default function ResourcePage({ params }: { params: { slug: string } }) {
         eyebrow={`${article.tag} · ${article.readingMinutes} min read`}
         lines={[article.title]}
         sub={article.summary}
-        field={<TypeField />}
-        actions={
-          <Link
-            href="/resources"
-            className="inline-flex items-center gap-1.5 text-[15px] font-medium text-white/85 underline-offset-4 hover:text-pran-lime hover:underline"
-          >
-            <ArrowLeft className="h-4 w-4" /> All resources
-          </Link>
-        }
+        image={pageImages.resourcesHero}
       />
 
       {/* Editorial two-column: the read, with everything else parked beside it. */}
@@ -88,9 +48,7 @@ export default function ResourcePage({ params }: { params: { slug: string } }) {
         <div className="mx-auto grid max-w-content gap-12 px-6 py-16 lg:grid-cols-[1fr_260px] lg:gap-16 lg:py-20">
           <div className="min-w-0">
             <Prose>
-              {params.slug === "glossary" && <GlossaryBody />}
               {params.slug === "voluntary-market" && <VoluntaryBody />}
-              {params.slug === "ccts" && <CctsBody />}
               {params.slug === "compliance-library" && <ComplianceBody />}
               {params.slug === "blog" && <BlogBody />}
             </Prose>
@@ -150,35 +108,14 @@ export default function ResourcePage({ params }: { params: { slug: string } }) {
   );
 }
 
-function GlossaryBody() {
-  return (
-    <>
-      <p>
-        The vocabulary of carbon markets is doing real work — each of these
-        terms changes what a credit is worth and what you can say about it.
-      </p>
-      <dl className="mt-10 space-y-6">
-        {glossary.map((g) => (
-          <div
-            key={g.term}
-            className="border-t border-pran-hairline pt-5 first:border-t-0 first:pt-0"
-          >
-            <dt className="font-display text-h3 font-semibold text-pran-ink">
-              {g.term}
-            </dt>
-            <dd className="mt-1.5 leading-[1.75] text-pran-muted">
-              {g.definition}
-            </dd>
-          </div>
-        ))}
-      </dl>
-    </>
-  );
-}
-
 function VoluntaryBody() {
   return (
     <>
+      <CreditedImage
+        src={pageImages.resourcesVoluntary}
+        alt="Dense forest canopy seen from above"
+      />
+
       <h2>What a carbon credit actually is</h2>
       <p>
         One credit represents one tonne of carbon dioxide equivalent
@@ -255,62 +192,6 @@ function VoluntaryBody() {
   );
 }
 
-function CctsBody() {
-  return (
-    <>
-      <Callout>
-        <strong>Plain-English summary — verify before relying on it.</strong>{" "}
-        This is a general orientation to India&rsquo;s scheme, not legal advice,
-        and the rules continue to develop. Confirm specifics against official
-        sources before acting.{" "}
-        <em>Terms and conditions applied.</em>
-      </Callout>
-
-      <h2>What the CCTS is</h2>
-      <p>
-        India&rsquo;s Carbon Credit Trading Scheme establishes a domestic carbon
-        market with a tradable credit. It builds on the country&rsquo;s earlier
-        energy-efficiency and renewable-certificate schemes, moving from
-        sector-specific instruments toward a single carbon unit.
-      </p>
-
-      <h2>The two mechanisms</h2>
-      <p>
-        The scheme is generally structured around a{" "}
-        <strong>compliance mechanism</strong>, under which notified entities in
-        energy-intensive sectors are given emission-intensity targets and must
-        surrender credits if they exceed them, and an{" "}
-        <strong>offset mechanism</strong>, which allows entities outside the
-        compliance perimeter to register projects and generate credits
-        voluntarily.
-      </p>
-
-      <h2>Why it matters commercially</h2>
-      <p>
-        A domestic compliance market changes demand structurally. Obligated
-        entities become buyers because they must be, not because they choose to
-        be — which tends to firm up pricing and raise the value of credible
-        domestic supply.
-      </p>
-
-      <h2>What it means for buyers today</h2>
-      <ul>
-        <li>
-          Understand whether your organisation falls inside the compliance
-          perimeter.
-        </li>
-        <li>
-          Keep compliance units and voluntary credits accounted for separately.
-        </li>
-        <li>
-          Track how credits are treated for international claims, particularly
-          where corresponding adjustments apply.
-        </li>
-      </ul>
-    </>
-  );
-}
-
 function ComplianceBody() {
   return (
     <>
@@ -319,6 +200,39 @@ function ComplianceBody() {
         our own words. None of this reproduces official text and none of it is
         legal advice. <em>Terms and conditions applied.</em>
       </Callout>
+
+      <CreditedImage
+        src={pageImages.resourcesCompliance}
+        alt="Rows of solar panels under an open sky"
+      />
+
+      <h2>Where to read the rules yourself</h2>
+      <p>
+        Compliance markets are created by instruments, not by opinion. Below are
+        the primary documents and portals — the scheme notification, the
+        administrator, the registry, and the regulators — followed by our
+        plain-English summary of what each framework asks of you.
+      </p>
+
+      <ResourceList links={complianceLinks} />
+
+      <h2>India&rsquo;s CCTS — the short version</h2>
+      <p>
+        The Carbon Credit Trading Scheme was notified in June 2023 and is
+        administered by the Bureau of Energy Efficiency under the Ministry of
+        Power. It has two halves: a <strong>compliance mechanism</strong>, where
+        notified energy-intensive sectors are given greenhouse-gas emission
+        intensity targets and must surrender certificates if they miss them; and
+        an <strong>offset mechanism</strong>, through which non-obligated
+        projects can register and earn certificates. Certificates are issued on
+        the Indian Carbon Market registry and traded on power exchanges.
+      </p>
+      <p>
+        The Indian Carbon Market Portal went live at Prakriti 2026, the
+        Government&rsquo;s international conference on carbon markets. Obligated
+        entities register there; the offset side is where most project
+        developers will enter.
+      </p>
 
       <h2>BRSR — Business Responsibility and Sustainability Report</h2>
       <p>
@@ -341,7 +255,7 @@ function ComplianceBody() {
       <p>
         India&rsquo;s domestic carbon market, covering both a compliance
         mechanism for notified sectors and an offset mechanism for voluntary
-        projects. See the <Link href="/resources/ccts">CCTS explainer</Link>.
+        projects.
       </p>
 
       <h2>ISO 14068</h2>
@@ -364,6 +278,17 @@ function ComplianceBody() {
         against criteria including additionality, permanence, robust
         quantification, and sound governance.
       </p>
+
+      <h2>The registries and standard-setters</h2>
+      <p>
+        These are the bodies that actually decide whether a tonne counts. The
+        registries hold the serialised record of every issuance and retirement;
+        the standard-setters define what may be issued in the first place and
+        what a buyer may afterwards claim. If a seller cannot point you to a
+        record on one of these, there is nothing to buy.
+      </p>
+
+      <ResourceList links={voluntaryLinks} />
     </>
   );
 }
@@ -371,19 +296,49 @@ function ComplianceBody() {
 function BlogBody() {
   return (
     <>
-      <div className="!mt-4 rounded-panel border border-dashed border-pran-hairline bg-pran-paper-warm p-10 text-center">
-        <span className="inline-block rounded-[14px] bg-pran-ink px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-white">
-          Coming soon
-        </span>
-        <h2 className="!mt-5 font-display text-h2 font-semibold text-pran-ink">
-          Notes from the desk
-        </h2>
-        <p className="mx-auto !mt-3 max-w-[52ch]">
-          Short pieces on market structure, pricing behaviour, and integrity as
-          we observe them across the book — written for people transacting, not
-          for search engines. The first pieces are being written now.
-        </p>
+      <CreditedImage
+        src={pageImages.resourcesBlog}
+        alt="Open landscape under a wide sky"
+      />
+
+      <p>
+        Short pieces on market structure, pricing behaviour and integrity as we
+        see them across the book — written for people transacting, not for
+        search engines.
+      </p>
+
+      {/* Full text inline: six posts do not justify a routing layer, and a
+          reader on this page came to read, not to pick. */}
+      <div className="not-prose mt-12 space-y-px overflow-hidden rounded-panel bg-pran-hairline">
+        {posts.map((post, i) => (
+          <article key={post.slug} id={post.slug} className="bg-pran-surface p-8 sm:p-10">
+            <div className="flex items-baseline gap-4">
+              <span className="font-display text-[13px] font-semibold tabular-nums text-pran-emerald">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-pran-muted">
+                {post.published} · {post.readingMinutes} min
+              </span>
+            </div>
+
+            <h2 className="mt-3 max-w-[30ch] font-display text-[clamp(1.35rem,2.6vw,1.85rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-pran-ink">
+              {post.title}
+            </h2>
+            <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-pran-emerald">
+              {post.standfirst}
+            </p>
+
+            <div className="mt-5 max-w-[64ch] space-y-4">
+              {post.paragraphs.map((para, n) => (
+                <p key={n} className="text-[15px] leading-relaxed text-pran-muted">
+                  {para}
+                </p>
+              ))}
+            </div>
+          </article>
+        ))}
       </div>
+
       <Callout>
         <strong>Want something specific covered?</strong> A methodology, a price
         movement, a compliance deadline —{" "}
