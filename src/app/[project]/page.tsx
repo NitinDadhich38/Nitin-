@@ -12,6 +12,7 @@ import {
   MapPin,
   Target,
 } from "lucide-react";
+import { TermsNote } from "@/components/shared/terms-note";
 import { getProjectByCode, getProjects } from "@/lib/marketplace-data";
 import { countryFlag } from "@/lib/sectors";
 import { getProjectDetails } from "@/lib/project-details";
@@ -61,13 +62,6 @@ export function generateMetadata({
     description: project.description,
   };
 }
-
-const escrowSteps = [
-  "You submit a purchase request with your registry account details.",
-  "PRAN confirms availability and sends a payment instruction.",
-  "You pay into PRAN's escrow; the seller transfers credits to your registry account.",
-  "PRAN verifies the transfer and issues your retirement certificate.",
-];
 
 /** Document records shown for every listing. Names only — never deep links. */
 const documentRecords = [
@@ -123,6 +117,54 @@ export default function ProjectPage({
       : []),
     { label: "Project owner", value: details.developer ?? "On request" },
     { label: "Delivery", value: deliveryLabel(project) ?? "On request" },
+  ];
+
+  /**
+   * The six fields the "at a glance" strip shows, in decision order: what it
+   * costs, how much there is, which year, who stands behind it, what it does,
+   * and when it settles. Drawn from `metrics` by label so the two can never
+   * disagree — if a label is renamed above, it drops out here rather than
+   * silently rendering a stale duplicate.
+   */
+  const GLANCE_FIELDS = [
+    "Price",
+    "Available volume",
+    "Vintage",
+    "Standard",
+    "Project type",
+    "Delivery",
+  ];
+  const glance = GLANCE_FIELDS.map((label) =>
+    metrics.find((m) => m.label === label),
+  ).filter((m): m is { label: string; value: string } => Boolean(m));
+
+  /**
+   * Verification block. Only rows the merged record genuinely carries — a
+   * project with no published methodology shows five rows, not six with a
+   * dash. Padding an assurance panel with blanks is worse than a short one.
+   */
+  const verification: { label: string; value: string }[] = [
+    { label: "Issuing registry", value: project.registry },
+    { label: "Registry project ID", value: project.id },
+    { label: "Standard", value: project.standardCode },
+    ...(details.methodology
+      ? [{ label: "Methodology", value: details.methodology }]
+      : []),
+    ...(details.creditingPeriod
+      ? [{ label: "Crediting period", value: details.creditingPeriod }]
+      : []),
+    ...(details.estimatedAnnualCredits
+      ? [
+          {
+            label: "Est. annual credits",
+            value: `${details.estimatedAnnualCredits.toLocaleString("en-US")} tCO₂e`,
+          },
+        ]
+      : []),
+    ...(details.developer
+      ? [{ label: "Project developer", value: details.developer }]
+      : []),
+    { label: "PRAN reference", value: project.pranCode },
   ];
 
   const all = getProjects();
@@ -185,8 +227,8 @@ export default function ProjectPage({
         lng={details.location.lng}
         zoom={details.location.zoom}
         precision={details.location.precision}
-        cols={9}
-        rows={5}
+        cols={6}
+        rows={4}
         priority
         className="w-full"
       >
@@ -200,7 +242,6 @@ export default function ProjectPage({
         alt=""
         fill
         priority
-        unoptimized={details.hasRealPhoto}
         sizes="100vw"
         className="object-cover opacity-30"
       />
@@ -268,7 +309,6 @@ export default function ProjectPage({
                     src={g}
                     alt={`${project.name} — project photograph`}
                     fill
-                    unoptimized
                     sizes="(max-width:640px) 50vw, 300px"
                     className="object-cover"
                   />
@@ -282,6 +322,29 @@ export default function ProjectPage({
           </div>
         </section>
       )}
+
+      {/* ── At a glance ─────────────────────────────────────────────────────
+          The six facts a buyer decides on, directly under the hero.
+
+          Why this exists: the full 13-field record lives in the sticky sidebar,
+          which on desktop sits beside the prose and on MOBILE falls below all
+          of it — so the price, volume and vintage were the last things a phone
+          visitor reached. This strip front-loads them without duplicating the
+          record; the sidebar remains the complete, authoritative list. */}
+      <section className="border-b border-pran-hairline bg-pran-surface">
+        <dl className="mx-auto grid max-w-content grid-cols-2 gap-x-6 gap-y-7 px-6 py-8 sm:grid-cols-3 lg:grid-cols-6 lg:py-9">
+          {glance.map((m) => (
+            <div key={m.label}>
+              <dt className="text-[11px] font-medium uppercase tracking-[0.12em] text-pran-muted">
+                {m.label}
+              </dt>
+              <dd className="mt-1.5 font-display text-[15px] font-semibold leading-snug text-pran-ink">
+                {m.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
       {/* Description + highlights */}
       <section className="mx-auto max-w-content px-6 py-16 sm:py-20">
@@ -375,34 +438,55 @@ export default function ProjectPage({
               </div>
             )}
 
-            <h3 className="mt-12 font-display text-h3 font-semibold text-pran-ink">
-              How the purchase works
-            </h3>
-            <ol className="mt-5 space-y-4">
-              {escrowSteps.map((step, i) => (
-                <li key={i} className="flex gap-4">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10 text-sm font-semibold text-pran-emerald-hover">
-                    {i + 1}
-                  </span>
-                  <span className="pt-0.5 leading-relaxed text-pran-ink">
-                    {step}
-                  </span>
-                </li>
-              ))}
-            </ol>
+            {/* ── Verification & standard ──────────────────────────────────
+                Fills the space the escrow steps and the long disclaimer used
+                to occupy (both removed 2026-08-09). Modelled on Carbonmark's
+                "Assessment" block — the questions a buyer asks after price:
+                who issued it, under what standard, on what methodology, over
+                what period. Every row renders only when the merged record
+                actually carries it, so nothing is padded with "—". */}
+            <div className="mt-12">
+              <h2 className="font-display text-h2 font-semibold tracking-[-0.02em] text-pran-ink">
+                Verification &amp; standard
+              </h2>
+              <p className="mt-3 max-w-[58ch] text-[15px] leading-relaxed text-pran-muted">
+                What sits behind this listing, and where to check it. PRAN
+                records these from the registry — it does not assess or verify
+                projects itself.
+              </p>
 
-            <p className="mt-8 rounded-card bg-pran-paper-warm p-5 text-sm leading-relaxed text-pran-muted">
-              Credits are transferred by the seller into your own registry
-              account. PRAN facilitates and verifies the transfer and issues a
-              certificate stating that credits were{" "}
-              <span className="font-medium text-pran-ink">
-                purchased and retired
-              </span>{" "}
-              on your behalf — it does not issue, create, or verify credits.
-              {details.sources.length > 0
-                ? ` Project details on this page are sourced from ${details.sources.join(" and ")}.`
-                : " Imagery is representative; project photography is added at onboarding."}
-            </p>
+              <dl className="mt-7 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-2">
+                {verification.map((v) => (
+                  <div key={v.label} className="bg-pran-surface p-5">
+                    <dt className="text-[11px] font-medium uppercase tracking-[0.12em] text-pran-muted">
+                      {v.label}
+                    </dt>
+                    <dd className="mt-1.5 text-[15px] font-medium leading-snug text-pran-ink">
+                      {v.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              {details.sources.length > 0 && (
+                <p className="mt-4 text-[12.5px] leading-relaxed text-pran-muted">
+                  Sourced from {details.sources.join(" and ")}.
+                </p>
+              )}
+            </div>
+
+            <div className="mt-10 border-t border-pran-hairline pt-5">
+              <TermsNote>
+                Credits are transferred by the seller into your own registry
+                account. PRAN facilitates and verifies the transfer and issues a
+                certificate stating that credits were{" "}
+                <strong>purchased and retired</strong> on your behalf — it does
+                not issue, create, or verify credits.
+                {details.sources.length > 0
+                  ? ` Project details on this page are sourced from ${details.sources.join(" and ")}.`
+                  : " Imagery is representative; project photography is added at onboarding."}
+              </TermsNote>
+            </div>
           </div>
 
           {/* Sticky metrics + registry panel */}

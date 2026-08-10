@@ -144,7 +144,6 @@ export function MarketplaceSection() {
                             src={details.image}
                             alt=""
                             fill
-                            unoptimized={details.hasRealPhoto}
                             sizes="180px"
                             className="object-cover transition-transform duration-500 group-hover/card:scale-105"
                           />

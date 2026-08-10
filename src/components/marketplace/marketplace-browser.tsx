@@ -102,7 +102,11 @@ export function MarketplaceBrowser({
   const [countries, setCountries] = useState<string[]>([]);
   const [deliveries, setDeliveries] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState(priceBounds.max);
-  const [sort, setSort] = useState<Sort>("featured");
+  /* Default order is highest price first (founder direction 2026-08-09).
+     Projects without a price sort last rather than first — `priceOr` is given
+     -Infinity for the descending case, so "On request" never occupies the top
+     of the book ahead of a real quoted price. */
+  const [sort, setSort] = useState<Sort>("price-desc");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
@@ -369,10 +373,10 @@ export function MarketplaceBrowser({
           </div>
         </div>
 
+        {/* The result count that used to sit here was removed 2026-08-09 —
+            founder direction: do not publish how many projects are on the book.
+            The same rule removed the stats band above the listing. */}
         <div className="flex items-center gap-2">
-          <span className="mr-1 hidden text-sm tabular-nums text-pran-muted sm:inline">
-            {filtered.length} {filtered.length === 1 ? "project" : "projects"}
-          </span>
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as Sort)}

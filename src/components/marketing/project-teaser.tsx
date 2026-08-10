@@ -70,7 +70,6 @@ export function ProjectTeaser({ project }: { project: Project }) {
           src={details.image}
           alt=""
           fill
-          unoptimized={details.hasRealPhoto}
           sizes="(max-width: 768px) 90vw, 360px"
           className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
