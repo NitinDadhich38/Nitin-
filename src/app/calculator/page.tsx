@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { DrawnHero, Em, FieldPath } from "@/components/craft/drawn-hero";
 import { ModeBand, BandHeader } from "@/components/craft/mode-band";
-import { Ledger } from "@/components/craft/ledger";
 import { Reveal } from "@/components/marketing/reveal";
+import { TermsNote } from "@/components/shared/terms-note";
 import { CalculatorClient } from "@/components/calculator/calculator-client";
 import { METHODOLOGY_NOTE } from "@/lib/emission-factors";
+import { pageImages } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Carbon Footprint Calculator",
@@ -98,6 +99,7 @@ export default function CalculatorPage() {
           </>,
         ]}
         sub="A few inputs, cited factors, one figure. Built on DEFRA conversion factors, the GHG Protocol scope structure, and the CEA grid factor for Indian electricity. No sign-up."
+        image={pageImages.calculatorHero}
         field={<StackField />}
       />
 
@@ -113,40 +115,11 @@ export default function CalculatorPage() {
               sub="An estimate is only as good as what sits behind it, so the sources are named rather than summarised as “industry standard”."
             />
             <Reveal delay={0.06}>
-              <p className="mt-8 text-[15px] leading-relaxed text-pran-muted">
-                {METHODOLOGY_NOTE}
-              </p>
+              <div className="mt-8">
+                <TermsNote>{METHODOLOGY_NOTE}</TermsNote>
+              </div>
             </Reveal>
           </div>
-
-          <Reveal delay={0.08}>
-            <Ledger
-              head={["This tool", "Status"]}
-              rows={[
-                {
-                  label: "Estimates a footprint",
-                  value: "Yes",
-                  note: "For guidance and planning.",
-                },
-                {
-                  label: "Creates carbon credits",
-                  value: "No",
-                  note: "Credits exist only when a registry issues them. A calculator cannot make one.",
-                },
-                {
-                  label: "Is a verified inventory",
-                  value: "No",
-                  note: "Not an audited disclosure and not assurance.",
-                },
-                {
-                  label: "Replaces reducing emissions",
-                  value: "No",
-                  note: "Reduce first. Retiring credits is for the residual you cannot yet cut.",
-                  emphasis: true,
-                },
-              ]}
-            />
-          </Reveal>
         </div>
       </ModeBand>
     </>

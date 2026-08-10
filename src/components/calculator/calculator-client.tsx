@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowLeft, RotateCcw } from "lucide-react";
 import { Reveal } from "@/components/marketing/reveal";
+import { TermsNote } from "@/components/shared/terms-note";
 import { buttonVariants } from "@/components/ui/button";
 import {
   PERSONAL,
@@ -11,6 +12,11 @@ import {
   DIET,
   DIET_SOURCE,
   METHODOLOGY_NOTE,
+  AGE_BANDS,
+  OCCUPATIONS,
+  INDUSTRIES,
+  CCTS_OBLIGATED,
+  PERSONAL_BENCHMARKS,
 } from "@/lib/emission-factors";
 import { cn } from "@/lib/utils";
 
@@ -60,9 +66,87 @@ function Field({
   );
 }
 
+const inputClass =
+  "mt-2.5 h-12 w-full rounded-btn border border-pran-hairline bg-pran-surface px-4 text-[15px] text-pran-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pran-emerald/50";
+
+function TextField({
+  label,
+  hint,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  hint?: string;
+  value: string;
+  onChange: (s: string) => void;
+  placeholder?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="text-[15px] font-medium text-pran-ink">{label}</span>
+      {hint && <span className="mt-1 block text-sm text-pran-muted">{hint}</span>}
+      <input
+        type="text"
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className={inputClass}
+      />
+    </label>
+  );
+}
+
+function SelectField({
+  label,
+  hint,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  hint?: string;
+  value: string;
+  onChange: (s: string) => void;
+  options: readonly string[];
+}) {
+  return (
+    <label className="block">
+      <span className="text-[15px] font-medium text-pran-ink">{label}</span>
+      {hint && <span className="mt-1 block text-sm text-pran-muted">{hint}</span>}
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={inputClass}
+      >
+        <option value="">Select…</option>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 export function CalculatorClient() {
   const [mode, setMode] = useState<Mode>("personal");
   const [step, setStep] = useState(0);
+
+  /* Profile. Only `household` and `employees` enter the arithmetic — see the
+     honest split documented in lib/emission-factors.ts. The rest is context
+     for the result copy, the enquiry, and the future reduction agent. */
+  const [pName, setPName] = useState("");
+  const [pAge, setPAge] = useState("");
+  const [pOccupation, setPOccupation] = useState("");
+  const [household, setHousehold] = useState(1);
+
+  const [bName, setBName] = useState("");
+  const [bIndustry, setBIndustry] = useState("");
+  const [bCity, setBCity] = useState("");
+  const [employees, setEmployees] = useState(0);
+  const [bFounded, setBFounded] = useState("");
 
   // personal
   const [kwh, setKwh] = useState(0);
@@ -81,9 +165,18 @@ export function CalculatorClient() {
 
   const breakdown = useMemo(() => {
     if (mode === "personal") {
+      /* Household bills are SHARED. Dividing electricity and cooking gas by
+         occupancy is the single biggest accuracy fix in a personal calculator
+         — without it, everyone in a family of five is charged the whole
+         family's energy. Travel and diet stay personal: they are already
+         individual quantities. */
+      const share = Math.max(1, household);
       return [
-        { label: "Electricity", kg: kwh * 12 * PERSONAL.electricity.kgCo2e },
-        { label: "Cooking (LPG)", kg: lpg * 12 * PERSONAL.lpg.kgCo2e },
+        {
+          label: "Electricity",
+          kg: (kwh * 12 * PERSONAL.electricity.kgCo2e) / share,
+        },
+        { label: "Cooking (LPG)", kg: (lpg * 12 * PERSONAL.lpg.kgCo2e) / share },
         { label: "Car travel", kg: carKm * 12 * PERSONAL.petrolCar.kgCo2e },
         { label: "Public transport", kg: transitKm * 12 * PERSONAL.bus.kgCo2e },
         { label: "Flights", kg: flightKm * PERSONAL.flightLong.kgCo2e },
@@ -97,19 +190,27 @@ export function CalculatorClient() {
       { label: "Business air travel (Scope 3)", kg: bAir * BUSINESS.businessTravelAir.kgCo2e },
       { label: "Employee commuting (Scope 3)", kg: bCommute * 12 * BUSINESS.employeeCommute.kgCo2e },
     ].filter((b) => b.kg > 0);
-  }, [mode, kwh, lpg, carKm, transitKm, flightKm, diet, bKwh, bGas, bDiesel, bAir, bCommute]);
+  }, [mode, household, kwh, lpg, carKm, transitKm, flightKm, diet, bKwh, bGas, bDiesel, bAir, bCommute]);
 
   const totalKg = breakdown.reduce((s, b) => s + b.kg, 0);
   const totalTonnes = totalKg / KG_PER_TONNE;
 
-  const personalSteps = ["Home energy", "Travel", "Diet"];
-  const businessSteps = ["Energy", "Travel"];
+  /** Per-employee intensity — the only business figure comparable to anything. */
+  const perEmployee = employees > 0 ? totalTonnes / employees : null;
+
+  /** Whether this sector is notified under the CCTS compliance mechanism. */
+  const isObligated = CCTS_OBLIGATED.includes(bIndustry);
+
+  const personalSteps = ["About you", "Home energy", "Travel", "Diet"];
+  const businessSteps = ["About the business", "Energy", "Travel"];
   const steps = mode === "personal" ? personalSteps : businessSteps;
   const isResult = step >= steps.length;
   const progress = Math.min(step / steps.length, 1) * 100;
 
   const reset = () => {
     setStep(0);
+    setPName(""); setPAge(""); setPOccupation(""); setHousehold(1);
+    setBName(""); setBIndustry(""); setBCity(""); setEmployees(0); setBFounded("");
     setKwh(0); setLpg(0); setCarKm(0); setTransitKm(0); setFlightKm(0); setDiet("mixed");
     setBKwh(0); setBGas(0); setBDiesel(0); setBAir(0); setBCommute(0);
   };
@@ -175,18 +276,54 @@ export function CalculatorClient() {
                 <div className="mt-7 flex flex-col gap-6">
                   {mode === "personal" && step === 0 && (
                     <>
-                      <Field label="Electricity used" hint="Check a recent bill — the monthly average is fine." value={kwh} onChange={setKwh} suffix="kWh / month" />
-                      <Field label="Cooking gas" hint="A domestic LPG cylinder is about 14.2 kg." value={lpg} onChange={setLpg} suffix="kg / month" />
+                      <TextField
+                        label="Your name"
+                        hint="Optional — used only to address the result."
+                        value={pName}
+                        onChange={setPName}
+                        placeholder="e.g. Nitin"
+                      />
+                      <Field
+                        label="People in your household"
+                        hint="Electricity and cooking gas are shared, so we divide them by this. It matters more than anything else on this page."
+                        value={household}
+                        onChange={setHousehold}
+                        suffix="people"
+                      />
+                      <SelectField
+                        label="Age group"
+                        value={pAge}
+                        onChange={setPAge}
+                        options={AGE_BANDS}
+                      />
+                      <SelectField
+                        label="What you do"
+                        value={pOccupation}
+                        onChange={setPOccupation}
+                        options={OCCUPATIONS}
+                      />
+                      <p className="text-xs leading-relaxed text-pran-muted">
+                        Age and occupation do not change the arithmetic — there
+                        is no published emission factor for either. We ask so the
+                        result can be put in context, and we say so rather than
+                        implying a precision we do not have.
+                      </p>
                     </>
                   )}
                   {mode === "personal" && step === 1 && (
+                    <>
+                      <Field label="Electricity used" hint="Check a recent bill — the monthly average is fine. Enter the whole household's usage; we divide it." value={kwh} onChange={setKwh} suffix="kWh / month" />
+                      <Field label="Cooking gas" hint="A domestic LPG cylinder is about 14.2 kg." value={lpg} onChange={setLpg} suffix="kg / month" />
+                    </>
+                  )}
+                  {mode === "personal" && step === 2 && (
                     <>
                       <Field label="Car or two-wheeler" value={carKm} onChange={setCarKm} suffix="km / month" />
                       <Field label="Bus, metro or train" value={transitKm} onChange={setTransitKm} suffix="km / month" />
                       <Field label="Flights" hint="Total distance flown across a year." value={flightKm} onChange={setFlightKm} suffix="km / year" />
                     </>
                   )}
-                  {mode === "personal" && step === 2 && (
+                  {mode === "personal" && step === 3 && (
                     <fieldset>
                       <legend className="text-[15px] font-medium text-pran-ink">
                         Which best describes how you eat?
@@ -216,12 +353,78 @@ export function CalculatorClient() {
 
                   {mode === "business" && step === 0 && (
                     <>
+                      <TextField
+                        label="Company name"
+                        value={bName}
+                        onChange={setBName}
+                        placeholder="e.g. Acme Industries Pvt. Ltd."
+                      />
+                      <SelectField
+                        label="Sector"
+                        hint="We flag whether your sector is notified under India's CCTS compliance mechanism."
+                        value={bIndustry}
+                        onChange={setBIndustry}
+                        options={INDUSTRIES}
+                      />
+                      {bIndustry && (
+                        <div
+                          className={cn(
+                            "rounded-btn border px-4 py-3 text-[13.5px] leading-relaxed",
+                            isObligated
+                              ? "border-pran-emerald/40 bg-pran-emerald/8 text-pran-ink"
+                              : "border-pran-hairline text-pran-muted",
+                          )}
+                        >
+                          {isObligated ? (
+                            <>
+                              <strong className="font-semibold">
+                                {bIndustry} is a notified sector under the CCTS.
+                              </strong>{" "}
+                              If your facility crosses the threshold, compliance
+                              is an obligation, not a choice — and this estimate
+                              is not a substitute for the administrator&rsquo;s
+                              prescribed methodology.
+                            </>
+                          ) : (
+                            <>
+                              {bIndustry} is not currently a notified CCTS
+                              sector. Your exposure is more likely to come
+                              through disclosure or your customers&rsquo; supply
+                              chains.
+                            </>
+                          )}
+                        </div>
+                      )}
+                      <Field
+                        label="Employees"
+                        hint="Used to express the result per employee — the only form of it that is comparable to another company."
+                        value={employees}
+                        onChange={setEmployees}
+                        suffix="people"
+                      />
+                      <TextField
+                        label="Primary location"
+                        hint="City or state. India-wide grid factor is applied either way."
+                        value={bCity}
+                        onChange={setBCity}
+                        placeholder="e.g. Jodhpur, Rajasthan"
+                      />
+                      <TextField
+                        label="Year established"
+                        value={bFounded}
+                        onChange={setBFounded}
+                        placeholder="e.g. 2016"
+                      />
+                    </>
+                  )}
+                  {mode === "business" && step === 1 && (
+                    <>
                       <Field label="Purchased electricity" hint="Scope 2 — across all sites." value={bKwh} onChange={setBKwh} suffix="kWh / month" />
                       <Field label="Natural gas" hint="Scope 1 — on-site combustion." value={bGas} onChange={setBGas} suffix="m³ / month" />
                       <Field label="Fleet diesel" hint="Scope 1 — owned or leased vehicles." value={bDiesel} onChange={setBDiesel} suffix="litres / month" />
                     </>
                   )}
-                  {mode === "business" && step === 1 && (
+                  {mode === "business" && step === 2 && (
                     <>
                       <Field label="Business air travel" hint="Scope 3 — total passenger-km across a year." value={bAir} onChange={setBAir} suffix="km / year" />
                       <Field label="Employee commuting" hint="Scope 3 — total passenger-km for all staff." value={bCommute} onChange={setBCommute} suffix="km / month" />
@@ -267,15 +470,73 @@ export function CalculatorClient() {
             {isResult && (
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-emerald">
-                  Your estimate
+                  {mode === "personal"
+                    ? pName
+                      ? `${pName}, your estimate`
+                      : "Your estimate"
+                    : bName
+                      ? `${bName} — estimate`
+                      : "Your estimate"}
                 </p>
                 <p className="mt-4 font-display text-display-xl font-semibold tabular-nums leading-none text-pran-emerald">
                   {totalTonnes.toFixed(2)}
                 </p>
                 <p className="mt-2 text-lg text-pran-muted">
                   tonnes CO₂e per year
+                  {mode === "personal" && household > 1 && " — your share"}
                   {mode === "business" && " (from the categories entered)"}
                 </p>
+
+                {/* Per-employee intensity: a business total means nothing on
+                    its own — a 40-person firm and a 4,000-person firm are not
+                    comparable until it is normalised. */}
+                {mode === "business" && perEmployee !== null && (
+                  <p className="mt-4 text-[15px] text-pran-ink">
+                    <strong className="font-semibold tabular-nums">
+                      {perEmployee.toFixed(2)} tCO₂e
+                    </strong>{" "}
+                    per employee per year
+                    {bIndustry && ` · ${bIndustry}`}
+                    {bCity && ` · ${bCity}`}
+                  </p>
+                )}
+
+                {mode === "business" && isObligated && (
+                  <div className="mt-5 rounded-btn border border-pran-emerald/40 bg-pran-emerald/8 px-4 py-3 text-[13.5px] leading-relaxed text-pran-ink">
+                    <strong className="font-semibold">
+                      {bIndustry} is notified under India&rsquo;s CCTS.
+                    </strong>{" "}
+                    Compliance reporting uses the administrator&rsquo;s
+                    prescribed methodology on an emission-intensity basis. Treat
+                    this estimate as orientation, not as a filing.
+                  </div>
+                )}
+
+                {/* Personal comparison. Averages, explicitly not targets. */}
+                {mode === "personal" && totalTonnes > 0 && (
+                  <div className="mt-7 border-t border-pran-hairline pt-6">
+                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-pran-muted">
+                      For comparison
+                    </p>
+                    <ul className="mt-4 flex flex-col gap-3">
+                      {PERSONAL_BENCHMARKS.map((b) => (
+                        <li key={b.label} className="flex items-baseline justify-between gap-4">
+                          <span className="text-[14.5px] text-pran-muted">
+                            {b.label}
+                          </span>
+                          <span className="shrink-0 font-display text-[15px] font-semibold tabular-nums text-pran-ink">
+                            ≈ {b.tCo2ePerYear} t
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-3 text-xs leading-relaxed text-pran-muted">
+                      Approximate per-capita averages, not targets — and not a
+                      judgement. A number above or below them says more about
+                      where you live and how you travel than about you.
+                    </p>
+                  </div>
+                )}
 
                 {breakdown.length > 0 ? (
                   <div className="mt-9">
@@ -320,16 +581,20 @@ export function CalculatorClient() {
                   </p>
                 )}
 
-                {/* Mandatory disclaimer */}
-                <p className="mt-9 rounded-card bg-pran-paper-warm p-5 text-sm leading-relaxed text-pran-muted">
-                  <span className="font-medium text-pran-ink">
-                    This is an estimate, not a verified inventory.
-                  </span>{" "}
-                  {METHODOLOGY_NOTE} Purchasing and retiring credits does not
-                  make an organisation, product, or individual &ldquo;carbon
-                  neutral&rdquo; — it records that a quantity of verified
-                  credits was purchased and retired on your behalf.
-                </p>
+                {/* The disclaimer is REQUIRED but must not be lectured at the
+                    reader (founder direction 2026-08-09). It collapses behind
+                    "Terms and conditions applied" and opens as a small card on
+                    click — same pattern as the rest of the site. The wording
+                    itself is unchanged and still one interaction away. */}
+                <div className="mt-9">
+                  <TermsNote>
+                    This is an estimate, not a verified inventory.{" "}
+                    {METHODOLOGY_NOTE} Purchasing and retiring credits does not
+                    make an organisation, product, or individual &ldquo;carbon
+                    neutral&rdquo; — it records that a quantity of verified
+                    credits was purchased and retired on your behalf.
+                  </TermsNote>
+                </div>
 
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
