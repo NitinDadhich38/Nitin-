@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Lock } from "lucide-react";
 import { DrawnHero, Em } from "@/components/craft/drawn-hero";
 import { ModeBand, BandHeader } from "@/components/craft/mode-band";
 import { Ledger } from "@/components/craft/ledger";
 import { Reveal } from "@/components/marketing/reveal";
 import { CtaBand } from "@/components/marketing/page-kit";
-import { DocumentMock, artifacts, SheetField } from "@/components/intelligence/artifact";
+import { DocumentMock, artifacts } from "@/components/intelligence/artifact";
 import { services } from "@/lib/content";
 import { serviceStatus, STAGE_LABEL } from "@/lib/page-data";
+import { pageImages } from "@/lib/images";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -39,7 +40,7 @@ export default function IntelligenceHub() {
           "a writing problem.",
         ]}
         sub="Four services in development, built on the same registry data behind the marketplace. Below is exactly what each one will produce — structure, sections and standard — and where it currently stands."
-        field={<SheetField />}
+        image={pageImages.intelligenceHero}
         actions={
           <>
             <Link
@@ -111,11 +112,16 @@ export default function IntelligenceHub() {
                       {s.subtitle}
                     </p>
                   </div>
+                  {/* The per-service pages were deleted 2026-08-09 — a page
+                      describing a product we cannot deliver is a promise. The
+                      card routes to the desk instead, with the service
+                      preselected on the form. */}
                   <Link
-                    href={`/intelligence/${s.slug}`}
-                    className="group mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-pran-emerald"
+                    href={`/contact?interest=${s.slug}`}
+                    className="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-pran-emerald"
                   >
-                    How it will work
+                    <Lock className="h-3.5 w-3.5" strokeWidth={2} />
+                    Request early access
                     <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
                 </div>

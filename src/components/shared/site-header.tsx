@@ -2,10 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Lock, Menu, X } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
-import { ScrollProgress } from "@/components/shared/scroll-progress";
 import { buttonVariants } from "@/components/ui/button";
 import { mainNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
@@ -15,10 +13,10 @@ export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-  const pathname = usePathname();
-  // The homepage opens on a dark cinematic hero — float a transparent,
-  // white-text header over it until the user scrolls past the hero.
-  const onDarkHero = pathname === "/" && !scrolled;
+  // The header carries its paper background and hairline from the first
+  // paint, on every route including the homepage. It used to float
+  // transparent over the cinematic hero, which camouflaged the logo and nav
+  // against the photograph until you scrolled (founder feedback 2026-08-09).
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -50,12 +48,8 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        onDarkHero
-          ? "border-b border-transparent bg-transparent"
-          : scrolled
-            ? "border-b border-pran-hairline bg-pran-paper/90 shadow-sm backdrop-blur"
-            : "border-b border-transparent bg-pran-paper/70 backdrop-blur",
+        "fixed inset-x-0 top-0 z-50 border-b border-pran-hairline backdrop-blur transition-shadow duration-300",
+        scrolled ? "bg-pran-paper/95 shadow-sm" : "bg-pran-paper/90",
       )}
     >
       <nav
@@ -65,7 +59,7 @@ export function SiteHeader() {
       >
         <Link
           href="/"
-          className={cn("shrink-0", onDarkHero ? "text-white" : "text-pran-text")}
+          className="shrink-0 text-pran-text"
           aria-label="PRAN home"
         >
           <Logo className="h-8" />
@@ -85,9 +79,7 @@ export function SiteHeader() {
                   }
                   className={cn(
                     "flex items-center gap-1 rounded-btn px-3 py-2 text-sm font-medium transition-colors",
-                    onDarkHero
-                      ? "text-white/90 hover:text-white"
-                      : "text-pran-text hover:text-pran-teal",
+                    "text-pran-text hover:text-pran-teal",
                   )}
                 >
                   {item.label}
@@ -105,9 +97,16 @@ export function SiteHeader() {
                         key={child.href}
                         href={child.href}
                         onClick={() => setOpenMenu(null)}
-                        className="block rounded-btn px-3 py-2 text-sm text-pran-text transition-colors hover:bg-pran-teal/5 hover:text-pran-teal"
+                        className="flex items-center justify-between gap-3 rounded-btn px-3 py-2 text-sm text-pran-text transition-colors hover:bg-pran-teal/5 hover:text-pran-teal"
                       >
-                        {child.label}
+                        <span>{child.label}</span>
+                        {child.locked && (
+                          <Lock
+                            className="h-3.5 w-3.5 shrink-0 text-pran-muted"
+                            strokeWidth={2}
+                            aria-label="Premium service — talk to us"
+                          />
+                        )}
                       </Link>
                     ))}
                   </div>
@@ -119,9 +118,7 @@ export function SiteHeader() {
                   href={item.href!}
                   className={cn(
                     "rounded-btn px-3 py-2 text-sm font-medium transition-colors",
-                    onDarkHero
-                      ? "text-white/90 hover:text-white"
-                      : "text-pran-text hover:text-pran-teal",
+                    "text-pran-text hover:text-pran-teal",
                   )}
                 >
                   {item.label}
@@ -141,8 +138,7 @@ export function SiteHeader() {
           <button
             type="button"
             className={cn(
-              "rounded-btn p-2 lg:hidden",
-              onDarkHero ? "text-white" : "text-pran-text",
+              "rounded-btn p-2 lg:hidden text-pran-text",
             )}
             aria-label="Open menu"
             aria-expanded={mobileOpen}
@@ -153,7 +149,6 @@ export function SiteHeader() {
         </div>
       </nav>
 
-      {scrolled && <ScrollProgress />}
 
       {/* Mobile drawer */}
       {mobileOpen && (

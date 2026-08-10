@@ -4,7 +4,14 @@
  * links may 404 until their page exists.
  */
 
-export type NavLink = { label: string; href: string };
+/**
+ * `locked` marks a service that is NOT live yet. The nav renders a lock beside
+ * it and the href goes straight to /contact with that interest preselected,
+ * rather than to a page describing a product we cannot deliver today
+ * (founder direction, 2026-08-09). The four Carbon Intelligence detail pages
+ * were deleted in the same pass — do not recreate them until the services ship.
+ */
+export type NavLink = { label: string; href: string; locked?: boolean };
 export type NavGroup = { label: string; href?: string; children?: NavLink[] };
 
 export const mainNav: NavGroup[] = [
@@ -12,10 +19,14 @@ export const mainNav: NavGroup[] = [
   {
     label: "Carbon Intelligence",
     children: [
-      { label: "Procurement & Decision Intelligence", href: "/intelligence/procurement" },
-      { label: "AI ESG Reporting", href: "/intelligence/esg" },
-      { label: "AI BRSR Reporting", href: "/intelligence/brsr" },
-      { label: "AI CBAM Alignment", href: "/intelligence/cbam" },
+      {
+        label: "Procurement & Decision Intelligence",
+        href: "/contact?interest=procurement",
+        locked: true,
+      },
+      { label: "AI ESG Reporting", href: "/contact?interest=esg", locked: true },
+      { label: "AI BRSR Reporting", href: "/contact?interest=brsr", locked: true },
+      { label: "AI CBAM Alignment", href: "/contact?interest=cbam", locked: true },
     ],
   },
   {
@@ -30,12 +41,9 @@ export const mainNav: NavGroup[] = [
   {
     label: "Resources",
     children: [
-      { label: "All Resources", href: "/resources" },
-      { label: "Blog & Insights", href: "/resources/blog" },
-      { label: "Compliance Library", href: "/resources/compliance-library" },
-      { label: "India CCTS Explainer", href: "/resources/ccts" },
-      { label: "Voluntary Market Explainer", href: "/resources/voluntary-market" },
-      { label: "Glossary", href: "/resources/glossary" },
+      { label: "Compliance Markets", href: "/resources/compliance-library" },
+      { label: "Voluntary Markets", href: "/resources/voluntary-market" },
+      { label: "Blogs", href: "/resources/blog" },
     ],
   },
   {
@@ -43,7 +51,6 @@ export const mainNav: NavGroup[] = [
     children: [
       { label: "Why We Exist", href: "/about" },
       { label: "Leadership", href: "/about/team" },
-      { label: "Press", href: "/about/press" },
     ],
   },
   { label: "Contact", href: "/contact" },
