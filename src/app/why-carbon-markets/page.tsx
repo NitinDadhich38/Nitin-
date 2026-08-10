@@ -10,8 +10,15 @@ import { FlowRail } from "@/components/craft/flow-rail";
 import { TonneScale } from "@/components/marketing/tonne-scale";
 import { Reveal } from "@/components/marketing/reveal";
 import { CtaBand } from "@/components/marketing/page-kit";
-import { tonneScale } from "@/lib/page-data";
+import {
+  tonneScale,
+  climateFacts,
+  globalPricing,
+  actionOrder,
+  whySources,
+} from "@/lib/page-data";
 import { marketFacts } from "@/lib/market-data";
+import { pageImages } from "@/lib/images";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -98,6 +105,7 @@ export default function WhyCarbonMarketsPage() {
           </>,
         ]}
         sub="Which is exactly the problem. Every climate number is denominated in a unit almost no one can picture — so the price attached to it reads as an accounting trick rather than the cost of a real, physical thing."
+        image={pageImages.whyClimate}
         field={<ScaleField />}
         actions={
           <>
@@ -114,6 +122,53 @@ export default function WhyCarbonMarketsPage() {
           </>
         }
       />
+
+      {/* ── What is actually happening ──────────────────────────────────────
+          Every figure here is sourced and linked. No claim appears on this
+          page that a reader cannot go and check — see lib/page-data.ts. */}
+      <ModeBand mode="data" size="lg">
+        <BandHeader
+          eyebrow="Where we are"
+          title="The atmosphere keeps a running total."
+          sub="Carbon dioxide is not flushed out each year. It accumulates, and what accumulates is what warms. So the number that matters is not this year's emissions — it is the stock they add to."
+        />
+        <div className="mt-14 grid gap-px overflow-hidden rounded-panel bg-pran-hairline md:grid-cols-3">
+          {climateFacts.map((f, i) => (
+            <Reveal key={f.label} delay={i * 0.06}>
+              <div className="flex h-full flex-col bg-pran-surface p-8">
+                <p className="font-display text-[clamp(2rem,4vw,2.75rem)] font-semibold leading-none tracking-[-0.03em] text-pran-ink">
+                  {f.value}
+                </p>
+                <p className="mt-3 font-display text-[15px] font-semibold text-pran-ink">
+                  {f.label}
+                </p>
+                <p className="mt-2.5 flex-1 text-[14px] leading-relaxed text-pran-muted">
+                  {f.detail}
+                </p>
+                <a
+                  href={f.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 border-t border-pran-hairline pt-4 text-[12px] leading-relaxed text-pran-emerald underline-offset-4 hover:underline"
+                >
+                  {f.source} ↗
+                </a>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={0.1}>
+          <p className="mt-10 max-w-[62ch] text-lg leading-relaxed text-pran-muted">
+            The consequences are physical, not political: warmer oceans, longer
+            and hotter heatwaves, heavier rainfall where it rains and deeper
+            drought where it does not, and a sea level that keeps rising for
+            centuries after emissions stop. India sits at the sharp end of most
+            of them — monsoon variability, coastal exposure, and heat that is
+            already crossing the limit of what outdoor work allows.
+          </p>
+        </Reveal>
+      </ModeBand>
 
       {/* ── The signature visual: make the unit visible ─────────────────── */}
       <ModeBand mode="cinematic" size="lg">
@@ -168,6 +223,94 @@ export default function WhyCarbonMarketsPage() {
         </div>
       </ModeBand>
 
+      {/* ── The global picture: two markets, not one ────────────────────── */}
+      <ModeBand mode="warm" size="lg">
+        <BandHeader
+          eyebrow="How it works globally"
+          title="Two markets, doing different jobs."
+          sub="Almost every confusion about carbon credits comes from treating these as one thing. They have different buyers, different rules, and different consequences for getting it wrong."
+        />
+
+        <div className="mt-14 grid gap-px overflow-hidden rounded-panel bg-pran-hairline lg:grid-cols-2">
+          <Reveal>
+            <div className="flex h-full flex-col bg-pran-surface p-8 sm:p-10">
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-pran-emerald">
+                Compliance
+              </p>
+              <h3 className="mt-3 font-display text-h3 font-semibold text-pran-ink">
+                A government caps you.
+              </h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-pran-muted">
+                A regulator sets a limit on what you may emit and issues or
+                auctions allowances up to that limit. Emit less and you sell the
+                surplus; emit more and you buy. The cap falls over time, so the
+                price is a policy instrument, not a market opinion. The EU ETS,
+                China&rsquo;s national ETS and India&rsquo;s CCTS all work this
+                way. Participation is not optional.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.06}>
+            <div className="flex h-full flex-col bg-pran-surface p-8 sm:p-10">
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-pran-emerald">
+                Voluntary
+              </p>
+              <h3 className="mt-3 font-display text-h3 font-semibold text-pran-ink">
+                You choose to act.
+              </h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-pran-muted">
+                No regulator compels you. A developer runs a project, an
+                independent auditor verifies the result, and a registry issues
+                serialised credits you can buy and retire. Nothing forces
+                quality here except the standard the credit was issued under —
+                which is exactly why the standard, the vintage and the registry
+                record matter more than the price.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.1}>
+          <div className="mt-12 rounded-panel border border-pran-hairline bg-pran-paper-warm p-8 sm:p-10">
+            <div className="grid gap-8 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-12">
+              <p className="font-display text-[clamp(2.75rem,7vw,4.5rem)] font-semibold leading-none tracking-[-0.03em] text-pran-emerald">
+                {globalPricing.coverageShare}
+              </p>
+              <div>
+                <p className="text-lg leading-relaxed text-pran-ink">
+                  of global greenhouse gas emissions now sit under a direct
+                  carbon price — across{" "}
+                  <strong className="font-semibold">
+                    {globalPricing.carbonTaxes} carbon taxes
+                  </strong>{" "}
+                  and{" "}
+                  <strong className="font-semibold">
+                    {globalPricing.emissionsTradingSystems} emissions trading
+                    systems
+                  </strong>
+                  . There were {globalPricing.instrumentsIn2005} such
+                  instruments in 2005; there are {globalPricing.instruments}{" "}
+                  today, raising {globalPricing.revenueUsd} a year.
+                </p>
+                <a
+                  href={globalPricing.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-block text-[13px] text-pran-emerald underline-offset-4 hover:underline"
+                >
+                  {globalPricing.source} ↗
+                </a>
+              </div>
+            </div>
+            <p className="mt-8 border-t border-pran-hairline pt-6 text-[15px] leading-relaxed text-pran-muted">
+              Which also says the quiet part: roughly seven tonnes in ten still
+              carry no price at all. The mechanism works — it is simply not yet
+              pointed at most of the problem.
+            </p>
+          </div>
+        </Reveal>
+      </ModeBand>
+
       {/* ── What we believe ─────────────────────────────────────────────── */}
       <ModeBand mode="warm" size="lg">
         <BandHeader
@@ -217,6 +360,83 @@ export default function WhyCarbonMarketsPage() {
             />
           </Reveal>
         </div>
+      </ModeBand>
+
+      {/* ── What actually reduces the total ─────────────────────────────── */}
+      <ModeBand mode="data" size="lg">
+        <BandHeader
+          eyebrow="What can be done"
+          title="In this order. It is not interchangeable."
+          sub="Credits sit at the end of this list, not the start. Anyone who sells them to you as a substitute for the first three steps is selling you a liability."
+        />
+        <ol className="mx-auto mt-14 max-w-4xl">
+          {actionOrder.map((step, i) => (
+            <li key={step.title}>
+              <Reveal from={i % 2 === 0 ? "left" : "right"}>
+                <div
+                  className={cn(
+                    "flex items-start gap-6 py-8 sm:gap-10",
+                    i % 2 === 1 && "sm:flex-row-reverse sm:text-right",
+                  )}
+                >
+                  <span
+                    aria-hidden
+                    className="font-display text-[clamp(3.25rem,9vw,5.5rem)] font-semibold leading-[0.8] tabular-nums text-pran-emerald/25"
+                  >
+                    {i + 1}
+                  </span>
+                  <div className="flex-1 pt-1">
+                    <h3 className="font-display text-h3 font-semibold text-pran-ink">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-[15px] leading-relaxed text-pran-muted sm:text-base">
+                      {step.body}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+              {i < actionOrder.length - 1 && (
+                <div className="h-px bg-pran-hairline" />
+              )}
+            </li>
+          ))}
+        </ol>
+      </ModeBand>
+
+      {/* ── Go and check it ─────────────────────────────────────────────── */}
+      <ModeBand mode="warm" size="md">
+        <BandHeader
+          eyebrow="Sources"
+          title="Don't take our word for any of it."
+          sub="Every figure on this page comes from one of these. They are the primary documents, not summaries of them."
+        />
+        <ul className="mt-12 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-2 lg:grid-cols-3">
+          {whySources.map((s, i) => (
+            <li key={s.href}>
+              <Reveal delay={i * 0.04}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-full flex-col bg-pran-surface p-7 transition-colors hover:bg-pran-paper-warm"
+                >
+                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-pran-muted">
+                    {s.org}
+                  </p>
+                  <p className="mt-2.5 font-display text-[17px] font-semibold leading-snug text-pran-ink group-hover:text-pran-emerald">
+                    {s.title}
+                  </p>
+                  <p className="mt-2 flex-1 text-[13.5px] leading-relaxed text-pran-muted">
+                    {s.note}
+                  </p>
+                  <span className="mt-4 text-[13px] font-medium text-pran-emerald">
+                    Read it ↗
+                  </span>
+                </a>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
       </ModeBand>
 
       <CtaBand

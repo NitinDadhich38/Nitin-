@@ -142,6 +142,126 @@ export const settlementPath = [
   },
 ];
 
+/* ── Why carbon markets: the state of the problem ─────────────────────────
+   Every figure below was VERIFIED against its primary source on 2026-08-09
+   (see `source` + `href` on each). These are the only numbers /why-carbon-
+   markets is allowed to state. Do not add a figure here without fetching its
+   source first, and re-check them annually — both reports publish yearly. */
+
+export type ClimateFact = {
+  value: string;
+  label: string;
+  detail: string;
+  source: string;
+  href: string;
+};
+
+export const climateFacts: ClimateFact[] = [
+  {
+    value: "38.1 Gt",
+    label: "Fossil CO₂ released in 2025",
+    detail:
+      "A record high, up 1.1% on the year before. Coal, oil and gas all rose.",
+    source: "Global Carbon Budget 2025",
+    href: "https://globalcarbonbudget.org/fossil-fuel-co2-emissions-hit-record-high-in-2025/",
+  },
+  {
+    value: "42.2 Gt",
+    label: "Total CO₂, including land use",
+    detail:
+      "Fossil emissions plus 4.1 Gt from deforestation and other land-use change.",
+    source: "Global Carbon Budget 2025",
+    href: "https://globalcarbonbudget.org/gcb-2025/the-global-carbon-budget-faqs-2025/",
+  },
+  {
+    value: "425.7 ppm",
+    label: "CO₂ in the atmosphere",
+    detail:
+      "52% above the pre-industrial level. This is the stock that drives warming — annual emissions add to it.",
+    source: "Global Carbon Budget 2025",
+    href: "https://essd.copernicus.org/articles/18/3211/2026/",
+  },
+];
+
+/* ── How the global market is actually structured ─────────────────────────
+   World Bank, State and Trends of Carbon Pricing 2025, verified 2026-08-09. */
+
+export const globalPricing = {
+  coverageShare: "28%",
+  instruments: 80,
+  carbonTaxes: 43,
+  emissionsTradingSystems: 37,
+  instrumentsIn2005: 5,
+  revenueUsd: "over USD 100 billion",
+  gdpShare: "almost two-thirds",
+  source: "World Bank — State and Trends of Carbon Pricing 2025",
+  href: "https://www.worldbank.org/en/publication/state-and-trends-of-carbon-pricing",
+};
+
+/**
+ * The mitigation hierarchy, in the order every serious framework states it
+ * (ISO 14068, VCMI, SBTi all order it this way). Credits are LAST on purpose —
+ * CLAUDE.md forbids implying that retiring credits substitutes for reducing.
+ */
+export const actionOrder = [
+  {
+    title: "Measure what you actually emit.",
+    body: "Not an estimate of the industry, yours. Scope 1 is what you burn, Scope 2 is the electricity you buy, Scope 3 is your supply chain — and Scope 3 is usually the majority and the part everyone skips.",
+  },
+  {
+    title: "Cut what can be cut.",
+    body: "Efficiency, process change, switching fuel, cutting waste. This is the only step that reduces the physical total, and it is almost always cheaper than paying for the same tonne twice.",
+  },
+  {
+    title: "Switch the energy underneath it.",
+    body: "Contracted renewable supply, on-site generation, electrified process heat where the technology exists. This shrinks the baseline permanently rather than offsetting it annually.",
+  },
+  {
+    title: "Retire verified credits against the residual.",
+    body: "What is genuinely left after the first three — the emissions no current technology lets you remove. Credits fund somebody else's reduction and record that it happened. They do not cancel your obligation to keep working down the list.",
+  },
+];
+
+/** Primary sources a reader can go and check for themselves. */
+export const whySources = [
+  {
+    org: "Global Carbon Project",
+    title: "Global Carbon Budget 2025",
+    note: "The annual accounting of where every tonne came from and where it went.",
+    href: "https://globalcarbonbudget.org/",
+  },
+  {
+    org: "World Bank",
+    title: "State and Trends of Carbon Pricing 2025",
+    note: "Which jurisdictions price carbon, how, and at what level.",
+    href: "https://www.worldbank.org/en/publication/state-and-trends-of-carbon-pricing",
+  },
+  {
+    org: "IPCC",
+    title: "Sixth Assessment Report (AR6)",
+    note: "The scientific baseline on causes, impacts and mitigation pathways.",
+    href: "https://www.ipcc.ch/assessment-report/ar6/",
+  },
+  {
+    org: "UNFCCC",
+    title: "The Paris Agreement",
+    note: "The treaty text, including Article 6 on international carbon markets.",
+    href: "https://unfccc.int/process-and-meetings/the-paris-agreement",
+  },
+  {
+    org: "ICVCM",
+    title: "Core Carbon Principles",
+    note: "The integrity threshold a voluntary credit is judged against.",
+    href: "https://icvcm.org/core-carbon-principles/",
+  },
+  {
+    org: "Bureau of Energy Efficiency",
+    title: "Carbon Credit Trading Scheme (India)",
+    note: "India's own compliance and offset mechanism.",
+    href: "https://beeindia.gov.in/",
+  },
+];
+
 /* ── Why carbon markets: one tonne, at human scale ────────────────────────
    The signature visual for /why-carbon-markets. Nobody has an intuition for
    "a tonne of CO2", which is precisely why the number never lands.
