@@ -47,3 +47,34 @@ export const brand = {
   tagline: "Carbon market infrastructure",
   domain: "pranglobal.com",
 } as const;
+
+/**
+ * PRAN's own public channels — the COMPANY, never a person.
+ *
+ * Founder direction 2026-08-09: the company LinkedIn is used everywhere on the
+ * site; the founder's personal profile appears ONLY on /about/team (see
+ * lib/leadership.ts). Do not swap one for the other.
+ *
+ * `email` is the general enquiries inbox (founder-confirmed 2026-08-09). The
+ * previously hardcoded hello@pranglobal.com did NOT exist and has been purged.
+ * The founder's own address stays in lib/leadership.ts and is used only where
+ * the founder is speaking as himself.
+ *
+ * `whatsapp` is stored as digits only — country code, no `+`, no spaces —
+ * because that is the exact shape wa.me requires. `whatsappDisplay` is the
+ * human-readable version; never build the link from it.
+ */
+export const pranSocial = {
+  linkedin: "https://www.linkedin.com/company/pranapp",
+  email: "contact@pranapp.in",
+  whatsapp: "917296815012",
+  whatsappDisplay: "+91 72968 15012",
+} as const;
+
+/** Click-to-chat URL. Prefilled so we know which page the enquiry came from. */
+export function whatsappLink(context?: string): string {
+  const text = context
+    ? `Hi PRAN — I'm enquiring about ${context}.`
+    : "Hi PRAN — I'd like to know more about buying or listing carbon credits.";
+  return `https://wa.me/${pranSocial.whatsapp}?text=${encodeURIComponent(text)}`;
+}

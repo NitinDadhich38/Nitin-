@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { Lock, Mail } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
+import { LinkedInIcon, WhatsAppIcon } from "@/components/shared/icons";
 import { footerColumns, legalLinks } from "@/lib/nav";
+import { pranSocial, whatsappLink } from "@/lib/config";
 
 /** Global footer — Trust mode (navy + gold). Full sitemap + legal row. */
 export function SiteFooter() {
@@ -16,6 +19,36 @@ export function SiteFooter() {
               The financial infrastructure layer for the carbon market —
               verified credits, footprint intelligence, and transparent markets.
             </p>
+
+            {/* PRAN's own channels — the company, never the founder's personal
+                profile. That one appears on /about/team only. */}
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href={`mailto:${pranSocial.email}`}
+                aria-label="Email PRAN"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+              >
+                <Mail className="h-4 w-4" />
+              </a>
+              <a
+                href={pranSocial.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="PRAN on LinkedIn"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+              >
+                <LinkedInIcon className="h-4 w-4" />
+              </a>
+              <a
+                href={whatsappLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Message PRAN on WhatsApp"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+              </a>
+            </div>
           </div>
 
           {footerColumns.map((col) => (
@@ -28,9 +61,16 @@ export function SiteFooter() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/70 transition-colors hover:text-white"
+                      className="inline-flex items-center gap-1.5 text-sm text-white/70 transition-colors hover:text-white"
                     >
                       {link.label}
+                      {link.locked && (
+                        <Lock
+                          className="h-3 w-3 shrink-0 text-white/40"
+                          strokeWidth={2}
+                          aria-label="Premium service — talk to us"
+                        />
+                      )}
                     </Link>
                   </li>
                 ))}

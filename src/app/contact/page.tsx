@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
-import Link from "next/link";
-import {
-  Mail,
-  MessageSquare,
-  ShieldCheck,
-  Clock,
-  ShoppingCart,
-  Building2,
-  FileBarChart,
-  Sparkles,
-} from "lucide-react";
+import { Mail, MessageSquare, ShieldCheck, Clock } from "lucide-react";
 import { ContactForm } from "@/components/forms/contact-form";
-import { DrawnHero, Em, FieldPath } from "@/components/craft/drawn-hero";
-import { ModeBand, BandHeader } from "@/components/craft/mode-band";
+import { DrawnHero, Em } from "@/components/craft/drawn-hero";
+import { ModeBand } from "@/components/craft/mode-band";
 import { Reveal } from "@/components/marketing/reveal";
-import { LinkedInIcon } from "@/components/shared/icons";
-import { founder } from "@/lib/leadership";
-import { cn } from "@/lib/utils";
+import { LinkedInIcon, WhatsAppIcon } from "@/components/shared/icons";
+import { pranSocial, whatsappLink } from "@/lib/config";
+import { pageImages } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -59,98 +48,11 @@ const intents: Record<string, { title: string; subtitle: string }> = {
   },
 };
 
-/**
- * The four doors. The signature visual for this page: a contact form on a white
- * page tells a visitor nothing, but a routed desk tells them we already know
- * there are different kinds of people arriving.
- */
-const routes = [
-  {
-    key: "purchase",
-    icon: ShoppingCart,
-    title: "Buying credits",
-    body: "Sourcing against a target, a client, or a compliance obligation.",
-    goes: "Matched against live inventory, quoted firm.",
-    href: "/contact?interest=purchase",
-  },
-  {
-    key: "list",
-    icon: Building2,
-    title: "Listing a project",
-    body: "Registry-issued projects only.",
-    goes: "Verified against the registry before anything goes live.",
-    href: "/contact?interest=list",
-  },
-  {
-    key: "reporting",
-    icon: FileBarChart,
-    title: "Reporting & intelligence",
-    body: "BRSR, CBAM, ESG or procurement support.",
-    goes: "Early-access list — these services are in build.",
-    href: "/contact?interest=esg",
-  },
-  {
-    key: "demo",
-    icon: Sparkles,
-    title: "Something else",
-    body: "Partnerships, policy, press, or a question.",
-    goes: "Read by the founder.",
-    href: "/contact?interest=demo",
-  },
-];
-
 const assurances = [
   { icon: MessageSquare, text: "A real person reads every message." },
   { icon: Clock, text: "We usually reply within one business day." },
   { icon: ShieldCheck, text: "Your details are never shared or sold." },
 ];
-
-/** Hero field — inbound lines converging on one desk, then routed onward. */
-function DeskField() {
-  const inbound = [180, 290, 400, 510, 620];
-  return (
-    <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden>
-      <defs>
-        <radialGradient id="dk-glow" cx="70%" cy="50%" r="54%">
-          <stop offset="0%" stopColor="#16a34a" stopOpacity="0.28" />
-          <stop offset="100%" stopColor="#16a34a" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="1440" height="760" fill="url(#dk-glow)" />
-
-      {inbound.map((y, i) => (
-        <FieldPath
-          key={y}
-          d={`M 40 ${y} L 700 ${y} L 980 400`}
-          stroke="#d9f99d"
-          strokeOpacity="0.32"
-          strokeWidth="1.5"
-          delay={0.35 + i * 0.12}
-        />
-      ))}
-      {[300, 400, 500].map((y, i) => (
-        <FieldPath
-          key={`o${y}`}
-          d={`M 980 400 L 1180 ${y} L 1400 ${y}`}
-          stroke="#ffffff"
-          strokeOpacity="0.22"
-          strokeWidth="1.5"
-          delay={1.1 + i * 0.14}
-        />
-      ))}
-      <circle
-        cx="980" cy="400" r="12" fill="#d9f99d"
-        className="field-in"
-        style={{ "--field-opacity": "0.95", animationDelay: "1.5s" } as CSSProperties}
-      />
-      <circle
-        cx="980" cy="400" r="28" fill="none" stroke="#d9f99d" strokeWidth="1.5"
-        className="field-in"
-        style={{ "--field-opacity": "0.35", animationDelay: "1.7s" } as CSSProperties}
-      />
-    </svg>
-  );
-}
 
 export default function ContactPage({
   searchParams,
@@ -179,18 +81,27 @@ export default function ContactPage({
           </>,
         ]}
         sub={copy.subtitle}
-        field={<DeskField />}
+        image={pageImages.contactHero}
         actions={
           <>
             <a
-              href="mailto:hello@pranglobal.com"
+              href={`mailto:${pranSocial.email}`}
               className="inline-flex items-center gap-2.5 rounded-btn border border-white/25 px-4 py-2.5 text-sm font-medium text-white/85 transition-colors hover:border-pran-lime hover:text-pran-lime"
             >
               <Mail className="h-4 w-4" />
-              hello@pranglobal.com
+              {pranSocial.email}
             </a>
             <a
-              href={founder.linkedin}
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-btn border border-white/25 px-4 py-2.5 text-sm font-medium text-white/85 transition-colors hover:border-pran-lime hover:text-pran-lime"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              WhatsApp
+            </a>
+            <a
+              href={pranSocial.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="PRAN on LinkedIn"
@@ -201,67 +112,6 @@ export default function ContactPage({
           </>
         }
       />
-
-      {/* ── The routed desk — four doors, and where each one goes ──────── */}
-      <ModeBand mode="data" size="md">
-        <BandHeader
-          eyebrow="The desk"
-          title="Four doors. Pick the one that fits."
-          sub="Each routes to a different person and a different first question, so you don't spend a paragraph explaining which kind of enquiry this is."
-        />
-        <div className="mt-12 grid gap-px overflow-hidden rounded-panel bg-pran-hairline sm:grid-cols-2 lg:grid-cols-4">
-          {routes.map((r, i) => {
-            const active = r.key === defaultInterest;
-            return (
-              <Reveal key={r.key} delay={i * 0.05}>
-                <Link
-                  href={r.href}
-                  aria-current={active ? "true" : undefined}
-                  className={cn(
-                    "group flex h-full flex-col p-7 transition-colors",
-                    active
-                      ? "bg-pran-forest text-white"
-                      : "bg-pran-surface hover:bg-pran-paper-warm",
-                  )}
-                >
-                  <r.icon
-                    className={cn(
-                      "h-5 w-5",
-                      active ? "text-pran-lime" : "text-pran-emerald",
-                    )}
-                  />
-                  <h3
-                    className={cn(
-                      "mt-4 font-display text-h3 font-semibold leading-snug",
-                      active ? "text-white" : "text-pran-ink",
-                    )}
-                  >
-                    {r.title}
-                  </h3>
-                  <p
-                    className={cn(
-                      "mt-2 flex-1 text-[15px] leading-relaxed",
-                      active ? "text-white/70" : "text-pran-muted",
-                    )}
-                  >
-                    {r.body}
-                  </p>
-                  <p
-                    className={cn(
-                      "mt-5 border-t pt-4 text-[13px] leading-relaxed",
-                      active
-                        ? "border-white/15 text-pran-lime"
-                        : "border-pran-hairline text-pran-emerald",
-                    )}
-                  >
-                    {r.goes}
-                  </p>
-                </Link>
-              </Reveal>
-            );
-          })}
-        </div>
-      </ModeBand>
 
       {/* ── The form ───────────────────────────────────────────────────── */}
       <ModeBand mode="warm" size="lg">
@@ -287,17 +137,42 @@ export default function ContactPage({
 
             <Reveal delay={0.1}>
               <div className="mt-10 rounded-card bg-pran-surface p-6 shadow-card">
-                <p className="text-sm leading-relaxed text-pran-muted">
-                  Founder enquiries, partnerships and press can reach{" "}
-                  {founder.name} directly at{" "}
-                  <a
-                    href={`mailto:${founder.email}`}
-                    className="font-medium text-pran-emerald underline underline-offset-4"
-                  >
-                    {founder.email}
-                  </a>
-                  .
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-pran-muted">
+                  Reach us directly
                 </p>
+                <div className="mt-4 space-y-3">
+                  <a
+                    href={`mailto:${pranSocial.email}`}
+                    className="group flex items-center gap-3 text-[15px] text-pran-ink hover:text-pran-emerald"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10">
+                      <Mail className="h-4 w-4 text-pran-emerald" />
+                    </span>
+                    {pranSocial.email}
+                  </a>
+                  <a
+                    href={whatsappLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 text-[15px] text-pran-ink hover:text-pran-emerald"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10">
+                      <WhatsAppIcon className="h-4 w-4 text-pran-emerald" />
+                    </span>
+                    {pranSocial.whatsappDisplay}
+                  </a>
+                  <a
+                    href={pranSocial.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 text-[15px] text-pran-ink hover:text-pran-emerald"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10">
+                      <LinkedInIcon className="h-4 w-4 text-pran-emerald" />
+                    </span>
+                    PRAN on LinkedIn
+                  </a>
+                </div>
               </div>
             </Reveal>
           </div>
