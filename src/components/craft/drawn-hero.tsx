@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode, SVGProps } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
@@ -59,6 +60,7 @@ export function DrawnHero({
   aside,
   field,
   mode = "cinematic",
+  image,
   underChrome = true,
   className,
 }: {
@@ -72,6 +74,14 @@ export function DrawnHero({
   /** The page's bespoke drawing. Falls back to the market grid. */
   field?: ReactNode;
   mode?: "cinematic" | "forest";
+  /**
+   * Optional full-bleed photograph behind the drawing (founder direction,
+   * 2026-08-09 — this reverses the Wave 0 "no photography on interior pages"
+   * rule). The drawn field still renders on top, so the page keeps its
+   * signature; the photo supplies depth the flat ink panel never had.
+   * Prefer a self-hosted path from lib/images.ts `pageImages`.
+   */
+  image?: string;
   /**
    * Slide up under the fixed header, so the drawing runs behind it — the
    * homepage hero does the same. Set false on chrome-free pages (SiteChrome
@@ -89,14 +99,37 @@ export function DrawnHero({
         className,
       )}
     >
-      <div aria-hidden className="absolute inset-0">
-        {field ?? <MarketField />}
-      </div>
+      {/* PHOTOGRAPH WINS WHEN THERE IS ONE (founder direction 2026-08-09).
+          The drawn field and the photo used to stack: lines over an image at
+          45% behind a heavy scrim, which read as a muddy filter with scratches
+          on it. Now it is one or the other — a real photograph, or the drawing
+          on pages that have no photograph yet. Do not re-stack them. */}
+      {image ? (
+        <Image
+          src={image}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 object-cover"
+        />
+      ) : (
+        <div aria-hidden className="absolute inset-0">
+          {field ?? <MarketField />}
+        </div>
+      )}
 
-      {/* Grade — keeps type legible over whatever the field is doing. */}
+      {/* Grade — the only job is keeping type legible. Over a photograph it is
+          a bottom-weighted wash so the image stays readable at the top; over a
+          drawing it can be heavier because there is no detail to lose. */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,15,10,.72)_0%,rgba(6,15,10,.28)_38%,rgba(6,15,10,.88)_100%)]"
+        className={cn(
+          "absolute inset-0",
+          image
+            ? "bg-[linear-gradient(180deg,rgba(6,15,10,.34)_0%,rgba(6,15,10,.12)_42%,rgba(6,15,10,.78)_100%)]"
+            : "bg-[linear-gradient(180deg,rgba(6,15,10,.72)_0%,rgba(6,15,10,.28)_38%,rgba(6,15,10,.88)_100%)]",
+        )}
       />
       <div aria-hidden className="hero-grain pointer-events-none absolute inset-0" />
 

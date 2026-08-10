@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
@@ -74,13 +75,60 @@ export function DocHeader({
   title,
   sub,
   meta,
+  image,
 }: {
   eyebrow?: string;
   title: string;
   sub?: ReactNode;
   /** e.g. "Last updated July 2026" */
   meta?: string;
+  /**
+   * Optional photograph behind the headline (founder direction 2026-08-09,
+   * "background images on all the pages").
+   *
+   * The original DocHeader was deliberately quiet — a cinematic opener on a
+   * Terms page reads as marketing printed over a contract. The photo version
+   * keeps that restraint: it is SHORTER than a page hero and carries a heavier
+   * scrim than the marketing heroes do, so it reads as a letterhead rather
+   * than a campaign. The legal WORDING below it is untouched either way.
+   */
+  image?: string;
 }) {
+  if (image) {
+    return (
+      <header className="relative -mx-6 mb-10 overflow-hidden bg-pran-forest sm:-mx-8">
+        <Image
+          src={image}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 object-cover"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,15,10,.62),rgba(6,15,10,.80))]"
+        />
+        <div className="relative z-10 px-6 pb-12 pt-16 sm:px-8">
+          {eyebrow && (
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-pran-lime">
+              {eyebrow}
+            </p>
+          )}
+          <h1 className="mt-4 max-w-[20ch] font-display text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-white">
+            {title}
+          </h1>
+          {sub && (
+            <p className="mt-5 max-w-[62ch] text-lg leading-relaxed text-white/75">
+              {sub}
+            </p>
+          )}
+          {meta && <p className="mt-6 text-[13px] text-white/60">{meta}</p>}
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header className="border-b border-pran-hairline pb-10 pt-16">
       {eyebrow && (

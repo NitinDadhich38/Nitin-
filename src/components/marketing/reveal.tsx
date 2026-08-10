@@ -9,6 +9,18 @@ type RevealProps = {
   delay?: number;
   className?: string;
   style?: CSSProperties;
+  /**
+   * Which edge the content enters from. Default "bottom" is the site-wide
+   * rise. "left"/"right" exist for alternating-side sequences (see /about's
+   * operating steps) — use them for a deliberate rhythm, not for variety.
+   */
+  from?: "bottom" | "left" | "right";
+};
+
+const OFFSET: Record<NonNullable<RevealProps["from"]>, string> = {
+  bottom: "translateY(16px)",
+  left: "translateX(-28px)",
+  right: "translateX(28px)",
 };
 
 /**
@@ -26,7 +38,13 @@ type RevealProps = {
  *
  * Respects prefers-reduced-motion by rendering the content plainly.
  */
-export function Reveal({ children, delay = 0, className, style }: RevealProps) {
+export function Reveal({
+  children,
+  delay = 0,
+  className,
+  style,
+  from = "bottom",
+}: RevealProps) {
   const reduce = useReducedMotion();
   const { ref, inView } = useInViewOnce<HTMLDivElement>({ disabled: !!reduce });
 
@@ -45,7 +63,7 @@ export function Reveal({ children, delay = 0, className, style }: RevealProps) {
       style={{
         ...style,
         opacity: inView ? 1 : 0,
-        transform: inView ? "none" : "translateY(16px)",
+        transform: inView ? "none" : OFFSET[from],
         transition: `opacity 500ms ease-out ${delay}s, transform 500ms ease-out ${delay}s`,
         willChange: inView ? undefined : "opacity, transform",
       }}

@@ -43,6 +43,63 @@ export const photos = {
 
 export type PhotoKey = keyof typeof photos;
 
+/**
+ * Self-hosted page imagery (added 2026-08-09).
+ *
+ * These live in /public/img rather than being hotlinked. Interior page
+ * backgrounds are brand furniture — they load on nearly every visit, so they
+ * should not depend on a third-party CDN being reachable, and Next can serve
+ * them from the same origin. Downloaded from Unsplash; sized 2000px wide.
+ */
+export const pageImages = {
+  /** Aerial green hills — /about, "why we exist". */
+  aboutWhy: "/img/about-why.jpg",
+  /** Wide mountain-forest horizon — /about/team. */
+  teamHorizon: "/img/team-horizon.jpg",
+  /** Industrial emissions against sky — /why-carbon-markets. */
+  whyClimate: "/img/why-climate.jpg",
+  /** Solar array — /resources/compliance-library. */
+  resourcesCompliance: "/img/resources-compliance.jpg",
+  /** Forest canopy — /resources/voluntary-market. */
+  resourcesVoluntary: "/img/resources-voluntary.jpg",
+  /** Open landscape — /resources/blog. */
+  resourcesBlog: "/img/resources-blog.jpg",
+  /** Wind turbine against sky — /calculator. */
+  calculatorHero: "/img/calculator-hero.jpg",
+  /** Misty forest — /resources/[slug] hero. */
+  resourcesHero: "/img/resources-hero.jpg",
+  /** Aerial river through forest — /marketplace band. */
+  marketplaceHero: "/img/marketplace-hero.jpg",
+  /** Data / analysis — /intelligence. */
+  intelligenceHero: "/img/intelligence-hero.jpg",
+  /** Open desk — /contact. */
+  contactHero: "/img/contact-hero.jpg",
+  /** Wide horizon — /legal/* letterhead band. */
+  legalHero: "/img/legal-hero.jpg",
+} as const;
+
+/** Per-audience hero photography for /solutions/[audience]. */
+export const solutionImages: Record<string, string> = {
+  enterprise: "/img/solutions-enterprise.jpg",
+  government: "/img/solutions-government.jpg",
+  developers: "/img/solutions-developers.jpg",
+  public: "/img/solutions-public.jpg",
+};
+
+/**
+ * Attribution for the self-hosted photography above.
+ *
+ * These are Unsplash photographs, used under the Unsplash licence. They are
+ * ILLUSTRATIVE — none of them depicts a PRAN project, a government event, or
+ * any specific facility, and none may ever be captioned as if it did.
+ *
+ * Deliberately NOT used: Press Information Bureau / Prakriti event photography.
+ * Those are the most on-topic images available, but their redistribution terms
+ * could not be verified, and an unlicensed press photo on a commercial site is
+ * a real liability. If the founder obtains permission, swap them in here.
+ */
+export const imageCredit = "Photography: Unsplash. Illustrative only." as const;
+
 /* Project and I-REC card imagery does NOT come from here — every listing has
    its own distinct photograph, assigned in lib/project-imagery.ts. These
    photos are section backgrounds only, and deliberately share no ids with
