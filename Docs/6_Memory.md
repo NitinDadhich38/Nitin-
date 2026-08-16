@@ -27,13 +27,20 @@ Domain:            pranglobal.com   (CONFIRM — earlier docs said pranapp.in)
 Stack:             Next.js 14 + TypeScript + Tailwind + shadcn/ui +
                    Supabase + Razorpay + Resend + Vercel
 Current phase:     Phase 1 → "Phase 1.5" (founder re-sequence, 2026-08-09)
-Current stage:     GOING LIVE + CONNECTION LAYER. The whole site is built
-                   against static TS data. Founder's order (Phases.md
-                   "REVISED BUILD ORDER"): (1) content pass, (2) emails +
-                   WhatsApp + calculator, (3) admin project console.
+Current stage:     Stage 2 (connection layer) is CODE-COMPLETE except 2.3
+                   (auto-reply) but NOT LIVE — no .env.local exists on this
+                   machine, so nothing actually sends yet. Stage 3 (admin
+                   console) has NOT STARTED — src/app/admin is empty but for
+                   .gitkeep. Interior page redesign
+                   (7_Page_Design_Roadmap.md) is done except /[project]
+                   (3.3) and OG images (4.3).
                    DROPPED from this phase: buyer/seller accounts, KYC,
                    seller self-registration, buyer/seller dashboards.
                    DEFERRED: Razorpay/escrow, certificates, /verify.
+Branch:            All real work lives on `enhancing` (22 commits ahead of
+                   origin/enhancing, unpushed as of 2026-08-16). `main` is
+                   frozen at the first redesign commit (ca5519f) — do not
+                   treat it as current; it reflects almost none of the app.
 Repo:              github.com/NitinDadhich38/Nitin- (PRIVATE) — code + docs
 Live URL:          [Vercel not connected yet]  (old HTML site: pranglobal.com, repo techzedd/codepran — context only)
 Hosting plan:      hosteasy.in keeps DNS + @pranglobal.com mailboxes.
@@ -409,6 +416,138 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
     project with no coords (PRAN-1457) shows the labelled country-level
     Türkiye map, all 45 hero tiles load, 85/85 cards render with country
     pills and 174 SDG icons, no console errors.
+
+[2026-08-10] STAGE 2.5 + CONTENT PASS + PERFORMANCE — five commits, not
+  logged until reconciled against git on 2026-08-16 (see §9). All
+  Co-Authored-By Claude Opus 5.
+  (1) CALCULATOR (Stage 2.5, emission-factors.ts) — the India grid factor
+      was CORRECTED, not just re-verified: 0.71 had been CEA's CDM
+      "combined margin" baseline figure (what a project avoids), mislabelled
+      as the footprint factor. The correct Scope-2 location-based figure is
+      the weighted average, 0.7117 (CEA v21.0, FY2024-25) — now in use, with
+      the distinction documented in-file so it doesn't get "corrected" back.
+      Two DEFRA pairs are flagged ⚠ UNVERIFIED rather than guessed:
+      petrolCar/dieselCar (both 0.17) and flightShort/flightLong (both
+      0.15) — neither pair can genuinely be equal. Household size now
+      divides shared household energy (electricity/LPG) instead of
+      charging each member the whole household's bill — the single
+      largest accuracy bug a personal calculator can have. Business results
+      now show tCO2e/employee + whether the sector is CCTS-notified. New
+      personalisation fields (age band, occupation, industry, city, year
+      founded) are CONTEXT ONLY, documented as never multiplying into the
+      result — there is no published factor keyed to age or job title.
+  (2) MARKETPLACE — default sort is now price high→low (unpriced listings
+      sort last, never first). Result counts and the stats band are GONE
+      site-wide — founder direction: never publish how many projects,
+      countries, or how much volume is on the book (also removed from
+      /about/team). Project detail page gained a "Verification and
+      standard" block (registry, registry project ID, standard,
+      methodology, crediting period, est. annual credits, developer, PRAN
+      reference — modelled on Carbonmark's assessment block, rows render
+      only when the merged record actually has them) filling a hole left
+      when escrow-steps text was removed earlier. New "at a glance" strip
+      under the hero (price/volume/vintage/standard/type/delivery) so a
+      mobile visitor sees price before scrolling past description,
+      highlights and the volume table.
+  (3) SOLUTIONS + LEGAL PHOTOGRAPHY — each of the 4 Solutions pages now gets
+      its own hero photograph (lib/images.ts solutionImages), and the 3
+      legal pages get a restrained DocHeader photo treatment (shorter band,
+      heavier scrim; wording untouched). ⚠ SEE §4 KEY DECISIONS — this
+      reads as a reversal of the Wave-0 "diagram-forward, no photography on
+      interior pages" lock and is not confirmed as founder-approved.
+  (4) LEGAL CONTENT — Terms grew from 9 to 22 sections. The biggest gap
+      closed was settlement failure: the old terms described the happy
+      path in 5 steps and said nothing about a seller who doesn't transfer,
+      transfers short, or transfers the wrong vintage. New §8 covers each
+      case, the refund route, who bears gateway/FX cost on a refund, and
+      that retirement is irreversible so discrepancies must be raised
+      before it. Also added: naming the contracting entity (a contract
+      naming no party is unenforceable — it was missing), eligibility,
+      acceptable use, taxes + gross-up, platform IP, a warranty disclaimer,
+      a user indemnity aimed at environmental claims made with a PRAN
+      certificate, force majeure, sanctions/financial-crime, amendment and
+      notice, survival, and a real dispute-resolution clause replacing "to
+      be settled by counsel," which had shipped to production as a
+      placeholder. Privacy now covers what India's DPDP Act requires:
+      grievance officer, retention periods, cross-border processing
+      disclosure (Vercel/Supabase/Resend), consent withdrawal + nomination
+      rights, breach notification, children's-data position. Both pages
+      carry a last-updated date now. Every human-supplied fact (entity
+      name, CIN, registered office, arbitration seat, grievance officer,
+      refund window, GST/TDS treatment, retention periods) is a visible
+      [bracketed placeholder] rather than an invented value. STILL NOT
+      LAWYER-REVIEWED — flagged in file comments, not on the visible page,
+      per the founder's 2026-08-01 decision on that wording.
+  (5) PERFORMANCE — self-hosted all 17 SDG icons (were hotlinked from
+      sdgs.un.org: ~2,958 references on /marketplace alone before every
+      Next image fetch had to round-trip a third party). Converted
+      public/img + public/sdg to WebP via Next's own image optimiser (no
+      new dependency) — 8.4MB → 3.4MB, -58%. Bundle unchanged at 87.3kB
+      shared First Load JS — confirms images were the actual weight. The
+      formatted phone number is no longer rendered as visible text (it
+      matched phone-harvester regexes); the wa.me link is unaffected.
+
+[2026-08-16] DOC RECONCILIATION + STAGE 2.3 + STAGE 3.1 SCHEMA. Session
+  started as a status readout (founder asked "where are we"), which
+  surfaced that this file and Phases.md hadn't been touched since
+  2026-08-09 despite 5 commits landing 2026-08-10 — logged those
+  retroactively first (see the 2026-08-10 entry above), then built the
+  three things that were genuinely unblocked:
+  (1) STAGE 2.3 AUTO-REPLY — src/app/api/contact/route.ts now sends TWO
+      independent emails on a valid submission: the existing team
+      notification, and a new confirmation back to the sender promising a
+      reply "within 48 hours" (founder-confirmed this session). Each send
+      has its own try/catch so one failing never blocks the other. The
+      wording lives once, as `responseTimeWindow` in lib/config.ts — not
+      restated as a string in the route — so it can't drift out of sync if
+      it's ever quoted elsewhere (e.g. on the /contact page itself, not
+      done yet).
+  (2) PRAN_TEAM_EMAIL — set as the .env.example default (contact@pranapp.in,
+      founder-confirmed). Still needs an actual .env.local to do anything;
+      see Deploy readiness in §3.
+  (3) DEFRA FACTOR RESEARCH — genuine attempt to split the two unverified
+      pairs (petrolCar/dieselCar, flightShort/flightLong) via WebSearch +
+      WebFetch across 5 sources. RESULT: could not confirm the primary
+      DEFRA table split — the real data lives in a gov.uk XLSX workbook
+      these tools can't parse as text, and the one usable figure found
+      (Climatiq's "Car average," DEFRA-2022-sourced, 0.17067 kgCO2e/km) is
+      a blended figure, not a fuel split. A flight figure surfaced too
+      (~0.156/0.097/0.081 short/medium/long-haul) but includes a ~1.9x RF
+      + ~1.2x WTT uplift this file explicitly excludes, and back-dividing
+      those out would compound guesswork on guesswork — not done. BOTH
+      PAIRS ARE STILL IDENTICAL/FLAGGED. Comments in emission-factors.ts
+      now record exactly what was tried and what would close it (read the
+      DEFRA "full set (for advanced users)" workbook's Passenger vehicles
+      and Business travel - air tabs directly), so the next attempt
+      doesn't repeat the same dead ends.
+  (4) STAGE 3.1 SCHEMA — new supabase/schema.sql: the `projects` table
+      exactly as specified in Architecture.md §3 (money columns as
+      numeric, not float), a public `project-media` storage bucket, and
+      RLS (public SELECT where status='ACTIVE'; any authenticated user =
+      full access, since Phase 1 has exactly one admin account and no role
+      table). Deliberately does NOT include orders/contact_submissions/
+      calculator_results — out of Stage 3.1's scope, see the file's own
+      header comment. NOT YET RUN anywhere — there is no Supabase project
+      to run it against. Founder pastes it into the SQL editor once one
+      exists.
+  (5) BROWSER VERIFICATION — caught and fixed a real regression in (1)
+      before it shipped: the first draft of the two-send restructure moved
+      `new Resend(apiKey)` outside any try/catch (to share one client
+      across both sends), which meant a construction failure would now
+      throw unhandled instead of degrading gracefully like the original
+      code did. Fixed by wrapping both sends in an outer try, each still
+      independent inside it. Confirmed the live route with a direct
+      `javascript_tool` fetch() to /api/contact (not a simulated click —
+      those don't work reliably in this sandbox's non-compositing Browser
+      pane, now documented in the sandbox-quirks memory) — got a real
+      `{status:200, body:{ok:true}}` and the matching "email not
+      configured" line in `preview_logs`. Also caught and fixed a
+      pre-existing copy bug while in there: /contact's page text said "We
+      usually reply within one business day," contradicting the new
+      48-hour auto-reply — both now read from the one `responseTimeWindow`
+      constant.
+  VERIFIED: `tsc --noEmit` clean after all of the above; /api/contact POST
+  confirmed working live against the running dev server.
 ```
 
 ---
@@ -416,29 +555,44 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
 
 ```
-Currently building: [none started. Next up = Stage 2 (connection layer), per
-                    Phases.md "REVISED BUILD ORDER". Stage 1 (content pass)
-                    is founder-driven and runs alongside it.]
-Blocked on:         [Founder must supply the VALUES for Stage 2 — see
-                    "Waiting on founder" below. Nothing can be delivered by
-                    email until those exist.]
-Waiting on founder: [STAGE 2 VALUES — purchase-enquiry inbox address; PRAN
-                    contact inbox address; founder's direct email; WhatsApp
-                    number (country code, no +/spaces, for wa.me); the
-                    auto-reply response-time wording (24h / 1 working day /
-                    48h — asked 2026-08-09, not yet answered).
-                    STAGE 3 — create the Supabase project + fill .env.local.
-                    ALSO STILL OPEN: real project photos for the 63 catalog
-                    projects with none (registries publish NONE — only the
-                    founder/developers can close this); leadership photos;
-                    real marketplace stat numbers; lawyer review of /legal/*.]
-Deploy readiness:   [`npm run build` PASSES as of 2026-08-09 (27 routes).
-                    Four ESLint errors that were BLOCKING the build were
-                    fixed that day (2 unused imports, 2 unescaped
-                    apostrophes) — uncommitted at time of writing.]
+Currently building: [none started. Stage 2 is fully code-complete (2.1-2.5
+                    all coded) but still NOT LIVE. Stage 3.1's SQL is
+                    written (supabase/schema.sql) but not run anywhere.
+                    Next real step needs a Supabase project: run that SQL,
+                    then start Stage 3.2 (admin auth).]
+Blocked on:         [Stage 2 going LIVE, and all of Stage 3: no .env.local
+                    exists on this machine at all. Need a Supabase project
+                    + a Resend API key at minimum.]
+Waiting on founder: [RESOLVED 2026-08-16: auto-reply wording is "within 48
+                    hours" (lib/config.ts responseTimeWindow); Solutions +
+                    Legal hero photography stays (confirmed keeping
+                    eeff6bd's 08-10 change — see §4, this supersedes Wave-0
+                    for those pages only, not retroactively); PRAN_TEAM_EMAIL
+                    is contact@pranapp.in (now the .env.example default).
+                    RESOLVED earlier: WhatsApp number (917296815012,
+                    08-10), general contact display address
+                    (contact@pranapp.in, 08-09), "real marketplace stat
+                    numbers" is moot (founder chose not to publish counts,
+                    08-10).
+                    STILL OPEN: create the Supabase project + fill
+                    .env.local (Stage 3); real project photos for the ~60+
+                    catalog projects with none (registries publish NONE —
+                    only the founder/developers can close this); leadership
+                    photos; lawyer review of /legal/* (now 22 Terms
+                    sections); the two DEFRA factor pairs — search/fetch
+                    tools could not extract DEFRA's primary XLSX table
+                    2026-08-16, someone needs to open the actual workbook
+                    (see emission-factors.ts for exactly what was tried).]
+Deploy readiness:   [`tsc --noEmit` clean as of 2026-08-16, including
+                    today's Stage 2.3 + config changes. Not yet deployed to
+                    Vercel. `enhancing` is 22+ commits ahead of
+                    origin/enhancing — still not pushed anywhere.]
 Design:             5_Design.md v2.0 (warm paper / forest / emerald, Space
                     Grotesk display + Inter). Homepage built to it 2026-07-24.
-                    (Supersedes the 2026-07-23 teal-UI lock.)
+                    (Supersedes the 2026-07-23 teal-UI lock.) Solutions +
+                    Legal interior pages carry hero photography (confirmed
+                    2026-08-16); every other interior page stays
+                    diagram-forward per the Wave-0 lock.
 Logo:               received from techzedd/codepran, built as Logo component
 ```
 
@@ -468,6 +622,22 @@ Logo:               received from techzedd/codepran, built as Logo component
 - [2026-08-09] Ship order is deliberate: the connection layer (emails,
   WhatsApp, calculator) needs NO database, so it goes live first and starts
   capturing enquiries while the admin console is built behind it.
+- [2026-08-10] India's grid emission factor was CORRECTED, not just
+  re-verified: the old 0.71 was CEA's CDM "combined margin" baseline figure
+  mislabelled as the footprint factor. The right one for a footprint is the
+  weighted average (0.7117, CEA v21.0). Keep this distinction — the two
+  numbers serve different purposes and a future re-verification pass could
+  easily "fix" it back to the wrong one if the note gets deleted.
+- [2026-08-10, RESOLVED 2026-08-16] eeff6bd put hero photography back on
+  the Solutions + Legal pages, reversing the Wave-0 "diagram-forward, no
+  photography on interior pages" lock (7_Page_Design_Roadmap.md §2,
+  2026-08-08) without recorded founder sign-off at the time. Founder
+  confirmed 2026-08-16: KEEP the photography. This supersedes Wave-0 for
+  Solutions + Legal SPECIFICALLY — it does not retroactively reopen pages
+  that already shipped diagram-forward (Enterprise/Developers/Government/
+  Public solutions pages' signature visuals, Intelligence, About, Why
+  Carbon Markets, etc. all stay exactly as built). Don't extend photography
+  to any other interior page without asking again.
 ```
 
 ---
@@ -519,8 +689,30 @@ NEXT_PUBLIC_SITE_URL              [ ] set
       2026-08-01 (see Memory §2 entry for exactly what was tried and why each
       failed). Re-check before anyone assumes it can be automated.
 - [ ] Add real team photos/bios when provided
-- [ ] Confirm emission factor values against latest DEFRA / CEA
+- [x] India grid factor confirmed + corrected against CEA v21.0 (2026-08-10)
+- [ ] Two DEFRA factor pairs are IDENTICAL and flagged unverified in
+      emission-factors.ts: petrolCar/dieselCar (both 0.17), flightShort/
+      flightLong (both 0.15). Real DEFRA values are published and
+      look-up-able — this does NOT need founder input, just the lookup.
 - [ ] Verify BRSR/CBAM/CCTS facts against official sources before publishing
+- [x] Solutions + Legal hero photography — founder confirmed keep it
+      2026-08-16 (see §4 KEY DECISIONS).
+- [x] Stage 2.3 (auto-reply email) — built 2026-08-16, "within 48 hours"
+      wording. Code-complete; still needs .env.local to actually send.
+- [ ] `enhancing` is 22+ commits ahead of origin/enhancing and unpushed —
+      this machine is the only copy of the entire v2.0 rebuild. Push when
+      the founder wants that backup (not done automatically).
+- [ ] The 2 DEFRA factor pairs are STILL unresolved after a real attempt
+      2026-08-16 (WebSearch + WebFetch, 5 sources) — the actual split lives
+      in a gov.uk XLSX workbook these tools can't read as text. Needs a
+      human to open "Conversion Factors 2023: full set (for advanced
+      users)" and read the Passenger vehicles + Business travel-air tabs.
+      See emission-factors.ts for exactly what was tried, so it isn't
+      repeated.
+- [ ] supabase/schema.sql is written (Stage 3.1) but has never been run —
+      there is no Supabase project yet. Founder: create one, paste the
+      file into the SQL editor, then tell the next session the project ref
+      so it can go in Memory.md §1 and .env.local can be filled in.
 - [ ] npm: 5 vulns (1 mod, 4 high) in transitive deps — careful audit pass (do NOT --force)
 - [ ] three-mesh-bvh 0.7.8 vs 0.8.0 warning — resolve before building the 3D globe (A.1)
 - [x] Design tokens themed in Task 0.3 (hand-built cva components, not shadcn CLI)
@@ -548,22 +740,39 @@ NEXT_PUBLIC_SITE_URL              [ ] set
 ## 9. SESSION HANDOFF NOTES (last thing written each session)
 
 ```
-Last session date:   2026-08-09
-Last task completed: No code feature. Session was DEPLOYMENT PLANNING +
-                    SCOPE RESET. Fixed the 4 ESLint errors blocking
-                    `npm run build`; audited the real vs. installed stack;
-                    rewrote Phases.md/Architecture.md/Memory.md for the
-                    founder's re-sequenced phase.
-Next task to start:  Stage 2.1-2.4 (the connection layer) AS SOON AS the
-                    founder supplies the email addresses + WhatsApp number.
-                    Stage 2.5 (calculator factor verification) needs no
-                    founder input and can start immediately.
+Last session date:   2026-08-16
+Last task completed: Two things back to back. First, reconciled 6 days of
+                    drift: 2026-08-10 had shipped 5 commits (grid-factor
+                    fix, marketplace pass, Solutions/Legal photography,
+                    legal content expansion, performance pass) that never
+                    got logged here — done retroactively from git history.
+                    Second, with the founder answering 3 quick questions,
+                    built what was actually unblocked same-session: Stage
+                    2.3 (auto-reply email, "within 48 hours"), confirmed
+                    PRAN_TEAM_EMAIL, and wrote Stage 3.1's Supabase schema
+                    (supabase/schema.sql, not yet run). Also attempted the
+                    2 DEFRA factor pairs — genuinely could not resolve them
+                    with search/fetch tools; still open, now well-documented.
+Next task to start:  Once a Supabase project exists: run supabase/schema.sql,
+                    fill .env.local, then start Stage 3.2 (admin auth).
+                    Until then: read DEFRA's actual XLSX workbook to close
+                    the 2 factor pairs, or push `enhancing` to origin for a
+                    backup — both need a person, not just more agent tool
+                    calls.
 Anything the next session must know:
+  - MEMORY.MD WENT STALE FOR 6 DAYS ONCE ALREADY (08-09 → 08-10 commits
+    weren't logged until 08-16). Don't assume this log is current just
+    because it exists — cross-check `git log` against the newest dated
+    entry in §2 before reporting status to the founder.
   - THE FOUNDER HAS NO HOSTING BACKGROUND and previously deployed only
     static HTML/PHP via cPanel. Explain deployment concretely, never
     assume familiarity with DNS, env vars, or build steps.
   - hosteasy.in CANNOT run this app. It keeps the domain and the mailboxes
     only. Do not suggest uploading anything to public_html.
+  - `main` is frozen at the first redesign commit (ca5519f) and reflects
+    almost none of the v2.0 work. All real history is on `enhancing`, 22
+    commits ahead of origin/enhancing and never pushed. This machine is a
+    single point of failure for the whole rebuild until that changes.
   - THREE HEAVY DEPS ARE DEAD: three (25MB), @react-three (4MB),
     recharts (9MB) — the globe was banned and every chart is hand-drawn
     SVG. Also unused: qrcode, @react-pdf/renderer, razorpay. They do NOT
@@ -574,10 +783,12 @@ Anything the next session must know:
     NOTHING. They are correct and ready; Stage 3 is their first consumer.
   - THE ORDER MATTERS: Stage 2 needs no database. Do not let it get
     entangled with Supabase work — it ships to the live domain first.
-  - INTERIOR PAGES ARE DIAGRAM-FORWARD. Founder chose this over photography
-    on 2026-08-08. Do not add photographs to interior pages; they lead with
-    bespoke SVG, statement numbers and ledgers. The homepage keeps its
-    photography — it is the overture. TexturedSection is retired.
+    (Stage 2 is fully code-complete now, 2.1-2.5; it just isn't LIVE —
+    see §3. Stage 3.1's SQL is written but unrun for the same reason.)
+  - INTERIOR PAGES ARE diagram-forward per the 2026-08-08 Wave-0 lock,
+    EXCEPT Solutions + Legal, which carry hero photography — founder
+    confirmed keeping that 2026-08-16 (see §4). That exception does not
+    extend to any other interior page without asking again.
   - The four Carbon Intelligence services are NOT LIVE. Every page about
     them must read as in-development with waitlist framing. Never imply a
     delivered product.
@@ -631,6 +842,14 @@ Anything the next session must know:
     without setting a distinct `distDir` first — two dev servers sharing one
     .next dir corrupts the build (this session hit it: /why-carbon-markets
     and /solutions/[audience] 404'd until isolated; confirmed not a code bug).
+  - SDG icons are now self-hosted at public/sdg/*.webp (17 files) — do NOT
+    re-add sdgs.un.org to next.config remotePatterns. That hotlink was a
+    measured ~2,958-request regression on /marketplace alone, and the
+    failure mode is silent (works locally, only hurts in production).
+  - The formatted WhatsApp number must never be rendered as visible page
+    text (anti-scraping, founder direction 2026-08-09) — link to
+    whatsappLink()/wa.me only, via lib/config.ts. whatsappDisplay exists
+    only for contexts a human reads back (email body, invoice), never a page.
 ```
 
 ---

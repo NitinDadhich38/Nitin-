@@ -85,3 +85,10 @@ export function whatsappLink(context?: string): string {
     : "Hi PRAN — I'd like to know more about buying or listing carbon credits.";
   return `https://wa.me/${pranSocial.whatsapp}?text=${encodeURIComponent(text)}`;
 }
+
+/**
+ * Founder-confirmed 2026-08-16. Used in the contact-form auto-reply
+ * (src/app/api/contact/route.ts) — keep both in sync with this one constant
+ * rather than restating the window as a string in more than one place.
+ */
+export const responseTimeWindow = "48 hours";

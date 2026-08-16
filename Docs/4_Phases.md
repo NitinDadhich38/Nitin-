@@ -255,17 +255,48 @@ Stage C:  [x] C.1  [x] C.2  [ ] C.3  [ ] C.4
   A.10 PARTIAL — the contact form and its API route exist and validate, but
        no keys are set, so nothing is delivered. Stage 2.2 finishes it.
   B.3/B.4 Built against STATIC TypeScript data, not the DB. Stage 3.7 cuts over.
-  C.1/C.2 Calculator built; factor values still need founder/source
-       verification — that is Stage 2.5, and it is flagged in §7 of Memory.md.
+  C.1/C.2 Calculator built; India grid factor corrected 2026-08-10 (Stage
+       2.5). Two DEFRA factor pairs still need source verification — see
+       the revised tracker note below.
 ```
 
-### Revised order tracker (2026-08-09 — the live one)
+### Revised order tracker (updated 2026-08-16 — see note)
 
 ```
-Stage 1 (content):     [ ] founder-driven, ongoing
-Stage 2 (connection):  [ ] 2.1  [ ] 2.2  [ ] 2.3  [ ] 2.4  [ ] 2.5
-Stage 3 (admin):       [ ] 3.1  [ ] 3.2  [ ] 3.3  [ ] 3.4
+Stage 1 (content):     [~] founder-driven, ongoing
+Stage 2 (connection):  [~] 2.1  [~] 2.2  [~] 2.3  [x] 2.4  [~] 2.5
+Stage 3 (admin):       [~] 3.1  [ ] 3.2  [ ] 3.3  [ ] 3.4
                        [ ] 3.5  [ ] 3.6  [ ] 3.7
+```
+
+```
+NOTE (2026-08-16): this tracker was last touched 2026-08-09 and missed a
+whole session's worth of commits (2026-08-10) until reconciled against git
+history that day. If this file looks current, check the date above against
+`git log` before trusting it blindly. [~] means "coded, not yet live/run" —
+see each line below for the specific blocker.
+
+2.1  PARTIAL — "Request to Buy" routes through /contact, project pre-filled,
+     which IS Resend-wired. Not LIVE: no .env.local exists on this machine.
+2.2  PARTIAL — same route, same blocker. Code-complete, not live.
+2.3  PARTIAL — built 2026-08-16: /api/contact now also sends a confirmation
+     to the submitter, "within 48 hours" (founder-confirmed). Same blocker
+     as 2.1/2.2: no .env.local, so nothing actually sends yet.
+2.4  DONE — WhatsApp click-to-chat (lib/config.ts, founder-confirmed
+     number) + contact email live in footer/contact. No keys needed; this
+     is the one piece of Stage 2 that actually works right now.
+2.5  PARTIAL — India grid factor corrected 2026-08-10 (was CDM's "combined
+     margin", now CEA's Scope-2 weighted average, 0.7117). Two DEFRA pairs
+     (petrolCar/dieselCar, flightShort/flightLong) are still identical
+     values — a real attempt to split them 2026-08-16 couldn't reach
+     DEFRA's primary XLSX table via search/fetch tools; still flagged
+     rather than guessed. See emission-factors.ts for what was tried.
+3.1  PARTIAL — supabase/schema.sql written 2026-08-16: the `projects` table
+     per Architecture.md §3, a `project-media` storage bucket, RLS (public
+     reads ACTIVE only, any authenticated user = admin, since Phase 1 has
+     exactly one admin account). NOT RUN — there is no Supabase project to
+     run it against yet. Founder: create one, paste the file into the SQL
+     editor, then this can flip to [x].
 ```
 
 ---

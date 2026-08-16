@@ -5,7 +5,7 @@ import { DrawnHero, Em } from "@/components/craft/drawn-hero";
 import { ModeBand } from "@/components/craft/mode-band";
 import { Reveal } from "@/components/marketing/reveal";
 import { LinkedInIcon, WhatsAppIcon } from "@/components/shared/icons";
-import { pranSocial, whatsappLink } from "@/lib/config";
+import { pranSocial, whatsappLink, responseTimeWindow } from "@/lib/config";
 import { pageImages } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -50,7 +50,7 @@ const intents: Record<string, { title: string; subtitle: string }> = {
 
 const assurances = [
   { icon: MessageSquare, text: "A real person reads every message." },
-  { icon: Clock, text: "We usually reply within one business day." },
+  { icon: Clock, text: `We usually reply within ${responseTimeWindow}.` },
   { icon: ShieldCheck, text: "Your details are never shared or sold." },
 ];
 

@@ -53,26 +53,34 @@ export const PERSONAL: Record<string, Factor> = {
     year: "2023",
   },
   /**
-   * ⚠ UNVERIFIED PAIR. petrolCar and dieselCar carry an identical 0.17, which
-   * cannot both be right — DEFRA publishes different values per fuel, and
-   * diesel is normally the lower of the two per km for an equivalent car.
-   * Whoever verifies this file must split them from the current DEFRA
-   * release. Left as-is rather than guessed: a fabricated factor is worse
-   * than a flagged one (CLAUDE.md — never invent numbers).
+   * ⚠ UNVERIFIED PAIR — attempted 2026-08-16, still open. petrolCar and
+   * dieselCar carry an identical 0.17. DEFRA's workbook does split "Cars by
+   * market segment" by fuel (Table 17), but that table only exists as an
+   * XLSX on gov.uk — not fetchable as text by search/HTML tools, so the
+   * split could not be confirmed this session. One real data point DID turn
+   * up: Climatiq's "Car (average)" entry, sourced from the DEFRA 2022 flat
+   * file, gives a BLENDED (not fuel-split) figure of 0.17067 kgCO2e/km —
+   * consistent with 0.17 as an average-car number, which is reassuring but
+   * does not resolve which fuel is higher. Do not guess the split from
+   * general knowledge; a wrong-but-confident number is worse than this
+   * flag (CLAUDE.md — never invent numbers). To close this: open DEFRA's
+   * "Conversion Factors 2023: full set (for advanced users)" workbook
+   * (gov.uk, published by DESNZ) and read the Passenger vehicles tab
+   * directly, then update both entries in one pass.
    */
   petrolCar: {
     kgCo2e: 0.17,
     unit: "km",
     source: "DEFRA/BEIS GHG Conversion Factors (average petrol car)",
     year: "2023",
-    note: "⚠ Identical to dieselCar — verify and split before launch.",
+    note: "⚠ Identical to dieselCar — verify and split before launch. See file header comment for what was tried 2026-08-16.",
   },
   dieselCar: {
     kgCo2e: 0.17,
     unit: "km",
     source: "DEFRA/BEIS GHG Conversion Factors (average diesel car)",
     year: "2023",
-    note: "⚠ Identical to petrolCar — verify and split before launch.",
+    note: "⚠ Identical to petrolCar — verify and split before launch. See file header comment for what was tried 2026-08-16.",
   },
   motorcycle: {
     kgCo2e: 0.11,
@@ -93,26 +101,36 @@ export const PERSONAL: Record<string, Factor> = {
     year: "2023",
   },
   /**
-   * ⚠ UNVERIFIED PAIR. Short-haul is normally HIGHER per passenger-km than
-   * long-haul (take-off and climb dominate a short sector), so an identical
-   * 0.15 understates short-haul and overstates long-haul. Split from the
-   * current DEFRA release when verifying. Radiative forcing is also excluded
-   * here — DEFRA publishes with- and without-RF variants, and which one you
-   * use should be a stated choice, not an accident.
+   * ⚠ UNVERIFIED PAIR — attempted 2026-08-16, still open. Short-haul is
+   * normally HIGHER per passenger-km than long-haul (take-off and climb
+   * dominate a short sector), so an identical 0.15 understates short-haul
+   * and overstates long-haul. Radiative forcing is also excluded here —
+   * DEFRA publishes with- and without-RF variants, and which one you use
+   * should be a stated choice, not an accident.
+   *
+   * A secondary source (not DEFRA itself) quoted short/medium/long-haul
+   * economy at roughly 0.156 / 0.097 / 0.081 kgCO2e per passenger-km — but
+   * those figures INCLUDE a ~1.9x radiative-forcing multiplier and a ~1.2x
+   * well-to-tank uplift, which is a different basis from what this file
+   * claims to store (excl. RF) and cannot be safely reverse-divided out
+   * without risking a compounded, still-wrong number. Not used for that
+   * reason. To close this: read DEFRA's "Conversion Factors 2023: full set
+   * (for advanced users)" workbook (gov.uk/DESNZ) — the Business travel -
+   * air tab — directly, and take the non-RF columns.
    */
   flightShort: {
     kgCo2e: 0.15,
     unit: "passenger-km",
     source: "DEFRA/BEIS GHG Conversion Factors (short-haul, economy)",
     year: "2023",
-    note: "⚠ Identical to flightLong — verify and split before launch. Excludes radiative forcing.",
+    note: "⚠ Identical to flightLong — verify and split before launch. Excludes radiative forcing. See file header comment for what was tried 2026-08-16.",
   },
   flightLong: {
     kgCo2e: 0.15,
     unit: "passenger-km",
     source: "DEFRA/BEIS GHG Conversion Factors (long-haul, economy)",
     year: "2023",
-    note: "⚠ Identical to flightShort — verify and split before launch. Excludes radiative forcing.",
+    note: "⚠ Identical to flightShort — verify and split before launch. Excludes radiative forcing. See file header comment for what was tried 2026-08-16.",
   },
 };
 
