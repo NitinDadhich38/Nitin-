@@ -7,6 +7,7 @@ import { Ledger } from "@/components/craft/ledger";
 import { Reveal } from "@/components/marketing/reveal";
 import { CtaBand } from "@/components/marketing/page-kit";
 import { DocumentMock, artifacts } from "@/components/intelligence/artifact";
+import { SampleReportViewer } from "@/components/intelligence/sample-report-viewer";
 import { services } from "@/lib/content";
 import { serviceStatus, STAGE_LABEL } from "@/lib/page-data";
 import { pageImages } from "@/lib/images";
@@ -93,6 +94,10 @@ export default function IntelligenceHub() {
           title="What each one will actually hand you."
           sub="Section names below are the real framework structures — SEBI's nine BRSR principles, the CBAM embedded-emissions breakdown, the GRI and SDG mapping index. The bodies are empty because your data fills them."
         />
+
+        <div className="mt-10">
+          <SampleReportViewer />
+        </div>
 
         <div className="mt-14 grid gap-12 lg:grid-cols-2">
           {services.map((s, i) => {

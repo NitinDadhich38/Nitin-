@@ -24,23 +24,23 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         pran: {
-          // ── v2.0 core ──────────────────────────────────────────────
-          paper: "#faf8f4", // primary page background (warm, never #fff)
-          "paper-warm": "#f5f1ea", // alternating section background
-          surface: "#ffffff", // cards floating on paper
-          ink: "#0e1211", // primary text (near-black, not pure black)
-          text: "#0e1211",
-          muted: "#5f6b66", // secondary text
-          border: "#e6e1d8", // hairline
-          hairline: "#e6e1d8",
-          forest: "#0f3d2e", // deep forest — dark sections, footer
-          "forest-deep": "#0a2a20", // darker layer / hover
-          emerald: "#16a34a", // primary action
+          // ── Modern High-Contrast Enterprise Palette ────────────────────────
+          paper: "#f8fafc", // crisp modern canvas (eliminates dead yellowish beige)
+          "paper-warm": "#f1f5f9", // alternating section contrast
+          surface: "#ffffff", // crisp floating cards
+          ink: "#090d16", // deep midnight obsidian primary text
+          text: "#090d16",
+          muted: "#475569", // refined slate-600 secondary text
+          border: "#e2e8f0", // clean slate-200 border
+          hairline: "#e2e8f0",
+          forest: "#0f3d2e",
+          "forest-deep": "#0a2a20",
+          emerald: "#16a34a",
           "emerald-hover": "#15803d",
-          lime: "#d9f99d", // rare highlight
-          clay: "#c97a4a", // warm data accent
-          green: "#12a33a", // brand logo emblem (fixed)
-          // ── legacy aliases (repointed to v2.0) ─────────────────────
+          lime: "#d9f99d",
+          clay: "#c97a4a",
+          green: "#12a33a",
+          // ── legacy aliases ─────────────────────────────────────────
           teal: "#16a34a",
           "teal-dark": "#15803d",
           "teal-lit": "#4ade80",
@@ -48,16 +48,47 @@ const config: Config = {
           gold: "#c9a227",
         },
         status: {
-          success: "#15803d",
-          pending: "#b45309",
-          danger: "#b42318",
-          info: "#1d4ed8",
+          success: "#059669",
+          pending: "#d97706",
+          danger: "#dc2626",
+          info: "#2563eb",
         },
       },
       fontFamily: {
-        display: ["var(--font-display)", "Fraunces", "Georgia", "ui-serif", "serif"],
-        sans: ["var(--font-sans)", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+        display: [
+          "var(--font-display)",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "SF Pro Display",
+          "Plus Jakarta Sans",
+          "Inter",
+          "system-ui",
+          "sans-serif",
+        ],
+        sans: [
+          "var(--font-sans)",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "SF Pro Text",
+          "Inter",
+          "system-ui",
+          "sans-serif",
+        ],
+        mono: [
+          "var(--font-mono)",
+          "SF Mono",
+          "ui-monospace",
+          "monospace",
+        ],
+      },
+      letterSpacing: {
+        "apple-tight": "-0.035em",
+        "apple-headline": "-0.022em",
+        "apple-body": "-0.011em",
+        "apple-badge": "0.05em",
+      },
+      transitionTimingFunction: {
+        apple: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
       fontSize: {
         // 5_Design.md v2.0 §2.2 scale
@@ -72,20 +103,23 @@ const config: Config = {
       },
       borderRadius: {
         btn: "12px",
-        card: "16px",
+        card: "18px",
         panel: "24px",
         hero: "32px",
+        squircle: "22px",
       },
       maxWidth: {
         content: "1200px",
       },
       boxShadow: {
-        // Brand-tinted, multi-layer shadows (tinted with forest 10,42,32, never
-        // flat gray) — the premium "float" register borrowed from Polariyon.
-        card: "0 0.6px 1.4px rgba(10,42,32,.04), 0 2.3px 5.3px rgba(10,42,32,.05), 0 10px 24px rgba(10,42,32,.06)",
+        // Multi-layer ambient diffused shadows (Apple Human Interface principle)
+        card: "0 1px 2px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(6, 26, 20, 0.04), 0 12px 24px -4px rgba(6, 26, 20, 0.05)",
         float:
-          "0 0.8px 1.4px rgba(10,42,32,.05), 0 1.9px 3.5px rgba(10,42,32,.05), 0 3.9px 7px rgba(10,42,32,.05), 0 7.3px 13px rgba(10,42,32,.05), 0 14.6px 26px rgba(10,42,32,.06), 0 32px 58px rgba(10,42,32,.08)",
-        lift: "0 2px 4px rgba(10,42,32,.06), 0 18px 32px rgba(10,42,32,.10), 0 32px 60px rgba(10,42,32,.12)",
+          "0 2px 4px rgba(0, 0, 0, 0.02), 0 8px 24px rgba(6, 26, 20, 0.06), 0 24px 44px -8px rgba(6, 26, 20, 0.08)",
+        lift: "0 2px 4px rgba(10,42,32,.04), 0 18px 32px rgba(10,42,32,.08), 0 32px 60px rgba(10,42,32,.10)",
+        "apple-card": "0 1px 2px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(6, 26, 20, 0.04), 0 12px 24px -4px rgba(6, 26, 20, 0.05)",
+        "apple-hover": "0 2px 4px rgba(0, 0, 0, 0.02), 0 8px 24px rgba(6, 26, 20, 0.06), 0 24px 40px -8px rgba(6, 26, 20, 0.08)",
+        "apple-glass": "0 8px 32px 0 rgba(0, 0, 0, 0.04), 0 1px 1px 0 rgba(255, 255, 255, 0.6) inset",
       },
       keyframes: {
         "fade-rise": {
@@ -94,7 +128,7 @@ const config: Config = {
         },
       },
       animation: {
-        "fade-rise": "fade-rise 500ms ease-out both",
+        "fade-rise": "fade-rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both",
       },
     },
   },

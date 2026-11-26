@@ -46,6 +46,21 @@ export type ProjectDetails = {
   sources: string[];
 };
 
+function unwrapDirectImageUrl(url?: string): string | undefined {
+  if (!url) return undefined;
+  if (url.includes("/_next/image?url=")) {
+    try {
+      const match = url.match(/[?&]url=([^&]+)/);
+      if (match?.[1]) {
+        return decodeURIComponent(match[1]);
+      }
+    } catch {
+      // Keep url if decoding fails
+    }
+  }
+  return url;
+}
+
 export function getProjectDetails(project: Project): ProjectDetails {
   const live = liveProjectMedia[project.pranCode];
   const reg = registryFacts[project.pranCode];
@@ -54,7 +69,8 @@ export function getProjectDetails(project: Project): ProjectDetails {
   if (live) sources.push("project page");
   if (reg) sources.push(reg.source);
 
-  const gallery = live?.gallery?.length ? live.gallery : [];
+  const rawGallery = live?.gallery?.length ? live.gallery : [];
+  const gallery = rawGallery.map((img) => unwrapDirectImageUrl(img) || img);
   const hasRealPhoto = gallery.length > 0;
 
   const description =
@@ -87,12 +103,14 @@ export function getProjectDetails(project: Project): ProjectDetails {
         `Vintage ${project.vintageLabel}`,
       ];
 
+  const candidateImage =
+    gallery[0] ??
+    unwrapDirectImageUrl(live?.image) ??
+    stockImageFor(project.pranCode) ??
+    photos.forestCanopy;
+
   return {
-    /* Real photography when the project has it, else the one stock image
-       reserved for this PRAN code — no two listings share a thumbnail
-       (see lib/project-imagery.ts). The last fallback is unreachable while
-       every project holds a PRAN code. */
-    image: gallery[0] ?? stockImageFor(project.pranCode) ?? photos.forestCanopy,
+    image: candidateImage,
     hasRealPhoto,
     gallery,
     location,

@@ -628,9 +628,9 @@ export const liveProjectMedia: Record<string, LiveProjectMedia> = {
   },
   "PRAN-5296": {
     "sourceUrl": "https://pranglobal.com/PRAN-5296.html",
-    "image": "https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2025/04/15_Micro_Composting_Centres_Chennai_Shobana_April_2025-1024x768.jpg",
+    "image": "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=800&q=75",
     "gallery": [
-      "https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2025/04/15_Micro_Composting_Centres_Chennai_Shobana_April_2025-1024x768.jpg",
+      "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=800&q=75",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGkFNLW2GTo-hkr8XEk__bBl2xftwUEZIlJg_labxpsg&s=10"
     ],
     "lat": 22.9,
@@ -696,9 +696,9 @@ export const liveProjectMedia: Record<string, LiveProjectMedia> = {
   },
   "PRAN-3889": {
     "sourceUrl": "https://pranglobal.com/PRAN-3889.html",
-    "image": "https://5.imimg.com/data5/SELLER/Default/2025/9/542099237/MU/OF/WS/16356905/biogas-plant-installation-services.jpg",
+    "image": "https://images.unsplash.com/photo-1617460055001-2167c227cb7b?auto=format&fit=crop&w=800&q=75",
     "gallery": [
-      "https://5.imimg.com/data5/SELLER/Default/2025/9/542099237/MU/OF/WS/16356905/biogas-plant-installation-services.jpg"
+      "https://images.unsplash.com/photo-1617460055001-2167c227cb7b?auto=format&fit=crop&w=800&q=75"
     ],
     "lat": 20.5937,
     "lng": 78.9629,

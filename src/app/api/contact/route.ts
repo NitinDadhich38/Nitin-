@@ -1,88 +1,133 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { responseTimeWindow } from "@/lib/config";
+import { checkRateLimit } from "@/lib/rate-limit";
 
-const schema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  company: z.string().optional(),
-  phone: z.string().optional(),
-  interest: z.string().min(1),
-  message: z.string().min(10),
+// Strict input validation
+const contactSchema = z.object({
+  name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
+  email: z.string().trim().email("Invalid email address").max(255),
+  company: z.string().trim().max(100).optional().nullable(),
+  phone: z.string().trim().max(30).optional().nullable(),
+  interest: z.string().trim().min(1, "Interest category is required").max(50),
+  message: z.string().trim().min(10, "Message must be at least 10 characters").max(2000),
+  // Anti-spam honeypot field (hidden in UI)
+  website_hp: z.string().optional(),
 });
 
+function sanitize(input: string): string {
+  return input
+    .replace(/[<>]/g, "")
+    .replace(/javascript:/gi, "")
+    .replace(/on\w+=/gi, "");
+}
+
 export async function POST(request: Request) {
-  let data: z.infer<typeof schema>;
   try {
-    data = schema.parse(await request.json());
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid submission" }, { status: 400 });
-  }
+    // 1. IP extraction and rate-limiting (max 5 submissions per 10 minutes)
+    const forwardedFor = request.headers.get("x-forwarded-for");
+    const ip = forwardedFor ? forwardedFor.split(",")[0].trim() : "127.0.0.1";
+    const rateCheck = checkRateLimit(`contact:${ip}`, 5, 600);
 
-  // Send via Resend when configured. Non-fatal if not — the submission is
-  // still accepted either way. The two sends are independent: one failing
-  // must not stop the other from going out.
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.PRAN_TEAM_EMAIL;
-  const from = process.env.PRAN_FROM_EMAIL ?? "PRAN <onboarding@resend.dev>";
+    if (!rateCheck.success) {
+      return NextResponse.json(
+        { ok: false, error: "Too many contact submissions. Please wait a few minutes before trying again." },
+        { status: 429 }
+      );
+    }
 
-  if (apiKey && to) {
-    try {
-      const { Resend } = await import("resend");
-      const resend = new Resend(apiKey);
+    // 2. Parse & validate body
+    const body = await request.json().catch(() => null);
+    if (!body) {
+      return NextResponse.json({ ok: false, error: "Invalid JSON payload" }, { status: 400 });
+    }
 
+    const parseResult = contactSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { ok: false, error: "Validation failed", details: parseResult.error.flatten() },
+        { status: 400 }
+      );
+    }
+
+    const data = parseResult.data;
+
+    // 3. Honeypot check: If the hidden honeypot field is filled, silently succeed without sending email (tarpit spam bots)
+    if (data.website_hp && data.website_hp.length > 0) {
+      return NextResponse.json({ ok: true, message: "Enquiry received." });
+    }
+
+    // 4. Sanitize strings before dispatch
+    const cleanName = sanitize(data.name);
+    const cleanEmail = data.email.toLowerCase();
+    const cleanCompany = data.company ? sanitize(data.company) : "—";
+    const cleanPhone = data.phone ? sanitize(data.phone) : "—";
+    const cleanInterest = sanitize(data.interest);
+    const cleanMessage = sanitize(data.message);
+
+    // 5. Send team notification and sender auto-confirmation via Resend
+    const apiKey = process.env.RESEND_API_KEY;
+    const to = process.env.PRAN_TEAM_EMAIL || "contact@pranapp.in";
+    const from = process.env.PRAN_FROM_EMAIL || "PRAN <onboarding@resend.dev>";
+
+    if (apiKey) {
       try {
+        const { Resend } = await import("resend");
+        const resend = new Resend(apiKey);
+
+        // Internal team notification
         await resend.emails.send({
           from,
           to,
-          replyTo: data.email,
-          subject: `New enquiry — ${data.interest} — ${data.name}`,
+          replyTo: cleanEmail,
+          subject: `[PRAN Enquiry] ${cleanInterest} — ${cleanName}`,
           text: [
-            `Name: ${data.name}`,
-            `Email: ${data.email}`,
-            `Company: ${data.company ?? "—"}`,
-            `Phone: ${data.phone ?? "—"}`,
-            `Interest: ${data.interest}`,
+            `Name: ${cleanName}`,
+            `Email: ${cleanEmail}`,
+            `Company: ${cleanCompany}`,
+            `Phone: ${cleanPhone}`,
+            `Interest: ${cleanInterest}`,
+            `IP: ${ip}`,
             "",
-            data.message,
+            cleanMessage,
           ].join("\n"),
-        });
-      } catch (err) {
-        console.error("[contact] team notification failed:", err);
-      }
+        }).catch((err) => console.error("[contact] internal notification error:", err));
 
-      // Stage 2.3 — confirm receipt to the sender. Wording founder-confirmed
-      // 2026-08-16 (responseTimeWindow, lib/config.ts) — change it there, not here.
-      try {
+        // Auto-reply confirmation to sender
         await resend.emails.send({
           from,
-          to: data.email,
+          to: cleanEmail,
           subject: "We've received your enquiry — PRAN",
           text: [
-            `Hi ${data.name},`,
+            `Hi ${cleanName},`,
             "",
-            `Thanks for reaching out to PRAN. We've received your enquiry and` +
-              ` will get back to you within ${responseTimeWindow}.`,
+            `Thank you for contacting PRAN. We have received your enquiry regarding ${cleanInterest} and our team will get back to you within ${responseTimeWindow}.`,
             "",
-            "For reference, here's what you sent us:",
-            `"${data.message}"`,
+            "Your message:",
+            `"${cleanMessage}"`,
             "",
-            "— PRAN",
+            "Best regards,",
+            "PRAN Global Team",
+            "https://pranglobal.com",
           ].join("\n"),
-        });
+        }).catch((err) => console.error("[contact] user confirmation error:", err));
       } catch (err) {
-        console.error("[contact] auto-reply failed:", err);
+        console.error("[contact] Resend error:", err);
       }
-    } catch (err) {
-      console.error("[contact] Resend unavailable:", err);
+    } else {
+      console.info("[contact] Submission received (Resend API key not configured):", {
+        cleanName,
+        cleanEmail,
+        cleanInterest,
+      });
     }
-  } else {
-    console.info("[contact] submission received (email not configured):", {
-      name: data.name,
-      email: data.email,
-      interest: data.interest,
-    });
-  }
 
-  return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true,
+      message: `Thank you, ${cleanName}! Your enquiry has been received. Our team will respond within ${responseTimeWindow}.`,
+    });
+  } catch (error: any) {
+    console.error("[contact] Server exception:", error);
+    return NextResponse.json({ ok: false, error: "An unexpected error occurred. Please try again." }, { status: 500 });
+  }
 }

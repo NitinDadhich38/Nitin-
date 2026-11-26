@@ -17,14 +17,14 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Why We Exist",
   description:
-    "PRAN is not a green brand. It is the financial-infrastructure layer for the carbon market — transparent, verifiable, and honest by design.",
+    "PRAN is not a green brand. It is the financial-infrastructure layer for the carbon market: transparent, verifiable, and honest by design.",
 };
 
 /** What PRAN is, stated against what it is not. The contrast is the point. */
 const isIsNot = [
   {
     not: "Not an issuer",
-    is: "Credits exist only because a registry issued them. PRAN lists what already exists — it has never created a tonne and never will.",
+    is: "Credits exist only because a registry issued them. PRAN lists what already exists: it has never created a tonne and never will.",
   },
   {
     not: "Not an auditor or verifier",
@@ -36,7 +36,7 @@ const isIsNot = [
   },
   {
     not: "Not a green brand",
-    is: "We are market infrastructure. The product is settlement, records and screening — not a message about the planet.",
+    is: "We are market infrastructure. The product is settlement, records and screening, not a message about the planet.",
   },
 ];
 
@@ -90,7 +90,7 @@ export default function AboutPage() {
             green brand. We are <Em>the plumbing</Em>.
           </>,
         ]}
-        sub="PRAN — operated by Pran Sustainability Pvt. Ltd. — exists to make the carbon economy work like real financial infrastructure: transparent, verifiable, and boring in exactly the places that matter."
+        sub="PRAN, operated by Pran Sustainability Pvt. Ltd., exists to make the carbon economy work like real financial infrastructure: transparent, verifiable, and boring in exactly the places that matter."
         image={pageImages.aboutWhy}
         field={<SpineField />}
         actions={
@@ -131,7 +131,7 @@ export default function AboutPage() {
             <p className="mt-6 max-w-[48ch] text-lg leading-relaxed text-white/70">
               Developers, registries, buyers, governments and consultants each
               hold one piece of the picture. Every gap between them shows up as
-              delay, price dispersion, and distrust — and someone pays for all
+              delay, price dispersion, and distrust, and someone pays for all
               three.
             </p>
           </Reveal>

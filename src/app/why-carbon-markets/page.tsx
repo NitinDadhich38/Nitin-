@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Why Carbon Markets Matter",
   description:
-    "A tonne of CO₂ is a sphere ten metres across. Once you can see it, a price on it stops being abstract — and that price is what moves capital to projects that remove it.",
+    "A tonne of CO₂ is a sphere ten metres across. Once you can see it, a price on it stops being abstract, and that price is what moves capital to projects that remove it.",
 };
 
 /**
@@ -104,7 +104,7 @@ export default function WhyCarbonMarketsPage() {
             for <Em>a tonne</Em>.
           </>,
         ]}
-        sub="Which is exactly the problem. Every climate number is denominated in a unit almost no one can picture — so the price attached to it reads as an accounting trick rather than the cost of a real, physical thing."
+        sub="Which is exactly the problem. Every climate number is denominated in a unit almost no one can picture, so the price attached to it reads as an accounting trick rather than the cost of a real, physical thing."
         image={pageImages.whyClimate}
         field={<ScaleField />}
         actions={
@@ -130,7 +130,7 @@ export default function WhyCarbonMarketsPage() {
         <BandHeader
           eyebrow="Where we are"
           title="The atmosphere keeps a running total."
-          sub="Carbon dioxide is not flushed out each year. It accumulates, and what accumulates is what warms. So the number that matters is not this year's emissions — it is the stock they add to."
+          sub="Carbon dioxide is not flushed out each year. It accumulates, and what accumulates is what warms. So the number that matters is not this year's emissions: it is the stock they add to."
         />
         <div className="mt-14 grid gap-px overflow-hidden rounded-panel bg-pran-hairline md:grid-cols-3">
           {climateFacts.map((f, i) => (
@@ -164,7 +164,7 @@ export default function WhyCarbonMarketsPage() {
             and hotter heatwaves, heavier rainfall where it rains and deeper
             drought where it does not, and a sea level that keeps rising for
             centuries after emissions stop. India sits at the sharp end of most
-            of them — monsoon variability, coastal exposure, and heat that is
+            of them: monsoon variability, coastal exposure, and heat that is
             already crossing the limit of what outdoor work allows.
           </p>
         </Reveal>
@@ -176,7 +176,7 @@ export default function WhyCarbonMarketsPage() {
           tone="dark"
           eyebrow="Scale"
           title="This is one tonne."
-          sub="Not a metaphor — the actual volume. As a gas at ordinary temperature and pressure, one tonne of CO₂ fills a sphere about ten metres across. You emit several of these a year."
+          sub="Not a metaphor: the actual volume. As a gas at ordinary temperature and pressure, one tonne of CO₂ fills a sphere about ten metres across. You emit several of these a year."
         />
         <div className="mt-14 overflow-x-auto">
           <div className="min-w-[680px]">
@@ -195,7 +195,7 @@ export default function WhyCarbonMarketsPage() {
             <p className="text-lg leading-relaxed text-white/75">
               Once the unit is physical, the rest of the argument stops being
               abstract. A price on a tonne is a price on{" "}
-              <span className="font-medium text-white">that</span> — and paying
+              <span className="font-medium text-white">that</span>, and paying
               it is how the money reaches somebody who can keep it out of the
               air or take it back out.
             </p>
@@ -214,11 +214,11 @@ export default function WhyCarbonMarketsPage() {
           <FlowRail
             steps={[
               { label: "An emitter pays", detail: "For the emissions they cannot yet cut.", meta: "Cost" },
-              { label: "A project is funded", detail: "Forestry, renewables, methane capture — work that would not otherwise be paid for.", meta: "Capital" },
+              { label: "A project is funded", detail: "Forestry, renewables, methane capture, work that would not otherwise be paid for.", meta: "Capital" },
               { label: "A registry verifies", detail: "An accredited third party checks the tonnes were real.", meta: "Proof", manual: true },
               { label: "The credit is retired", detail: "Taken permanently out of circulation, against a stated period.", meta: "Final" },
             ]}
-            caption="PRAN sits at the settlement step only. It does not issue credits, verify them, or decide that a project is good — registries and accredited verifiers do that."
+            caption="PRAN sits at the settlement step only. It does not issue credits, verify them, or decide that a project is good: registries and accredited verifiers do that."
           />
         </div>
       </ModeBand>

@@ -47,7 +47,7 @@ Hosting plan:      hosteasy.in keeps DNS + @pranglobal.com mailboxes.
                    Vercel runs the app. Supabase for the admin DB.
                    hosteasy CANNOT run Next.js (PHP-only shared hosting).
                    Going live = edit A + CNAME records; NEVER nameservers.
-Supabase project:  [add project ref once created]
+Supabase project:  qceolcqitqfcoyzmlkne (connected & keys verified 2026-10-11)
 Local runtime:     Node 24.18.0 + npm 11.16.0 (installed 2026-07-23)
 ```
 
@@ -550,6 +550,46 @@ FORMAT: [DATE] TASK-ID — one line on what was built + key files touched
   confirmed working live against the running dev server.
 ```
 
+[2026-08-16 cont'd] RESEND WIRED + A REAL SILENT-FAILURE BUG CAUGHT. Founder
+  supplied a real Resend API key same session. Before using it, found and
+  fixed a genuine bug: the installed `resend` SDK (v6.18.0) does NOT throw
+  on an API-level rejection (bad recipient, unverified domain, etc.) — its
+  `fetchRequest` catches non-OK responses internally and RETURNS
+  `{data: null, error: {...}}` instead. src/app/api/contact/route.ts's
+  try/catch around each `resend.emails.send()` call was therefore dead code
+  for the most likely failure mode: a rejected send would resolve normally,
+  fall through to `return NextResponse.json({ok: true})`, and both the
+  founder and the visitor would believe it worked. Fixed by destructuring
+  `{ error }` from each send and logging it explicitly — this is a
+  general robustness fix, not specific to today's restriction, and should
+  be the pattern for any future Resend call.
+  Created .env.local (gitignored, confirmed against .gitignore before
+  writing anything — never committed) with the real RESEND_API_KEY,
+  PRAN_TEAM_EMAIL=contact@pranapp.in, and PRAN_FROM_EMAIL="PRAN
+  <onboarding@resend.dev>" (Resend's shared no-setup sender — sending from
+  noreply@pranglobal.com would fail immediately, that domain isn't
+  verified in Resend). Supabase/Razorpay left blank — confirmed with the
+  founder they're not needed for this stage.
+  LIVE TEST, TWICE (dev server restarted between — Next only reads env at
+  boot, not via HMR): first with the real target (contact@pranapp.in) —
+  Resend rejected BOTH sends with a precise, informative error: "You can
+  only send testing emails to your own email address
+  (nitinddhich38@gmail.com). To send emails to other recipients, please
+  verify a domain at resend.com/domains...". Second, temporarily pointed
+  PRAN_TEAM_EMAIL at nitinddhich38@gmail.com (the Resend account's own
+  signup address) to prove the pipe itself — both the team notification
+  AND the Stage 2.3 auto-reply delivered cleanly, no errors logged. Then
+  reverted PRAN_TEAM_EMAIL back to contact@pranapp.in (the real target)
+  and restarted again so the running server matches the file.
+  WHAT THIS MEANS GOING FORWARD: the auto-reply built earlier today
+  (Stage 2.3) sends to WHOEVER filled out the form — that will never be
+  nitinddhich38@gmail.com for a real visitor, so it cannot work AT ALL,
+  for anyone, until a domain is verified in Resend. This isn't a config
+  choice to make later — it's the one thing actually blocking Stage 2 from
+  being real. Also: this .env.local is LOCAL ONLY. Deploying to Vercel
+  will need the same three Resend variables set again in Vercel's own
+  dashboard — a local .env.local does not travel with a deploy.
+
 ---
 
 ## 3. WHAT IS IN PROGRESS (only one thing at a time)
@@ -560,22 +600,34 @@ Currently building: [none started. Stage 2 is fully code-complete (2.1-2.5
                     written (supabase/schema.sql) but not run anywhere.
                     Next real step needs a Supabase project: run that SQL,
                     then start Stage 3.2 (admin auth).]
-Blocked on:         [Stage 2 going LIVE, and all of Stage 3: no .env.local
-                    exists on this machine at all. Need a Supabase project
-                    + a Resend API key at minimum.]
+Blocked on:         [ONE thing, precisely: no domain is verified in Resend
+                    (resend.com/domains). .env.local now has a real,
+                    working RESEND_API_KEY — confirmed live 2026-08-16 —
+                    but Resend's unverified-sender restriction means it can
+                    ONLY send to nitinddhich38@gmail.com until a domain is
+                    added there. Add the DNS records Resend gives you
+                    (likely via hosteasy's Zone Editor), then change
+                    PRAN_FROM_EMAIL in .env.local to an address on that
+                    domain — nothing else needs to change. Stage 3 (admin)
+                    is separately blocked on creating a Supabase project.]
 Waiting on founder: [RESOLVED 2026-08-16: auto-reply wording is "within 48
                     hours" (lib/config.ts responseTimeWindow); Solutions +
                     Legal hero photography stays (confirmed keeping
                     eeff6bd's 08-10 change — see §4, this supersedes Wave-0
                     for those pages only, not retroactively); PRAN_TEAM_EMAIL
-                    is contact@pranapp.in (now the .env.example default).
+                    is contact@pranapp.in (now the .env.example default,
+                    and the real value in .env.local); RESEND_API_KEY is
+                    live in .env.local (first env var this project has ever
+                    had actually set — see the "RESEND WIRED" entry in §2).
                     RESOLVED earlier: WhatsApp number (917296815012,
                     08-10), general contact display address
                     (contact@pranapp.in, 08-09), "real marketplace stat
                     numbers" is moot (founder chose not to publish counts,
                     08-10).
-                    STILL OPEN: create the Supabase project + fill
-                    .env.local (Stage 3); real project photos for the ~60+
+                    STILL OPEN: verify a domain in Resend (see "Blocked on"
+                    — this is the ONLY thing standing between "coded" and
+                    "actually works" for Stage 2 now); create the Supabase
+                    project (Stage 3); real project photos for the ~60+
                     catalog projects with none (registries publish NONE —
                     only the founder/developers can close this); leadership
                     photos; lawyer review of /legal/* (now 22 Terms
@@ -584,9 +636,11 @@ Waiting on founder: [RESOLVED 2026-08-16: auto-reply wording is "within 48
                     2026-08-16, someone needs to open the actual workbook
                     (see emission-factors.ts for exactly what was tried).]
 Deploy readiness:   [`tsc --noEmit` clean as of 2026-08-16, including
-                    today's Stage 2.3 + config changes. Not yet deployed to
-                    Vercel. `enhancing` is 22+ commits ahead of
-                    origin/enhancing — still not pushed anywhere.]
+                    today's Stage 2.3 + Resend error-handling fix. Not yet
+                    deployed to Vercel — and note .env.local is LOCAL ONLY,
+                    Vercel will need its own copy of the same 3 Resend vars
+                    in its dashboard when that happens. `enhancing` is 23+
+                    commits ahead of origin/enhancing — still not pushed.]
 Design:             5_Design.md v2.0 (warm paper / forest / emerald, Space
                     Grotesk display + Inter). Homepage built to it 2026-07-24.
                     (Supersedes the 2026-07-23 teal-UI lock.) Solutions +
@@ -661,16 +715,22 @@ Env template:         .env.example
 ## 6. ENVIRONMENT VARIABLES STATUS (which are set)
 
 ```
-NEXT_PUBLIC_SUPABASE_URL          [ ] set
-NEXT_PUBLIC_SUPABASE_ANON_KEY     [ ] set
-SUPABASE_SERVICE_ROLE_KEY         [ ] set
+(LOCAL — .env.local on this machine only, 2026-08-16. None of these exist
+in Vercel yet; there is no Vercel project connected. Don't assume "set"
+means "live in production.")
+
+NEXT_PUBLIC_SUPABASE_URL          [x] set — https://qceolcqitqfcoyzmlkne.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY     [x] set
+SUPABASE_SERVICE_ROLE_KEY         [x] set
 RAZORPAY_KEY_ID                   [ ] set
 RAZORPAY_KEY_SECRET               [ ] set
 RAZORPAY_WEBHOOK_SECRET           [ ] set
-RESEND_API_KEY                    [ ] set
-PRAN_TEAM_EMAIL                   [ ] set
-PRAN_FROM_EMAIL                   [ ] set
-NEXT_PUBLIC_SITE_URL              [ ] set
+RESEND_API_KEY                    [x] set — confirmed working live 2026-08-16
+PRAN_TEAM_EMAIL                   [x] set — contact@pranapp.in (blocked on
+                                     domain verification, see §3)
+PRAN_FROM_EMAIL                   [x] set — temporary onboarding@resend.dev,
+                                     switch once a domain is verified
+NEXT_PUBLIC_SITE_URL              [x] set — http://localhost:3000
 ```
 
 ---

@@ -30,35 +30,49 @@ export function irecRequestHref(entry: IrecEntry): string {
  * card links to a prefilled purchase request rather than a project page,
  * because these lines have no registry project record behind them.
  */
+function unwrapImageUrl(url?: string): string | undefined {
+  if (!url) return undefined;
+  if (url.includes("/_next/image?url=")) {
+    try {
+      const match = url.match(/[?&]url=([^&]+)/);
+      if (match?.[1]) return decodeURIComponent(match[1]);
+    } catch {
+      // fallback
+    }
+  }
+  return url;
+}
+
 export function IrecCard({ entry }: { entry: IrecEntry }) {
   /* A handful of I-REC lines are real plants we hold photography and a
      description for (marketplace-data IREC_LIVE_CODES); the rest use the
      distinct stock image reserved for that code. */
   const live = liveProjectMedia[entry.pranCode];
-  const image = live?.image ?? stockImageFor(entry.pranCode) ?? photos.solar;
+  const image = unwrapImageUrl(live?.image) ?? stockImageFor(entry.pranCode) ?? photos.solar;
 
   const volume = entry.volumeMwh?.toLocaleString("en-US") ?? null;
 
   return (
     <Link
       href={irecRequestHref(entry)}
-      className="group flex w-full flex-col overflow-hidden rounded-panel bg-pran-surface shadow-card transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-float focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pran-emerald/50"
+      className="group flex w-full flex-col overflow-hidden rounded-2xl border border-pran-ink/[0.07] bg-pran-surface shadow-apple-card transition-all duration-300 ease-apple hover:-translate-y-1 hover:border-pran-emerald/40 hover:shadow-apple-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pran-emerald/40"
     >
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-pran-paper-warm">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
         <Image
           src={image}
-          alt=""
+          alt={entry.label}
           fill
-          sizes="(max-width: 768px) 90vw, 360px"
-          className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          loading="lazy"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+          className="object-cover transition-transform duration-500 ease-apple group-hover:scale-105"
         />
         {entry.delivery && (
-          <span className="absolute right-3 top-3 rounded-lg bg-pran-surface/95 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-pran-ink shadow-card">
+          <span className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-[0.06em] text-pran-ink shadow-sm backdrop-blur-md border border-black/[0.05]">
             {entry.delivery}
           </span>
         )}
-        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-lg bg-black/55 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
-          <MapPin className="h-3 w-3" />
+        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-medium text-white shadow-sm backdrop-blur-md border border-white/10">
+          <MapPin className="h-3 w-3 text-emerald-400" />
           {entry.country}
         </span>
       </div>

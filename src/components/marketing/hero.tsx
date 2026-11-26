@@ -59,7 +59,7 @@ export function Hero() {
           className="hero-rise mt-7 max-w-[52ch] text-[clamp(1.05rem,1.5vw,1.35rem)] leading-relaxed text-white/85"
           style={{ animationDelay: "3.5s" }}
         >
-          The financial infrastructure layer for the carbon economy — a verified
+          The financial infrastructure layer for the carbon economy: a verified
           marketplace, footprint intelligence, and transparent settlement,
           connecting every side of the market in one place.
         </p>

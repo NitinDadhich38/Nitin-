@@ -28,6 +28,7 @@ import {
   deliveryLabel,
 } from "@/components/marketing/project-teaser";
 import { StickyBuyBar } from "@/components/marketplace/sticky-buy-bar";
+import { EscrowCalculator } from "@/components/marketplace/escrow-calculator";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -492,6 +493,13 @@ export default function ProjectPage({
           {/* Sticky metrics + registry panel */}
           <aside>
             <div className="sticky top-24 space-y-6">
+              <EscrowCalculator
+                projectName={project.name}
+                pranCode={project.pranCode}
+                priceUsd={project.priceUsd}
+                maxAvailable={project.totalVolume}
+              />
+
               <div className="rounded-panel bg-pran-surface p-6 shadow-card">
                 <h3 className="font-display text-h3 font-semibold text-pran-ink">
                   Key metrics

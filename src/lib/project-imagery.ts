@@ -27,8 +27,8 @@ import { liveProjectMedia } from "@/lib/live-project-media";
 const UNSPLASH = "https://images.unsplash.com/photo-";
 
 /** Build a sized, format-optimised Unsplash URL (mirrors lib/images.ts). */
-function u(id: string, w = 1200): string {
-  return `${UNSPLASH}${id}?auto=format&fit=crop&w=${w}&q=80`;
+function u(id: string, w = 640): string {
+  return `${UNSPLASH}${id}?auto=format&fit=crop&w=${w}&q=75`;
 }
 
 export type ImageryCategory =
@@ -255,7 +255,7 @@ const stockByCode: ReadonlyMap<string, string> = (() => {
  * Returns undefined for listings that carry their own photography — callers
  * should prefer the real photo and fall back to this.
  */
-export function stockImageFor(pranCode: string, width = 1200): string | undefined {
+export function stockImageFor(pranCode: string, width = 640): string | undefined {
   const id = stockByCode.get(pranCode);
   return id ? u(id, width) : undefined;
 }

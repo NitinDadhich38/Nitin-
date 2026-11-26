@@ -48,8 +48,10 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b border-pran-hairline backdrop-blur transition-shadow duration-300",
-        scrolled ? "bg-pran-paper/95 shadow-sm" : "bg-pran-paper/90",
+        "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 backdrop-blur-xl",
+        scrolled
+          ? "bg-pran-paper/85 border-pran-hairline shadow-[0_2px_16px_rgba(0,0,0,0.04)]"
+          : "bg-pran-paper/75 border-pran-hairline/60",
       )}
     >
       <nav
@@ -59,14 +61,14 @@ export function SiteHeader() {
       >
         <Link
           href="/"
-          className="shrink-0 text-pran-text"
+          className="shrink-0 text-pran-text transition-opacity hover:opacity-85"
           aria-label="PRAN home"
         >
           <Logo className="h-8" />
         </Link>
 
         {/* Desktop nav */}
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-1.5 lg:flex">
           {mainNav.map((item) =>
             item.children ? (
               <li key={item.label} className="relative">
@@ -78,31 +80,33 @@ export function SiteHeader() {
                     setOpenMenu((cur) => (cur === item.label ? null : item.label))
                   }
                   className={cn(
-                    "flex items-center gap-1 rounded-btn px-3 py-2 text-sm font-medium transition-colors",
-                    "text-pran-text hover:text-pran-teal",
+                    "flex items-center gap-1 rounded-btn px-3 py-1.5 text-[13.5px] font-medium tracking-tight transition-colors",
+                    openMenu === item.label
+                      ? "text-pran-emerald bg-pran-emerald/8"
+                      : "text-pran-ink/85 hover:text-pran-ink hover:bg-black/[0.03]",
                   )}
                 >
                   {item.label}
                   <ChevronDown
                     className={cn(
-                      "h-4 w-4 transition-transform",
-                      openMenu === item.label && "rotate-180",
+                      "h-3.5 w-3.5 transition-transform duration-200 opacity-60",
+                      openMenu === item.label && "rotate-180 opacity-100",
                     )}
                   />
                 </button>
                 {openMenu === item.label && (
-                  <div className="absolute left-0 top-full mt-1 w-64 rounded-card border border-pran-hairline bg-pran-surface p-2 shadow-float">
+                  <div className="absolute left-0 top-full mt-2 w-64 rounded-2xl border border-pran-hairline/80 bg-pran-surface/95 backdrop-blur-2xl p-2 shadow-apple-card animate-in fade-in zoom-in-95 duration-150">
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
                         href={child.href}
                         onClick={() => setOpenMenu(null)}
-                        className="flex items-center justify-between gap-3 rounded-btn px-3 py-2 text-sm text-pran-text transition-colors hover:bg-pran-teal/5 hover:text-pran-teal"
+                        className="flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-[13.5px] font-medium text-pran-ink/80 transition-all hover:bg-pran-emerald/8 hover:text-pran-emerald hover:pl-3.5"
                       >
                         <span>{child.label}</span>
                         {child.locked && (
                           <Lock
-                            className="h-3.5 w-3.5 shrink-0 text-pran-muted"
+                            className="h-3.5 w-3.5 shrink-0 text-pran-muted/60"
                             strokeWidth={2}
                             aria-label="Premium service — talk to us"
                           />
@@ -117,8 +121,8 @@ export function SiteHeader() {
                 <Link
                   href={item.href!}
                   className={cn(
-                    "rounded-btn px-3 py-2 text-sm font-medium transition-colors",
-                    "text-pran-text hover:text-pran-teal",
+                    "rounded-btn px-3 py-1.5 text-[13.5px] font-medium tracking-tight transition-colors",
+                    "text-pran-ink/85 hover:text-pran-ink hover:bg-black/[0.03]",
                   )}
                 >
                   {item.label}
@@ -128,10 +132,16 @@ export function SiteHeader() {
           )}
         </ul>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
+          <Link
+            href="/login"
+            className="hidden sm:inline-flex rounded-btn px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.05em] text-pran-ink/80 hover:text-pran-emerald hover:bg-black/[0.03] transition-colors"
+          >
+            Portal Sign In
+          </Link>
           <Link
             href="/marketplace"
-            className={cn(buttonVariants({ size: "sm" }), "hidden sm:inline-flex")}
+            className={cn(buttonVariants({ size: "sm" }), "hidden sm:inline-flex shadow-sm")}
           >
             Explore Marketplace
           </Link>
@@ -160,7 +170,14 @@ export function SiteHeader() {
           />
           <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col overflow-y-auto bg-pran-surface p-6 shadow-xl">
             <div className="flex items-center justify-between">
-              <Logo className="h-8 text-pran-text" />
+              <Link
+                href="/"
+                onClick={() => setMobileOpen(false)}
+                aria-label="PRAN home"
+                className="transition-opacity hover:opacity-85"
+              >
+                <Logo className="h-8 text-pran-text" />
+              </Link>
               <button
                 type="button"
                 className="rounded-btn p-2 text-pran-text"
@@ -207,6 +224,13 @@ export function SiteHeader() {
             </div>
 
             <div className="mt-8 flex flex-col gap-2">
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="w-full text-center py-2.5 rounded-btn border border-pran-border text-sm font-semibold text-pran-text hover:bg-slate-50 transition-colors"
+              >
+                Sign In to Portal
+              </Link>
               <Link
                 href="/marketplace"
                 onClick={() => setMobileOpen(false)}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Lock, Mail } from "lucide-react";
+import { Lock, Mail, Phone } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { LinkedInIcon, WhatsAppIcon } from "@/components/shared/icons";
 import { footerColumns, legalLinks } from "@/lib/nav";
@@ -14,28 +14,40 @@ export function SiteFooter() {
       <div className="mx-auto max-w-content px-6 py-16">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_repeat(5,1fr)]">
           <div>
-            <Logo className="h-9 text-white" />
+            <Link
+              href="/"
+              aria-label="PRAN home"
+              className="inline-block transition-opacity hover:opacity-85"
+            >
+              <Logo className="h-9 text-white" />
+            </Link>
             <p className="mt-4 max-w-xs text-sm text-white/70">
-              The financial infrastructure layer for the carbon market —
+              The financial infrastructure layer for the carbon market:
               verified credits, footprint intelligence, and transparent markets.
             </p>
 
-            {/* PRAN's own channels — the company, never the founder's personal
-                profile. That one appears on /about/team only. */}
-            <div className="mt-6 flex items-center gap-3">
+            {/* PRAN's channels */}
+            <div className="mt-6 flex items-center gap-2.5">
               <a
                 href={`mailto:${pranSocial.email}`}
                 aria-label="Email PRAN"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-200 ease-apple hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
               >
                 <Mail className="h-4 w-4" />
+              </a>
+              <a
+                href="tel:+917296815012"
+                aria-label="Call PRAN desk (+91 72968 15012)"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-200 ease-apple hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
+              >
+                <Phone className="h-4 w-4" />
               </a>
               <a
                 href={pranSocial.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="PRAN on LinkedIn"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-200 ease-apple hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
               >
                 <LinkedInIcon className="h-4 w-4" />
               </a>
@@ -44,7 +56,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Message PRAN on WhatsApp"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-200 ease-apple hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
               >
                 <WhatsAppIcon className="h-4 w-4" />
               </a>
@@ -53,7 +65,7 @@ export function SiteFooter() {
 
           {footerColumns.map((col) => (
             <div key={col.title}>
-              <h3 className="text-xs font-medium uppercase tracking-[0.08em] text-white/50">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.07em] text-white/50">
                 {col.title}
               </h3>
               <ul className="mt-4 space-y-2.5">

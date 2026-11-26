@@ -3134,11 +3134,22 @@ export function projectHref(project: Pick<Project, "pranCode">): string {
   return `/${project.pranCode}`;
 }
 
+export type CreditMechanism = "Removal" | "Avoidance";
+
+export function getCreditMechanism(sector: string): CreditMechanism {
+  const s = sector.toLowerCase();
+  if (/afforest|reforest|blue carbon|mangrove|biochar|soil|removal/i.test(s)) {
+    return "Removal";
+  }
+  return "Avoidance";
+}
+
 /** Distinct facet values for marketplace filters. */
 export const facets = {
   registries: Array.from(new Set(projects.map((p) => p.registry))).sort(),
   sectors: Array.from(new Set(projects.map((p) => p.sector))).sort(),
   countries: Array.from(new Set(projects.map((p) => p.country))).sort(),
+  mechanisms: ["Removal", "Avoidance"] as CreditMechanism[],
   deliveries: Array.from(
     new Set(
       projects.flatMap((p) => p.listings.map((l) => l.delivery)).filter(Boolean),

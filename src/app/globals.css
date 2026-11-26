@@ -9,58 +9,75 @@
   dark sections, not a page-wide wash. Sections alternate paper / warm / forest.
 */
 :root {
-  /* Base — warm paper */
-  --pran-paper: #faf8f4;
-  --pran-paper-warm: #f5f1ea;
+  /* Modern Crisp Canvas — eliminates muddy yellowish beige */
+  --pran-paper: #f8fafc;
+  --pran-paper-warm: #f1f5f9;
   --pran-surface: #ffffff;
-  --pran-ink: #0e1211;
-  --pran-text: #0e1211;
-  --pran-muted: #5f6b66;
-  --pran-border: #e6e1d8;
-  --pran-hairline: #e6e1d8;
+  --pran-ink: #090d16;
+  --pran-text: #090d16;
+  --pran-muted: #475569;
+  --pran-border: #e2e8f0;
+  --pran-hairline: #e2e8f0;
 
-  /* Green — deep & restrained */
+  /* Natural Green & Forest */
   --pran-forest: #0f3d2e;
   --pran-forest-deep: #0a2a20;
   --pran-emerald: #16a34a;
   --pran-emerald-hover: #15803d;
 
-  /* Accents — sparing */
+  /* Accents */
   --pran-lime: #d9f99d;
   --pran-clay: #c97a4a;
-  --pran-green: #12a33a; /* logo emblem, fixed */
+  --pran-green: #12a33a;
 
   /* Status */
-  --pran-success: #15803d;
-  --pran-pending: #b45309;
-  --pran-danger: #b42318;
-  --pran-info: #1d4ed8;
+  --pran-success: #059669;
+  --pran-pending: #d97706;
+  --pran-danger: #dc2626;
+  --pran-info: #2563eb;
 
   /* Semantic base */
   --background: var(--pran-paper);
   --foreground: var(--pran-text);
 
-  /* Radius (v2.0 §2.3) */
+  /* Radius */
   --radius-btn: 12px;
-  --radius-card: 16px;
+  --radius-card: 18px;
   --radius-panel: 24px;
   --radius-hero: 32px;
+
+  /* Apple HIG easing — spring-like, never mechanical */
+  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Apple-grade letter-spacing for body copy */
+  --tracking-body: -0.011em;
 }
 
 @layer base {
   * {
     border-color: var(--pran-border);
   }
+  ::selection {
+    background-color: rgba(5, 150, 105, 0.2);
+    color: #061a14;
+  }
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
   body {
     background: var(--background);
     color: var(--foreground);
-    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Text", ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
-  /* Tight, confident display type (v2.0 §2.2) */
+  /* Tight, confident display type (Apple typographic discipline) */
   .font-display {
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
   }
   /* Tabular numbers everywhere data/prices appear */
   .tabular,
@@ -76,6 +93,26 @@
   }
   .text-pretty {
     text-wrap: pretty;
+  }
+  /* Apple-inspired frosted glass vibrancy */
+  .apple-glass {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .apple-glass-dark {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(6, 26, 20, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  /* Apple tactile press micro-interaction */
+  .apple-press {
+    transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 140ms ease;
+  }
+  .apple-press:active {
+    transform: scale(0.982);
   }
   /* Readable text over photography (v2.0 §2.4) */
   .photo-overlay {
@@ -239,3 +276,16 @@
     animation: none !important;
   }
 }
+
+/* Subtle modern grid patterns & telemetry depth */
+.bg-grid-subtle {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+}
+
+.bg-radial-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(5, 150, 105, 0.08) 0%, transparent 70%);
+}
+

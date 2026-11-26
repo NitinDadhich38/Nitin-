@@ -16,6 +16,7 @@ const schema = z.object({
   phone: z.string().optional(),
   interest: z.string().min(1, "Select an option"),
   message: z.string().min(10, "Tell us a little more (10+ characters)"),
+  website_hp: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -58,33 +59,55 @@ export function ContactForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-      if (!res.ok) throw new Error("Request failed");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
       setSubmitted(true);
-    } catch {
-      setServerError("Something went wrong. Please email us directly.");
+    } catch (err: any) {
+      setServerError(err.message || "Something went wrong. Please email us directly at contact@pranapp.in.");
     }
   }
 
   if (submitted) {
     return (
-      <div className="rounded-card border border-pran-border bg-white p-8 text-center">
-        <CheckCircle2 className="mx-auto h-10 w-10 text-status-success" />
-        <h2 className="mt-4 font-display text-h3 font-semibold text-pran-text">
-          Thank you — we&rsquo;ve received your message.
+      <div className="rounded-2xl border border-emerald-200/80 bg-emerald-50/50 p-8 text-center animate-in fade-in duration-300">
+        <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600" />
+        <h2 className="mt-4 font-display text-2xl font-bold tracking-tight text-slate-900">
+          Enquiry Received
         </h2>
-        <p className="mt-2 text-pran-muted">
-          Our team will get back to you shortly. For anything urgent, email us
-          directly.
+        <p className="mt-2 text-sm leading-relaxed text-slate-600 max-w-md mx-auto">
+          Thank you for reaching out. We have received your inquiry and our desk will respond within 48 hours.
         </p>
+        <Button
+          type="button"
+          variant="outline"
+          className="mt-6"
+          onClick={() => {
+            setSubmitted(false);
+          }}
+        >
+          Send Another Message
+        </Button>
       </div>
     );
   }
 
   const label = "mb-1.5 block text-sm font-medium text-pran-text";
-  const err = "mt-1 text-sm text-status-danger";
+  const err = "mt-1.5 text-xs font-medium text-rose-600";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+      {/* Anti-spam honeypot (invisible to humans) */}
+      <div className="hidden" aria-hidden="true" style={{ display: "none" }}>
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          {...register("website_hp")}
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label className={label} htmlFor="name">Name</label>

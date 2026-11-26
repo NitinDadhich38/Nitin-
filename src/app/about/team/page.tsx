@@ -14,7 +14,7 @@ import { pageImages } from "@/lib/images";
 export const metadata: Metadata = {
   title: "Leadership",
   description:
-    "Nitin Dadhich, Founder & Managing Director of PRAN — the financial-infrastructure layer for the carbon market.",
+    "Nitin Dadhich, Founder & Managing Director of PRAN, the financial-infrastructure layer for the carbon market.",
 };
 
 /**
@@ -68,7 +68,7 @@ export default function LeadershipPage() {
             the <Em>infrastructure</Em>.
           </>,
         ]}
-        sub="PRAN is built by people who work the carbon market directly — with the developers listing projects, and with the buyers who have to defend every tonne on their books."
+        sub="PRAN is built by people who work the carbon market directly, with the developers listing projects, and with the buyers who have to defend every tonne on their books."
         image={pageImages.teamHorizon}
         field={<SoloField />}
       />
@@ -135,7 +135,7 @@ export default function LeadershipPage() {
             <p className="mt-6 max-w-[48ch] text-lg leading-relaxed text-white/70">
               Early-stage is a reason to check what actually exists, not to take
               anyone&apos;s word for it. Every figure below is derived from the live
-              portfolio behind the marketplace — go and look at it.
+              portfolio behind the marketplace. Explore the live data.
             </p>
             <Link
               href="/marketplace"

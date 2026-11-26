@@ -67,7 +67,7 @@ export function MarketplaceSection() {
           <div>
             <Reveal>
               <h2 className="max-w-[16ch] font-display text-display-l font-semibold text-white">
-                A real, running marketplace — not a promise.
+                A real, running marketplace, not a promise.
               </h2>
               <p className="mt-6 max-w-[54ch] text-lg leading-relaxed text-white/70">
                 Browse verified, registry-backed carbon projects with

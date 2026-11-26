@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Mail, MessageSquare, ShieldCheck, Clock } from "lucide-react";
+import { Metadata } from "next";
+import { Mail, MessageSquare, ShieldCheck, Clock, Phone } from "lucide-react";
 import { ContactForm } from "@/components/forms/contact-form";
 import { DrawnHero, Em } from "@/components/craft/drawn-hero";
 import { ModeBand } from "@/components/craft/mode-band";
@@ -14,61 +14,18 @@ export const metadata: Metadata = {
     "Talk to the PRAN team about buying credits, listing a project, or reporting. Tell us which side of the market you're on.",
 };
 
-const interestMap: Record<string, string> = {
-  purchase: "purchase",
-  demo: "demo",
-  list: "list",
-  esg: "reporting",
-  brsr: "reporting",
-  cbam: "reporting",
-  procurement: "reporting",
-  intelligence: "reporting",
-};
-
-const intents: Record<string, { title: string; subtitle: string }> = {
-  purchase: {
-    title: "Tell us what you're sourcing.",
-    subtitle:
-      "Volume, vintage, registry preference and intended use — we'll come back with what's available and firm pricing.",
-  },
-  list: {
-    title: "Put your project in front of real buyers.",
-    subtitle:
-      "Send us the registry ID and issuance details. We verify against the registry before anything is listed.",
-  },
-  reporting: {
-    title: "Reporting that survives an audit.",
-    subtitle:
-      "Carbon Intelligence is still in build. Tell us which framework you're working to and we'll put you on the early-access list for it.",
-  },
-  demo: {
-    title: "Tell us which side of the market you're on.",
-    subtitle:
-      "Buying, listing, or reporting — the answer changes who reads this and how fast we can be useful.",
-  },
-};
-
 const assurances = [
   { icon: MessageSquare, text: "A real person reads every message." },
   { icon: Clock, text: `We usually reply within ${responseTimeWindow}.` },
   { icon: ShieldCheck, text: "Your details are never shared or sold." },
 ];
 
-export default function ContactPage({
-  searchParams,
-}: {
-  searchParams: { interest?: string; project?: string; irec?: string };
-}) {
-  const defaultInterest = interestMap[searchParams.interest ?? ""] ?? "demo";
-  const copy = intents[defaultInterest] ?? intents.demo;
-
-  /* I-RECs are quoted in MWh and are not carbon credits, so a request that
-     starts from an I-REC card never uses the credit wording. */
-  const defaultMessage = searchParams.irec
-    ? `I'm interested in purchasing I-RECs from: ${searchParams.irec}.\n\nVolume needed (MWh): \nDelivery period: `
-    : searchParams.project
-      ? `I'm interested in purchasing credits from: ${searchParams.project}.\n\nQuantity needed: \nIntended use: `
-      : "";
+export default function ContactPage() {
+  const copy = {
+    title: "Tell us which side of the market you\u2019re on.",
+    subtitle:
+      "Buying, listing, or reporting \u2014 the answer changes who reads this and how fast we can be useful.",
+  };
 
   return (
     <>
@@ -113,7 +70,6 @@ export default function ContactPage({
         }
       />
 
-      {/* ── The form ───────────────────────────────────────────────────── */}
       <ModeBand mode="warm" size="lg">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div>
@@ -151,6 +107,15 @@ export default function ContactPage({
                     {pranSocial.email}
                   </a>
                   <a
+                    href="tel:+917296815012"
+                    className="group flex items-center gap-3 text-[15px] text-pran-ink hover:text-pran-emerald"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pran-emerald/10">
+                      <Phone className="h-4 w-4 text-pran-emerald" />
+                    </span>
+                    +91 72968 15012
+                  </a>
+                  <a
                     href={whatsappLink()}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -179,10 +144,7 @@ export default function ContactPage({
 
           <Reveal delay={0.05}>
             <div className="rounded-panel bg-pran-surface p-7 shadow-float sm:p-9">
-              <ContactForm
-                defaultInterest={defaultInterest}
-                defaultMessage={defaultMessage}
-              />
+              <ContactForm />
             </div>
           </Reveal>
         </div>

@@ -12,33 +12,33 @@
 const UNSPLASH = "https://images.unsplash.com/photo-";
 
 /** Build a sized, format-optimised Unsplash URL. */
-function u(id: string, w = 1600): string {
-  return `${UNSPLASH}${id}?auto=format&fit=crop&w=${w}&q=80`;
+function u(id: string, w = 1200): string {
+  return `${UNSPLASH}${id}?auto=format&fit=crop&w=${w}&q=75`;
 }
 
 export const photos = {
   /** Aerial evergreen forest — hero background. */
-  heroAerial: u("1441974231531-c6227db76b6e", 2400),
+  heroAerial: u("1441974231531-c6227db76b6e", 1920),
   /** Aerial river bending through dense forest — data/marketplace. */
-  forestRiver: u("1434725039720-aaad6dd32dfe", 2000),
+  forestRiver: u("1434725039720-aaad6dd32dfe", 1600),
   /** Sunlight through a misty forest. */
-  forestMist: u("1470071459604-3b5ec3a7fe05", 1600),
+  forestMist: u("1470071459604-3b5ec3a7fe05", 1200),
   /** Looking up a stand of tall trees. */
-  forestCanopy: u("1448375240586-882707db888b", 1600),
+  forestCanopy: u("1448375240586-882707db888b", 1200),
   /** Rows of solar panels. */
-  solar: u("1509391366360-2e959784a276", 1600),
+  solar: u("1509391366360-2e959784a276", 1200),
   /** Wind turbine against sky. */
-  wind: u("1466611653911-95081537e5b7", 1600),
+  wind: u("1466611653911-95081537e5b7", 1200),
   /** Golden farmland at dusk. */
-  farmland: u("1500382017468-9049fed747ef", 1600),
+  farmland: u("1500382017468-9049fed747ef", 1200),
   /** Aerial green mountain landscape. */
-  greenHills: u("1501854140801-50d01698950b", 2000),
+  greenHills: u("1501854140801-50d01698950b", 1600),
   /** Hands cradling a seedling. */
-  seedling: u("1416879595882-3373a0480b5b", 1600),
+  seedling: u("1416879595882-3373a0480b5b", 1200),
   /** Sun through green leaves. */
-  leaves: u("1518495973542-4542c06a5843", 1600),
+  leaves: u("1518495973542-4542c06a5843", 1200),
   /** Wide mountain-forest landscape. */
-  mountainForest: u("1497436072909-60f360e1d4b1", 2000),
+  mountainForest: u("1497436072909-60f360e1d4b1", 1600),
 } as const;
 
 export type PhotoKey = keyof typeof photos;

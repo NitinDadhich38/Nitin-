@@ -18,6 +18,7 @@
 export type Post = {
   slug: string;
   title: string;
+  category: string;
   standfirst: string;
   readingMinutes: number;
   published: string;
@@ -28,6 +29,7 @@ export const posts: Post[] = [
   {
     slug: "compliance-vs-voluntary",
     title: "Compliance and voluntary are not two grades of the same thing",
+    category: "Market Structure",
     standfirst:
       "They are different products with different buyers, different enforcement, and different consequences for getting it wrong. Most procurement mistakes start by confusing them.",
     readingMinutes: 4,
@@ -42,6 +44,7 @@ export const posts: Post[] = [
   {
     slug: "what-a-price-signal-is-not",
     title: "A cheap tonne is information, not a bargain",
+    category: "Pricing & Risk",
     standfirst:
       "Price dispersion in the voluntary market is not inefficiency waiting to be arbitraged. It is the market pricing risk you have not looked at yet.",
     readingMinutes: 3,
@@ -56,6 +59,7 @@ export const posts: Post[] = [
   {
     slug: "additionality-in-one-question",
     title: "Additionality, reduced to the only question that matters",
+    category: "Methodology & Integrity",
     standfirst:
       "Would this have happened anyway? Everything technical in the concept is machinery for answering that honestly.",
     readingMinutes: 4,
@@ -70,6 +74,7 @@ export const posts: Post[] = [
   {
     slug: "india-ccts-what-changes",
     title: "What India's CCTS actually changes for a business here",
+    category: "Regulation & Compliance",
     standfirst:
       "A domestic compliance market changes who has to act, not just who wants to. The offset side is the part most project developers should be reading.",
     readingMinutes: 5,
@@ -85,6 +90,7 @@ export const posts: Post[] = [
   {
     slug: "reading-a-registry-record",
     title: "How to read a registry record before you wire money",
+    category: "Registry Due Diligence",
     standfirst:
       "Five fields decide whether a credit is what the seller says it is. None of them require a consultant.",
     readingMinutes: 4,
@@ -100,6 +106,7 @@ export const posts: Post[] = [
   {
     slug: "why-retirement-is-the-only-event",
     title: "Retirement is the only moment anything actually happens",
+    category: "Claims & Retirement",
     standfirst:
       "Buying a credit changes ownership. Retiring it is what makes the tonne unusable by anyone else — and it is the only step worth putting in a report.",
     readingMinutes: 3,

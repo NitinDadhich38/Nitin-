@@ -55,3 +55,12 @@ Thumbs.db
 .screenshots/
 .chrome-shot-profile/
 .next-export/
+
+# Operational scripts & sensitive artifacts
+fix.php
+*.zip
+*.docx
+*.pdf
+hosteasy_deploy/
+.pran_codes.json
+New folder/
