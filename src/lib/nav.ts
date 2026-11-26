@@ -15,6 +15,7 @@ export type NavLink = { label: string; href: string; locked?: boolean };
 export type NavGroup = { label: string; href?: string; children?: NavLink[] };
 
 export const mainNav: NavGroup[] = [
+  { label: "Membership", href: "/membership" },
   { label: "Marketplace", href: "/marketplace" },
   {
     label: "Carbon Intelligence",

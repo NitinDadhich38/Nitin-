@@ -1,4 +1,5 @@
 import { Hero } from "@/components/marketing/hero";
+import { MembershipTeaser } from "@/components/marketing/membership-teaser";
 import { ProblemSection } from "@/components/marketing/problem-section";
 import { MarketplaceSection } from "@/components/marketing/marketplace-section";
 import { WhatWeDo } from "@/components/marketing/what-we-do";
@@ -15,6 +16,9 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <div id="membership">
+        <MembershipTeaser />
+      </div>
       <div id="problem">
         <ProblemSection />
       </div>
