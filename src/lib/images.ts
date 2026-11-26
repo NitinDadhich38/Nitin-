@@ -104,3 +104,22 @@ export const imageCredit = "Photography: Unsplash. Illustrative only." as const;
    its own distinct photograph, assigned in lib/project-imagery.ts. These
    photos are section backgrounds only, and deliberately share no ids with
    that library so a background never doubles as a card thumbnail. */
+
+/**
+ * Membership photography (added 2026-11-26). Self-hosted in /public/img/membership.
+ * All are free-to-use Unsplash photographs (Unsplash licence: commercial use,
+ * no permission or credit required; https://unsplash.com/terms). None shows a
+ * person, a PRAN project, a member or a partner. Illustrative only.
+ *
+ * `heroAlt` is the prepared swap for the brown forest hero (pageImages.resourcesBlog).
+ */
+export const membershipImages = {
+  terraces: "/img/membership/terraces.webp", // unsplash.com/photos/0tsGoSACbrI
+  pen: "/img/membership/pen.webp", // unsplash.com/photos/hjwKMkehBco
+  aerialForest: "/img/membership/aerial-forest.webp", // unsplash.com/photos/KC4vlh2jyjw
+  goldenHills: "/img/membership/golden-hills.webp", // unsplash.com/photos/KTsJFSw1Mgs
+  forestFloor: "/img/membership/forest-floor.webp", // unsplash.com/photos/5lLTfE_6ikM
+  mossyStone: "/img/membership/mossy-stone.webp", // unsplash.com/photos/VqR7sOLTleE
+  heroAlt: "/img/membership/misty-cliff.webp", // unsplash.com/photos/OZ9sDPKkaQk
+  deskBook: "/img/membership/desk-book.webp", // unsplash.com/photos/gzFGoE4oaRs
+} as const;

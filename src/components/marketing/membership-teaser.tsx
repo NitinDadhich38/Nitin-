@@ -32,6 +32,9 @@ export function MembershipTeaser() {
             A private climate membership for those who believe responsibility
             grows with success.
           </p>
+          <p className="mt-4 max-w-[40ch] text-base leading-relaxed text-pran-forest/65">
+            Belong from the day you join. Earn your record each year.
+          </p>
           <Link
             href="/membership"
             className="group mt-9 inline-flex items-center gap-2 border-b border-pran-forest pb-1 text-[15px] font-medium text-pran-forest"

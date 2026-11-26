@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { useReducedMotion } from "framer-motion";
 import { useInViewOnce } from "@/lib/use-in-view-once";
@@ -36,7 +37,7 @@ const OFFSET: Record<NonNullable<RevealProps["from"]>, string> = {
  *    is throttled — background tabs, headless capture, low-power mode. A
  *    JS-animated opacity can strand at 0 in exactly those cases.
  *
- * Respects prefers-reduced-motion by rendering the content plainly.
+ * Respects prefers-reduced-motion: content is shown at once, with no movement.
  */
 export function Reveal({
   children,
@@ -47,14 +48,13 @@ export function Reveal({
 }: RevealProps) {
   const reduce = useReducedMotion();
   const { ref, inView } = useInViewOnce<HTMLDivElement>({ disabled: !!reduce });
-
-  if (reduce) {
-    return (
-      <div className={className} style={style}>
-        {children}
-      </div>
-    );
-  }
+  // The server cannot know the visitor's motion preference, so it always
+  // renders the hidden state. The first client render must match it exactly
+  // (React does not patch attribute differences during hydration), so
+  // reduced-motion visitors are revealed in an effect, with no transition.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const shown = reduce ? mounted : inView;
 
   return (
     <div
@@ -62,10 +62,12 @@ export function Reveal({
       className={className}
       style={{
         ...style,
-        opacity: inView ? 1 : 0,
-        transform: inView ? "none" : OFFSET[from],
-        transition: `opacity 500ms ease-out ${delay}s, transform 500ms ease-out ${delay}s`,
-        willChange: inView ? undefined : "opacity, transform",
+        opacity: shown ? 1 : 0,
+        transform: shown ? "none" : OFFSET[from],
+        transition: reduce
+          ? "none"
+          : `opacity 500ms ease-out ${delay}s, transform 500ms ease-out ${delay}s`,
+        willChange: shown ? undefined : "opacity, transform",
       }}
     >
       {children}
