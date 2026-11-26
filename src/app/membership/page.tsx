@@ -17,37 +17,52 @@ const HERO = pageImages.resourcesBlog;
 export const metadata: Metadata = {
   title: "Membership",
   description:
-    "PRAN Membership: a private climate membership for those who believe responsibility grows with success.",
+    "PRAN Membership: a belief before it is anything else. Responsibility grows with success.",
   openGraph: {
     title: "PRAN Membership. Own your impact.",
     description:
-      "A private climate membership for those who believe responsibility grows with success.",
+      "A belief before it is anything else. Responsibility grows with success.",
     images: [HERO],
   },
 };
 
 const marks = [
   {
-    word: "Belong",
+    word: "Belonging is a decision.",
     tag: "PRAN Member",
     line: "You become a PRAN Member the day you join. It says one thing: you have chosen to answer for your footprint. It is a commitment, not a result, and we never present it as more.",
     src: mi.terraces,
     alt: "Terraced fields and a village below misty hills",
   },
   {
-    word: "Earn",
+    word: "A record is earned.",
     tag: "The Annual Record",
     line: "Each year, what you actually completed is written down: the period it covers, the footprint estimated, the verified credits purchased and retired, and the evidence. If a year is incomplete, the record says so.",
     src: mi.pen,
     alt: "A fountain pen resting on handwritten paper",
   },
   {
-    word: "Restore",
+    word: "Restoration is specific.",
     tag: "Where it goes",
     line: "The credits come from projects listed on recognised registries. PRAN buys and retires them. PRAN does not create credits and is not a verifier.",
     src: mi.aerialForest,
     alt: "Dense green forest seen from above",
   },
+];
+
+const never = [
+  "We will not call you carbon neutral.",
+  "We will not sell a badge for joining.",
+  "We will not claim more than was done.",
+  "We will not promise returns.",
+];
+
+const specimen = [
+  ["Period", "The twelve months the record covers, with dates."],
+  ["Footprint", "The estimate, and the published emission factors it rests on."],
+  ["Credits", "Which verified credits were purchased and retired, from which project and registry, with the registry's own references."],
+  ["Retirement", "The date each credit was retired, so it cannot be counted twice."],
+  ["Limits", "What the record does not cover. Stated, not hidden."],
 ];
 
 const year = [
@@ -61,6 +76,15 @@ const circle = [
   ["Partners", "We are building relationships with companies that share the belief. They will be named here once they are real, and not before."],
   ["Introductions", "Members can introduce people they trust. Every invitation is personal, and the circle stays small enough to mean something."],
   ["Environmental commodities", "Over time, members may be offered access to environmental commodities alongside the membership. Access only: PRAN gives no investment advice and promises no returns."],
+];
+
+const answers = [
+  ["Is this carbon neutral?", "No, and we will not say it is. A PRAN record states what was purchased and retired, for which period. It makes no claim beyond that."],
+  ["What is a PRAN Member?", "Someone who has chosen to take responsibility for their footprint. The designation records a decision, not a result."],
+  ["What is the Annual Record?", "A dated document of what a member actually completed that year, with the evidence behind it. A year with less done gets a record that says so."],
+  ["Who verifies the credits?", "Registries and independent verifiers do. PRAN is a technology platform and facilitator. It is not a verifier, auditor or broker-dealer, and it does not create credits."],
+  ["What about environmental commodities?", "Access, over time, and only that. PRAN does not give investment advice and promises no returns."],
+  ["How do I join?", "By invitation. If you were invited, or someone in the circle has spoken for you, request an invitation below."],
 ];
 
 export default function MembershipPage() {
@@ -84,45 +108,54 @@ export default function MembershipPage() {
             Own your impact.
           </h1>
           <p className="mx-auto mt-7 max-w-[34ch] text-lg leading-relaxed text-white/90">
-            A private climate membership for those who believe responsibility
-            grows with success.
+            Some lives reach far. So should their responsibility.
           </p>
           <a
-            href={invite}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#belief"
             className={cn(cta, "mt-10 border border-white/70 text-white hover:bg-white hover:text-pran-forest")}
           >
-            Request an invitation
+            Read the belief
           </a>
         </div>
       </section>
 
-      {/* 2. The belief */}
-      <section className="bg-pran-cream py-28 sm:py-40">
-        <Reveal className="mx-auto max-w-3xl px-6 text-center">
-          <p className="text-xs font-medium uppercase tracking-[0.32em] text-pran-forest/70">
-            The belief
-          </p>
-          <h2 className="mt-6 font-display text-[clamp(2rem,5vw,4rem)] font-medium leading-[1.08] tracking-[-0.03em] text-pran-forest">
-            Responsibility grows with success.
-          </h2>
-          <div aria-hidden className="mx-auto mt-10 h-14 w-px bg-pran-forest/30" />
-          <p className="mx-auto mt-10 max-w-[54ch] text-lg leading-relaxed text-pran-forest/80">
-            The further a life reaches, the further its footprint travels: the
-            journeys, the homes, the events, the companies behind a name. Most
-            people are offered guilt about that, or silence. PRAN offers
-            something more useful and more dignified: to take responsibility
-            for it openly, and in proportion to what you have built.
-          </p>
-        </Reveal>
+      {/* 2. The belief: one thought per screen */}
+      <section id="belief" className="bg-pran-cream">
+        {[
+          "The more you build, the further you reach.",
+          "The further you reach, the more you leave behind.",
+          "Responsibility is not the price of success. It is part of it.",
+        ].map((t) => (
+          <div key={t} className="flex min-h-[70svh] items-center justify-center px-6 py-20">
+            <Reveal className="mx-auto max-w-5xl text-center">
+              <h2 className="font-display text-[clamp(2.4rem,7vw,6rem)] font-medium leading-[1.02] tracking-[-0.04em] text-pran-forest">
+                {t}
+              </h2>
+            </Reveal>
+          </div>
+        ))}
+        <div className="px-6 pb-28 pt-6 text-center sm:pb-40">
+          <Reveal className="mx-auto max-w-2xl">
+            <p className="text-lg leading-relaxed text-pran-forest/80">
+              Most people are offered guilt about their footprint, or silence.
+              PRAN offers something more dignified: to answer for it openly, in
+              proportion to what you have built.
+            </p>
+            <p className="mt-6 font-display text-2xl font-medium tracking-[-0.02em] text-pran-forest">
+              That is the whole idea.
+            </p>
+          </Reveal>
+        </div>
       </section>
 
-      {/* 3. Belong, Earn, Restore */}
+      {/* 3. What we hold to */}
       <section className="bg-pran-sand py-24 sm:py-32">
         <div className="mx-auto max-w-content px-6">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-[clamp(1.9rem,4vw,3.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-pran-forest">
+            <p className="text-xs font-medium uppercase tracking-[0.32em] text-pran-forest/70">
+              What we hold to
+            </p>
+            <h2 className="mt-5 font-display text-[clamp(1.9rem,4vw,3.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-pran-forest">
               Belonging is one thing. The record is another.
             </h2>
             <p className="mt-5 text-pran-forest/75">
@@ -137,7 +170,7 @@ export default function MembershipPage() {
                 <p className="mt-8 text-center text-xs font-medium uppercase tracking-[0.28em] text-pran-forest/60">
                   {m.tag}
                 </p>
-                <h3 className="mt-2 text-center font-display text-3xl font-medium tracking-[-0.02em] text-pran-forest">
+                <h3 className="mt-2 text-center font-display text-2xl font-medium tracking-[-0.02em] text-pran-forest">
                   {m.word}
                 </h3>
                 <p className="mx-auto mt-3 max-w-[32ch] text-center text-[15px] leading-relaxed text-pran-forest/75">
@@ -149,20 +182,71 @@ export default function MembershipPage() {
         </div>
       </section>
 
-      {/* 4. Why a record, not a badge */}
-      <section className="bg-pran-cream py-28 text-center sm:py-36">
-        <Reveal className="mx-auto max-w-3xl px-6">
-          <h2 className="font-display text-[clamp(1.9rem,4.4vw,3.4rem)] font-medium leading-[1.1] tracking-[-0.03em] text-pran-forest">
-            A badge can be bought. A record has to be earned.
-          </h2>
-          <p className="mx-auto mt-8 max-w-[54ch] text-lg leading-relaxed text-pran-forest/80">
-            That is why PRAN never gives a mark for joining alone, and why we
-            will not call anyone carbon neutral. We say exactly what was
-            purchased and retired, for which period, and we show the evidence.
-            What membership means will come from what members do, not from what
-            we say about them.
-          </p>
-        </Reveal>
+      {/* 4. What we will not say */}
+      <section className="relative overflow-hidden bg-pran-ink py-28 text-white sm:py-40">
+        <Image src={mi.aerialForest} alt="" fill sizes="100vw" className="object-cover opacity-30" />
+        <div aria-hidden className="absolute inset-0 bg-pran-ink/60" />
+        <div className="relative z-10 mx-auto max-w-4xl px-6">
+          <Reveal>
+            <p className="text-xs font-medium uppercase tracking-[0.32em] text-white/70">
+              A badge can be bought. A record has to be earned.
+            </p>
+          </Reveal>
+          <div className="mt-10 space-y-6 sm:space-y-8">
+            {never.map((n, i) => (
+              <Reveal key={n} delay={i * 0.08}>
+                <p className="font-display text-[clamp(1.8rem,4.6vw,3.6rem)] font-medium leading-[1.08] tracking-[-0.03em]">
+                  {n}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.2}>
+            <p className="mt-12 max-w-[46ch] text-lg leading-relaxed text-white/80">
+              We will say exactly what was purchased and retired, for which
+              period, and show the evidence. What membership means will come
+              from what members do, not from what we say about them.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 4b. Checkable: what a record contains */}
+      <section className="bg-pran-cream py-24 sm:py-32">
+        <div className="mx-auto grid max-w-content gap-14 px-6 md:grid-cols-[0.9fr_1.1fr] md:gap-20">
+          <Reveal>
+            <p className="text-xs font-medium uppercase tracking-[0.32em] text-pran-forest/70">
+              Checkable by design
+            </p>
+            <h2 className="mt-5 font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.03em] text-pran-forest">
+              If a line cannot be checked, it is not written.
+            </h2>
+            <p className="mt-6 max-w-[40ch] text-lg leading-relaxed text-pran-forest/75">
+              This is what every Annual Record contains. The layout is fixed,
+              so a record can be read, compared and questioned.
+            </p>
+            <p className="mt-4 max-w-[40ch] text-sm leading-relaxed text-pran-forest/60">
+              Layout only. No member record is shown on this page.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <dl className="divide-y divide-pran-forest/15 rounded-[14px] border border-pran-forest/15 bg-white/60">
+              {specimen.map(([k, v]) => (
+                <div key={k} className="grid gap-1 p-6 sm:grid-cols-[8rem_1fr] sm:gap-6">
+                  <dt className="font-display text-lg font-medium text-pran-forest">{k}</dt>
+                  <dd className="text-[15px] leading-relaxed text-pran-forest/75">{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-5 text-sm text-pran-forest/65">
+              Read how we work in the{" "}
+              <Link href="/legal/compliance" className="underline underline-offset-2">
+                compliance framework
+              </Link>
+              .
+            </p>
+          </Reveal>
+        </div>
       </section>
 
       {/* 5. One year */}
@@ -214,6 +298,28 @@ export default function MembershipPage() {
                   <p className="mt-3 max-w-[34ch] text-sm leading-relaxed text-white/75">{l}</p>
                 </div>
               </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6b. Plain answers */}
+      <section className="bg-pran-cream py-24 sm:py-32">
+        <div className="mx-auto max-w-3xl px-6">
+          <Reveal>
+            <h2 className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium tracking-[-0.03em] text-pran-forest">
+              Plain answers.
+            </h2>
+          </Reveal>
+          <div className="mt-10 divide-y divide-pran-forest/15 border-y border-pran-forest/15">
+            {answers.map(([q, a]) => (
+              <details key={q} className="group py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-xl font-medium text-pran-forest">
+                  {q}
+                  <span aria-hidden className="text-2xl text-pran-forest/50 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 max-w-[60ch] text-[15px] leading-relaxed text-pran-forest/75">{a}</p>
+              </details>
             ))}
           </div>
         </div>

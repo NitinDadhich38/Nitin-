@@ -29,8 +29,8 @@ export function MembershipTeaser() {
             Own your impact.
           </h2>
           <p className="mt-6 max-w-[40ch] text-lg leading-relaxed text-pran-forest/80">
-            A private climate membership for those who believe responsibility
-            grows with success.
+            A belief before it is anything else: responsibility grows with
+            success.
           </p>
           <p className="mt-4 max-w-[40ch] text-base leading-relaxed text-pran-forest/65">
             Belong from the day you join. Earn your record each year.
