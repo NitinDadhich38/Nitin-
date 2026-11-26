@@ -93,7 +93,6 @@ export default function MembershipPage() {
             Request an invitation
           </a>
         </div>
-        <span aria-hidden className="absolute bottom-7 left-1/2 z-10 h-12 w-px -translate-x-1/2 bg-white/50" />
       </section>
 
       {/* 2. The belief */}

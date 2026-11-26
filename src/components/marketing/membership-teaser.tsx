@@ -28,8 +28,7 @@ export function MembershipTeaser() {
           <h2 className="mt-5 font-display text-[clamp(2.4rem,5.5vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-pran-forest">
             Own your impact.
           </h2>
-          <div aria-hidden className="mt-7 h-12 w-px bg-pran-forest/30" />
-          <p className="mt-7 max-w-[40ch] text-lg leading-relaxed text-pran-forest/80">
+          <p className="mt-6 max-w-[40ch] text-lg leading-relaxed text-pran-forest/80">
             A private climate membership for those who believe responsibility
             grows with success.
           </p>
