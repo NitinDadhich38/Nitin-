@@ -105,7 +105,7 @@ export function getProjectDetails(project: Project): ProjectDetails {
 
   const candidateImage =
     gallery[0] ??
-    unwrapDirectImageUrl(live?.image) ??
+    unwrapDirectImageUrl(live?.image ?? undefined) ??
     stockImageFor(project.pranCode) ??
     photos.forestCanopy;
 

@@ -33,6 +33,8 @@ const config: Config = {
           muted: "#475569", // refined slate-600 secondary text
           border: "#e2e8f0", // clean slate-200 border
           hairline: "#e2e8f0",
+          cream: "#f6f1e7", // membership: warm paper
+          sand: "#ece4d4", // membership: deeper warm band
           forest: "#0f3d2e",
           "forest-deep": "#0a2a20",
           emerald: "#16a34a",

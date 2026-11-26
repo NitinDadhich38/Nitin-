@@ -48,7 +48,7 @@ export function IrecCard({ entry }: { entry: IrecEntry }) {
      description for (marketplace-data IREC_LIVE_CODES); the rest use the
      distinct stock image reserved for that code. */
   const live = liveProjectMedia[entry.pranCode];
-  const image = unwrapImageUrl(live?.image) ?? stockImageFor(entry.pranCode) ?? photos.solar;
+  const image = unwrapImageUrl(live?.image ?? undefined) ?? stockImageFor(entry.pranCode) ?? photos.solar;
 
   const volume = entry.volumeMwh?.toLocaleString("en-US") ?? null;
 
