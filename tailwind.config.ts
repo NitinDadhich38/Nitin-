@@ -25,8 +25,8 @@ const config: Config = {
         foreground: "var(--foreground)",
         pran: {
           // ── Modern High-Contrast Enterprise Palette ────────────────────────
-          paper: "#f8fafc", // crisp modern canvas (eliminates dead yellowish beige)
-          "paper-warm": "#f1f5f9", // alternating section contrast
+          paper: "#f6f1e7", // crisp modern canvas (eliminates dead yellowish beige)
+          "paper-warm": "#ece4d4", // alternating section contrast
           surface: "#ffffff", // crisp floating cards
           ink: "#090d16", // deep midnight obsidian primary text
           text: "#090d16",
