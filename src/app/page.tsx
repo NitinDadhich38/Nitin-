@@ -18,6 +18,7 @@ export default function Home() {
     <>
       <Hero />
       <BeliefBand
+        scroll
         label="What we believe"
         statement="A market should be readable by the people it asks to trust it."
         line="PRAN is building the carbon market in the open: plain, checkable, and accountable."

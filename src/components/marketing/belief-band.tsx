@@ -1,3 +1,4 @@
+import { ScrollWords } from "@/components/marketing/scroll-motion";
 import { Reveal } from "@/components/marketing/reveal";
 
 /**
@@ -9,10 +10,12 @@ export function BeliefBand({
   label,
   statement,
   line,
+  scroll = false,
 }: {
   label?: string;
   statement: string;
   line?: string;
+  scroll?: boolean;
 }) {
   return (
     <section className="bg-pran-cream px-6 py-24 text-center sm:py-36">
@@ -22,9 +25,16 @@ export function BeliefBand({
             {label}
           </p>
         )}
-        <h2 className="mt-6 font-display text-[clamp(2.2rem,6vw,4.8rem)] font-medium leading-[1.04] tracking-[-0.04em] text-pran-forest">
-          {statement}
-        </h2>
+        {scroll ? (
+          <ScrollWords
+            text={statement}
+            className="mt-6 font-display text-[clamp(2.2rem,6vw,4.8rem)] font-medium leading-[1.04] tracking-[-0.04em] text-pran-forest"
+          />
+        ) : (
+          <h2 className="mt-6 font-display text-[clamp(2.2rem,6vw,4.8rem)] font-medium leading-[1.04] tracking-[-0.04em] text-pran-forest">
+            {statement}
+          </h2>
+        )}
         {line && (
           <p className="mx-auto mt-8 max-w-[52ch] text-lg leading-relaxed text-pran-forest/75">
             {line}

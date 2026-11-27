@@ -4,6 +4,7 @@ import Link from "next/link";
 import { InvitationForm } from "@/components/membership/invitation-form";
 import { ArchPhoto } from "@/components/membership/arch-photo";
 import { Reveal } from "@/components/marketing/reveal";
+import { ScrollFade, ScrollFocus, ScrollStatement } from "@/components/marketing/scroll-motion";
 import { imageCredit, membershipImages as mi, pageImages } from "@/lib/images";
 import { pranSocial, whatsappLink } from "@/lib/config";
 import { cn } from "@/lib/utils";
@@ -93,7 +94,7 @@ export default function MembershipPage() {
           aria-hidden
           className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,20,14,.6)_0%,rgba(6,20,14,.25)_40%,rgba(6,20,14,.7)_100%)]"
         />
-        <div className="relative z-10 mx-auto max-w-3xl px-6 pt-16 text-center text-white">
+        <ScrollFade className="relative z-10 mx-auto max-w-3xl px-6 pt-16 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[0.4em] text-white drop-shadow">
             PRAN Membership
           </p>
@@ -109,7 +110,7 @@ export default function MembershipPage() {
           >
             Read the belief
           </a>
-        </div>
+        </ScrollFade>
       </section>
 
       {/* 2. The belief: one thought per screen */}
@@ -119,13 +120,11 @@ export default function MembershipPage() {
           "The further you reach, the more you leave behind.",
           "Responsibility is not the price of success. It is part of it.",
         ].map((t) => (
-          <div key={t} className="flex min-h-[70svh] items-center justify-center px-6 py-20">
-            <Reveal className="mx-auto max-w-5xl text-center">
-              <h2 className="font-display text-[clamp(2.4rem,7vw,6rem)] font-medium leading-[1.02] tracking-[-0.04em] text-pran-forest">
-                {t}
-              </h2>
-            </Reveal>
-          </div>
+          <ScrollStatement
+            key={t}
+            text={t}
+            className="font-display text-[clamp(2.4rem,7vw,6rem)] font-medium leading-[1.02] tracking-[-0.04em] text-pran-forest"
+          />
         ))}
         <div className="px-6 pb-28 pt-6 text-center sm:pb-40">
           <Reveal className="mx-auto max-w-2xl">
@@ -186,12 +185,12 @@ export default function MembershipPage() {
             </p>
           </Reveal>
           <div className="mt-10 space-y-6 sm:space-y-8">
-            {never.map((n, i) => (
-              <Reveal key={n} delay={i * 0.08}>
+            {never.map((n) => (
+              <ScrollFocus key={n}>
                 <p className="font-display text-[clamp(1.8rem,4.6vw,3.6rem)] font-medium leading-[1.08] tracking-[-0.03em]">
                   {n}
                 </p>
-              </Reveal>
+              </ScrollFocus>
             ))}
           </div>
           <Reveal delay={0.2}>

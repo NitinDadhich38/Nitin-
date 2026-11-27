@@ -61,9 +61,14 @@
     background-color: rgba(5, 150, 105, 0.2);
     color: #061a14;
   }
-  html,
-  body {
+  html {
     overflow-x: hidden;
+    max-width: 100vw;
+  }
+  /* clip, not hidden: hidden would make body a scroll container and break
+     position: sticky (used by the scroll-driven statements). */
+  body {
+    overflow-x: clip;
     max-width: 100vw;
   }
   body {
