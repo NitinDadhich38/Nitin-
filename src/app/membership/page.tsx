@@ -59,9 +59,9 @@ const never = [
 ];
 
 const year = [
-  { no: "I", word: "Join", line: "You are welcomed as a Member. Nothing is claimed yet.", src: mi.forestFloor, alt: "Forest floor in low light" },
+  { no: "I", word: "Join", line: "You are welcomed as a Member. Nothing is done or claimed yet.", src: mi.forestFloor, alt: "Forest floor in low light" },
   { no: "II", word: "Measure", line: "Your footprint for the year is estimated openly.", src: mi.mossyStone, alt: "Moss growing around a stone" },
-  { no: "III", word: "Act", line: "Your responsibility for the year is taken up.", src: mi.heroAlt, alt: "Cloud over a rocky mountainside" },
+  { no: "III", word: "Act", line: "At the end of the financial year, responsibility is taken up together, with each Member's share.", src: mi.heroAlt, alt: "Cloud over a rocky mountainside" },
   { no: "IV", word: "Record", line: "A completed year is acknowledged.", src: mi.deskBook, alt: "A pen and a book on a dark wooden desk" },
 ];
 
