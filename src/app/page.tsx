@@ -1,5 +1,5 @@
 import { BeliefBand } from "@/components/marketing/belief-band";
-import { Hero } from "@/components/marketing/hero";
+import { FilmHero } from "@/components/marketing/film-hero";
 import { MembershipTeaser } from "@/components/marketing/membership-teaser";
 import { ProblemSection } from "@/components/marketing/problem-section";
 import { MarketplaceSection } from "@/components/marketing/marketplace-section";
@@ -16,7 +16,7 @@ import { ClosingCta } from "@/components/marketing/closing-cta";
 export default function Home() {
   return (
     <>
-      <Hero />
+      <FilmHero />
       <BeliefBand
         label="What we believe"
         statement="A market should be readable by the people it asks to trust it."
