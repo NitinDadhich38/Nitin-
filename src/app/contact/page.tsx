@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 };
 
 const assurances = [
-  { icon: MessageSquare, text: "A real person reads every message." },
+  { icon: MessageSquare, text: "Your message is read by our team." },
   { icon: Clock, text: `We usually reply within ${responseTimeWindow}.` },
-  { icon: ShieldCheck, text: "Your details are never shared or sold." },
+  { icon: ShieldCheck, text: "How we use your details is set out in our Privacy Policy." },
 ];
 
 export default function ContactPage() {

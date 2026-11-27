@@ -42,9 +42,9 @@ export function TrustSection() {
               Backed by registries, not by our word.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-white/70">
-              PRAN does not issue credits and does not verify them. Every credit
-              on the platform was issued by an independent registry and audited
-              by a third party — we list, facilitate and record.
+              PRAN does not issue credits and does not verify them. Credits
+              on the platform are issued by independent registries and audited
+              by third parties — we list, facilitate and record.
             </p>
           </Reveal>
         </div>

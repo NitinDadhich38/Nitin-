@@ -71,8 +71,8 @@ export function MarketplaceSection() {
               </h2>
               <p className="mt-6 max-w-[54ch] text-lg leading-relaxed text-white/70">
                 Browse verified, registry-backed carbon projects with
-                transparent pricing and escrow-based settlement. Every credit is
-                traceable from project to retirement.
+                transparent pricing and escrow-based settlement. Credits are
+                traceable on the registry from project to retirement.
               </p>
               <Link
                 href="/marketplace"

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { responseTimeWindow } from "@/lib/config";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 // Strict input validation
@@ -101,7 +100,7 @@ export async function POST(request: Request) {
           text: [
             `Hi ${cleanName},`,
             "",
-            `Thank you for contacting PRAN. We have received your enquiry regarding ${cleanInterest} and our team will get back to you within ${responseTimeWindow}.`,
+            `Thank you for contacting PRAN. We have received your enquiry regarding ${cleanInterest} and our team will get back to you.`,
             "",
             "Your message:",
             `"${cleanMessage}"`,
@@ -124,7 +123,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      message: `Thank you, ${cleanName}! Your enquiry has been received. Our team will respond within ${responseTimeWindow}.`,
+      message: `Thank you, ${cleanName}! Your enquiry has been received. Our team will be in touch.`,
     });
   } catch (error: any) {
     console.error("[contact] Server exception:", error);

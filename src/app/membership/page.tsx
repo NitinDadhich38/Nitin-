@@ -31,7 +31,7 @@ const marks = [
   {
     word: "Belonging is a decision.",
     tag: "PRAN Member",
-    line: "You become a PRAN Member the day you join. It says one thing: you have chosen to answer for your footprint. It is a commitment, not a result, and we never present it as more.",
+    line: "You become a PRAN Member the day you join. It says one thing: you have chosen to answer for your footprint. It is a commitment, not a result.",
     src: mi.terraces,
     alt: "Terraced fields and a village below misty hills",
   },
@@ -52,10 +52,10 @@ const marks = [
 ];
 
 const never = [
-  "We will not call you carbon neutral.",
-  "We will not sell a badge for joining.",
-  "We will not claim more than was done.",
-  "We will not promise returns.",
+  "Carbon neutral is not a claim to make lightly.",
+  "A badge should not be for sale.",
+  "A record should never claim more than was done.",
+  "This is not about returns.",
 ];
 
 const year = [
@@ -66,13 +66,13 @@ const year = [
 ];
 
 const circle = [
-  ["Partners", "We are building relationships with companies that share the belief. They will be named here once they are real, and not before."],
+  ["Partners", "We are building relationships with companies that share the belief. "],
   ["Introductions", "Members can introduce people they trust. Every invitation is personal, and the circle stays small enough to mean something."],
   ["Environmental commodities", "Over time, members may be offered access to environmental commodities alongside the membership. Access only: PRAN gives no investment advice and promises no returns."],
 ];
 
 const answers = [
-  ["Is this carbon neutral?", "No, and we will not say it is. PRAN makes no claim of carbon neutrality, net zero or climate-positive outcomes."],
+  ["Is this carbon neutral?", "No. PRAN makes no claim of carbon neutrality, net zero or climate-positive outcomes."],
   ["What is a PRAN Member?", "Someone who has chosen to take responsibility for their footprint. The designation records a decision, not a result."],
   ["What is the annual record?", "The acknowledgement of a completed year. It is earned by what a member does, never by joining alone."],
   ["What does membership include?", "Details are shared with invited members."],

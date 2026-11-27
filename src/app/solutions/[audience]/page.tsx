@@ -66,7 +66,7 @@ const SUBTITLES: Record<string, string> = {
   enterprise:
     "Filing deadlines under SEBI BRSR Core and EU CBAM are fixed and active. PRAN replaces opaque broker chains with institutional DvP escrow, verified registry records, and auditor-ready traceability.",
   developers:
-    "Monetize registry-issued carbon credits with zero upfront listing fees. Corporate buyer funds are locked in escrow prior to credit movement, ensuring zero default risk.",
+    "Monetize registry-issued carbon credits with direct access to institutional buyers. Buyer funds are held in escrow before credits move, to reduce default risk.",
   government:
     "Verifiable market infrastructure with double-counting prevention, Article 6 alignment, and real-time registry synchronization designed for regulatory auditability.",
   public:
@@ -81,11 +81,11 @@ const COMPARISON_ROWS: Record<
     {
       metric: "Settlement Risk",
       legacy: "Unsecured wire transfer or unverified broker promise",
-      pran: "Bilateral Escrow: Funds released only after registry verification",
+      pran: "Bilateral escrow: funds released after registry verification",
     },
     {
       metric: "Pricing Transparency",
-      legacy: "Multi-layered broker markups (20–45% spread)",
+      legacy: "Multi-layered broker markups",
       pran: "Direct transparent spot and forward quoting",
     },
     {
@@ -96,14 +96,14 @@ const COMPARISON_ROWS: Record<
     {
       metric: "Execution Speed",
       legacy: "Weeks of back-and-forth paper agreements",
-      pran: "Standardized institutional onboarding and 2–5 day DvP settlement",
+      pran: "Standardised institutional onboarding and DvP settlement",
     },
   ],
   developers: [
     {
       metric: "Buyer Payment Risk",
       legacy: "Credits transferred on trust before invoices clear",
-      pran: "Buyer capital pre-funded in escrow before transfer begins",
+      pran: "Buyer funds held in escrow before transfer begins",
     },
     {
       metric: "Market Access",
@@ -113,7 +113,7 @@ const COMPARISON_ROWS: Record<
     {
       metric: "Listing Costs",
       legacy: "High upfront broker retainer or advisory fees",
-      pran: "Zero listing fees; success-based settlement commission only",
+      pran: "Fee terms agreed with each developer before listing",
     },
     {
       metric: "Issuance Flexibility",
@@ -140,29 +140,29 @@ const COMPARISON_ROWS: Record<
     {
       metric: "Standards Compliance",
       legacy: "Mixed quality criteria with subjective verification",
-      pran: "Strict adherence to ICM guidelines and ICVCM Core Carbon Principles",
+      pran: "Aligned with ICM guidelines and ICVCM Core Carbon Principles",
     },
   ],
   public: [
     {
       metric: "Calculation Grounding",
       legacy: "Generic web estimates without cited scientific factors",
-      pran: "Strict adherence to IPCC and CEA official grid factor models",
+      pran: "Based on IPCC and CEA official grid factor models",
     },
     {
       metric: "Credit Authenticity",
       legacy: "Vague tree-planting promises without serial numbers",
-      pran: "Every single credit issued by accredited global registries",
+      pran: "Credits issued by recognised global registries",
     },
     {
       metric: "Proof of Impact",
       legacy: "Generic thank-you email without retirement proof",
-      pran: "Official serialised cancellation certificate issued in your name",
+      pran: "Registry cancellation record in your name",
     },
     {
       metric: "Pricing Honesty",
       legacy: "High marketing markups with pennies reaching the ground",
-      pran: "Direct registry credit cost disclosure with zero hidden fees",
+      pran: "Credit cost shown openly",
     },
   ],
 };
@@ -171,25 +171,25 @@ const FAQS: Record<string, { q: string; a: string }[]> = {
   enterprise: [
     {
       q: "How does PRAN escrow protect our corporate treasury?",
-      a: "Funds deposited for credit procurement are held in a ring-fenced escrow account. PRAN verifies the serialised credit transfer on the issuing registry (Verra, Gold Standard, ICM) into your registry account before releasing funds to the seller. You never risk paying for unverified credits.",
+      a: "Funds deposited for credit procurement are held in a ring-fenced escrow account. PRAN verifies the serialised credit transfer on the issuing registry (Verra, Gold Standard, ICM) into your registry account before releasing funds to the seller. This is designed to avoid paying for unverified credits.",
     },
     {
       q: "Will PRAN documentation satisfy our statutory ESG assurance auditors?",
-      a: "Yes. Every transaction includes a complete audit package: the original Project Design Document (PDD), independent VVB validation/verification certificates, and registry issuance and retirement serial documentation compatible with SEBI BRSR Core and EU CBAM standards.",
+      a: "Yes, in general. Transactions are supported by an audit package that can include: the original Project Design Document (PDD), independent VVB validation/verification certificates, and registry issuance and retirement serial documentation intended to be compatible with SEBI BRSR Core and EU CBAM standards. Final acceptance rests with your auditors.",
     },
     {
       q: "Can we contract for forward vintages to hedge our compliance targets?",
-      a: "Yes. PRAN supports forward allocation agreements where corporate buyers secure future vintages under clear milestone-based delivery terms, locking in price stability ahead of regulatory compliance dates.",
+      a: "Yes. PRAN supports forward allocation agreements where corporate buyers secure future vintages under clear milestone-based delivery terms, to give price certainty ahead of regulatory compliance dates.",
     },
   ],
   developers: [
     {
       q: "What project documentation is required to list on PRAN?",
-      a: "We require your registry issuance identifier (e.g. VCS ID, GS ID), standard methodology reference, most recent verification report, and ownership authorization. Once verified, your listings are live within 48 hours.",
+      a: "We require your registry issuance identifier (e.g. VCS ID, GS ID), standard methodology reference, most recent verification report, and ownership authorization. Once verified, your listings can go live.",
     },
     {
       q: "When and how are project developers paid?",
-      a: "Upon confirmation of the registry credit transfer to the buyer's account, escrow funds are immediately disbursed via bank wire according to agreed transaction parameters.",
+      a: "Upon confirmation of the registry credit transfer to the buyer's account, escrow funds are disbursed via bank wire according to agreed transaction parameters.",
     },
     {
       q: "Can we list both spot credits and forward issuance tranches?",
@@ -199,7 +199,7 @@ const FAQS: Record<string, { q: string; a: string }[]> = {
   government: [
     {
       q: "How does PRAN prevent double-counting across domestic and international markets?",
-      a: "PRAN maintains serial-level synchronization with issuing registries. When units are surrendered for domestic compliance (such as India CCTS), their international registry serials are permanently retired, preventing dual claims under CORSIA or voluntary frameworks.",
+      a: "PRAN maintains serial-level synchronization with issuing registries. When units are surrendered for domestic compliance (such as India CCTS), their international registry serials are retired, to help prevent dual claims under CORSIA or voluntary frameworks.",
     },
     {
       q: "Can PRAN data integrate with sovereign carbon registries?",
@@ -209,7 +209,7 @@ const FAQS: Record<string, { q: string; a: string }[]> = {
   public: [
     {
       q: "What actually happens when I retire carbon credits through PRAN?",
-      a: "Your selected credits are permanently cancelled on the issuing registry ledger. The serial numbers are taken out of circulation forever so they can never be resold, and an official retirement certificate is generated with your name and serial hashes.",
+      a: "Your selected credits are cancelled on the issuing registry ledger, which takes the serial numbers out of circulation so they cannot be resold. A retirement certificate is generated with your name and the serial numbers.",
     },
     {
       q: "Why do credit prices vary so significantly on PRAN?",
@@ -328,7 +328,7 @@ export default function AudiencePage({
                     ? `${compact(portfolioStats.totalVolume)}`
                     : a.slug === "government"
                       ? `${portfolioStats.countries} Nations`
-                      : "100%"}
+                      : "Public"}
               </p>
               <p className="text-xs text-pran-muted mt-0.5">
                 {a.slug === "enterprise"
@@ -346,7 +346,7 @@ export default function AudiencePage({
                 Settlement Rail
               </p>
               <p className="mt-2 text-2xl font-bold tabular-nums text-pran-ink">
-                100% DvP
+                DvP
               </p>
               <p className="text-xs text-pran-muted mt-0.5">
                 Bilateral escrow clearing
@@ -367,13 +367,13 @@ export default function AudiencePage({
 
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-wider text-pran-muted">
-                Execution Guarantee
+                Settlement
               </p>
               <p className="mt-1 text-2xl font-bold tabular-nums text-pran-ink">
-                Zero Default
+                Escrow-based
               </p>
               <p className="text-xs text-pran-muted mt-0.5">
-                Audited custody protection
+                Funds held in escrow
               </p>
             </div>
           </div>
@@ -400,7 +400,7 @@ export default function AudiencePage({
               {a.slug === "enterprise" &&
                 "Mandatory reporting and assurance requirements are already in motion across SEBI, the Bureau of Energy Efficiency, and the European Commission."}
               {a.slug === "developers" &&
-                "Funds are secured in escrow prior to credit movement. Payout occurs seamlessly upon verified registry receipt."}
+                "Funds are secured in escrow prior to credit movement. Payout follows verified registry receipt."}
               {a.slug === "government" &&
                 "Composition and concentration analysis of verified carbon mitigation projects by technology and country."}
               {a.slug === "public" &&
@@ -433,7 +433,7 @@ export default function AudiencePage({
               Engineered for Auditability &amp; Institutional Governance
             </h2>
             <p className="mt-2 text-sm text-pran-muted">
-              Every process is designed to eliminate speculative friction,
+              Every process is designed to reduce speculative friction,
               manual compliance risks, and opaque price discovery.
             </p>
           </div>

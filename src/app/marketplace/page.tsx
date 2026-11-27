@@ -62,7 +62,7 @@ export default function MarketplacePage() {
             Verified carbon projects, one transparent market.
           </h1>
           <p className="mt-5 max-w-[62ch] text-lg leading-relaxed text-white/70">
-            Every listing is a real, registry-issued project. Purchases move
+            Listings are registry-issued projects. Purchases move
             through PRAN&rsquo;s escrow — you pay PRAN, credits transfer to your
             registry account, and you receive a retirement certificate.
           </p>

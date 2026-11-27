@@ -77,7 +77,7 @@ export function ContactForm({
           Enquiry Received
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-slate-600 max-w-md mx-auto">
-          Thank you for reaching out. We have received your inquiry and our desk will respond within 48 hours.
+          Thank you for reaching out. We have received your inquiry and our team will be in touch.
         </p>
         <Button
           type="button"

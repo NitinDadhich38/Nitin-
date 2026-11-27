@@ -82,7 +82,7 @@ Notes: ${notes}`;
               Request Received
             </h3>
             <p className="mt-2 text-sm text-pran-muted max-w-sm mx-auto">
-              Our institutional trading desk will review your volume requirement and confirm allocation, escrow parameters, and settlement timeline within 24 hours.
+              Our institutional trading desk will review your volume requirement and confirm allocation, escrow parameters, and settlement timeline shortly.
             </p>
             <Button onClick={onClose} className="mt-6 w-full">
               Done
@@ -168,7 +168,7 @@ Notes: ${notes}`;
             </div>
 
             <div className="rounded-lg bg-pran-paper-warm p-3 text-[11px] text-pran-muted">
-              🔒 PRAN facilitates secure bilateral escrow: funds are held in escrow and released only after registry verification and transfer to your designated account.
+              🔒 PRAN facilitates secure bilateral escrow: funds are held in escrow and released after registry verification and transfer to your designated account.
             </div>
 
             <div className="flex gap-2 pt-2">
