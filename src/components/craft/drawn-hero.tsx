@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 /** Emphasis word — reuses the homepage's self-drawing underline. */
 export function Em({ children }: { children: ReactNode }) {
-  return <span className="hero-em text-pran-lime">{children}</span>;
+  return <span className="hero-em text-pran-cream">{children}</span>;
 }
 
 /**
@@ -143,7 +143,7 @@ export function DrawnHero({
           <div>
             {eyebrow && (
               <p
-                className="hero-rise text-xs font-medium uppercase tracking-[0.14em] text-pran-lime"
+                className="hero-rise text-xs font-medium uppercase tracking-[0.14em] text-white/80"
                 style={{ animationDelay: "0.1s" }}
               >
                 {eyebrow}

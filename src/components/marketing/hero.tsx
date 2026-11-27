@@ -50,7 +50,7 @@ export function Hero() {
           </span>
           <span className="hero-line">
             <span className="hero-line-in" style={{ animationDelay: "1.75s" }}>
-              <span className="hero-em text-pran-lime">made plain.</span>
+              <span className="hero-em text-pran-cream">made plain.</span>
             </span>
           </span>
         </h1>

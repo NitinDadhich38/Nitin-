@@ -12,11 +12,11 @@ export function ClosingCta() {
       <div className="mx-auto max-w-3xl px-6">
         <Reveal>
           <h2 className="mx-auto max-w-[20ch] font-display text-display-l font-semibold tracking-[-0.03em] text-white">
-            Ready to connect to the carbon market?
+            Responsibility grows with success.
           </h2>
           <p className="mx-auto mt-5 max-w-[52ch] text-lg leading-relaxed text-white/70">
-            Explore verified projects, or talk to us about sourcing, reporting,
-            and settlement built for your organisation.
+            Explore verified projects, or talk to us about sourcing, reporting
+            and settlement for your organisation.
           </p>
         </Reveal>
         <Reveal delay={0.12}>

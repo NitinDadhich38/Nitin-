@@ -11,7 +11,7 @@ import { pageImages } from "@/lib/images";
  */
 export function MembershipTeaser() {
   return (
-    <section className="bg-pran-cream py-20 sm:py-28">
+    <section className="bg-pran-sand py-20 sm:py-28">
       <div className="mx-auto grid max-w-content items-center gap-12 px-6 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
         <Reveal className="mx-auto w-full max-w-[360px] md:max-w-none">
           <ArchPhoto

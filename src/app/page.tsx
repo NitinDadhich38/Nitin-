@@ -17,14 +17,14 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <div id="membership">
-        <MembershipTeaser />
-      </div>
       <BeliefBand
         label="What we believe"
         statement="A market should be readable by the people it asks to trust it."
         line="PRAN is building the carbon market in the open: plain, checkable, and accountable."
       />
+      <div id="membership">
+        <MembershipTeaser />
+      </div>
       <div id="problem">
         <ProblemSection />
       </div>

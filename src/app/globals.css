@@ -193,7 +193,7 @@
   bottom: 0.02em;
   height: 3px;
   border-radius: 2px;
-  background: var(--pran-lime);
+  background: #f6f1e7;
   transform: scaleX(0);
   transform-origin: left;
   animation: hero-uline 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--em-delay, 3s)
