@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { InvitationForm } from "@/components/membership/invitation-form";
 import { ArchPhoto } from "@/components/membership/arch-photo";
 import { Reveal } from "@/components/marketing/reveal";
 import { imageCredit, membershipImages as mi, pageImages } from "@/lib/images";
@@ -37,14 +38,14 @@ const marks = [
   {
     word: "A record is earned.",
     tag: "The Annual Record",
-    line: "Each year, what you actually completed is written down: the period it covers, the footprint estimated, the verified credits purchased and retired, and the evidence. If a year is incomplete, the record says so.",
+    line: "Joining shows commitment. A record comes only from a year of completed work, and it is never given for joining alone.",
     src: mi.pen,
     alt: "A fountain pen resting on handwritten paper",
   },
   {
-    word: "Restoration is specific.",
+    word: "Restoration is real.",
     tag: "Where it goes",
-    line: "The credits come from projects listed on recognised registries. PRAN buys and retires them. PRAN does not create credits and is not a verifier.",
+    line: "What is done for the planet should be specific and described plainly, never inflated. PRAN is not a verifier and does not create credits.",
     src: mi.aerialForest,
     alt: "Dense green forest seen from above",
   },
@@ -57,19 +58,11 @@ const never = [
   "We will not promise returns.",
 ];
 
-const specimen = [
-  ["Period", "The twelve months the record covers, with dates."],
-  ["Footprint", "The estimate, and the published emission factors it rests on."],
-  ["Credits", "Which verified credits were purchased and retired, from which project and registry, with the registry's own references."],
-  ["Retirement", "The date each credit was retired, so it cannot be counted twice."],
-  ["Limits", "What the record does not cover. Stated, not hidden."],
-];
-
 const year = [
   { no: "I", word: "Join", line: "You are welcomed as a Member. Nothing is claimed yet.", src: mi.forestFloor, alt: "Forest floor in low light" },
-  { no: "II", word: "Measure", line: "Your footprint for the year is estimated on published emission factors.", src: mi.mossyStone, alt: "Moss growing around a stone" },
-  { no: "III", word: "Retire", line: "Verified credits are purchased and retired once a year.", src: mi.heroAlt, alt: "Cloud over a rocky mountainside" },
-  { no: "IV", word: "Record", line: "Your Annual Record is issued: dated, scoped, evidenced.", src: mi.deskBook, alt: "A pen and a book on a dark wooden desk" },
+  { no: "II", word: "Measure", line: "Your footprint for the year is estimated openly.", src: mi.mossyStone, alt: "Moss growing around a stone" },
+  { no: "III", word: "Act", line: "Your responsibility for the year is taken up.", src: mi.heroAlt, alt: "Cloud over a rocky mountainside" },
+  { no: "IV", word: "Record", line: "A completed year is acknowledged.", src: mi.deskBook, alt: "A pen and a book on a dark wooden desk" },
 ];
 
 const circle = [
@@ -79,10 +72,10 @@ const circle = [
 ];
 
 const answers = [
-  ["Is this carbon neutral?", "No, and we will not say it is. A PRAN record states what was purchased and retired, for which period. It makes no claim beyond that."],
+  ["Is this carbon neutral?", "No, and we will not say it is. PRAN makes no claim of carbon neutrality, net zero or climate-positive outcomes."],
   ["What is a PRAN Member?", "Someone who has chosen to take responsibility for their footprint. The designation records a decision, not a result."],
-  ["What is the Annual Record?", "A dated document of what a member actually completed that year, with the evidence behind it. A year with less done gets a record that says so."],
-  ["Who verifies the credits?", "Registries and independent verifiers do. PRAN is a technology platform and facilitator. It is not a verifier, auditor or broker-dealer, and it does not create credits."],
+  ["What is the annual record?", "The acknowledgement of a completed year. It is earned by what a member does, never by joining alone."],
+  ["What does membership include?", "Details are shared with invited members."],
   ["What about environmental commodities?", "Access, over time, and only that. PRAN does not give investment advice and promises no returns."],
   ["How do I join?", "By invitation. If you were invited, or someone in the circle has spoken for you, request an invitation below."],
 ];
@@ -203,50 +196,26 @@ export default function MembershipPage() {
           </div>
           <Reveal delay={0.2}>
             <p className="mt-12 max-w-[46ch] text-lg leading-relaxed text-white/80">
-              We will say exactly what was purchased and retired, for which
-              period, and show the evidence. What membership means will come
-              from what members do, not from what we say about them.
+              What membership means will come from what members do, not from
+              what we say about them.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* 4b. Checkable: what a record contains */}
-      <section className="bg-pran-cream py-24 sm:py-32">
-        <div className="mx-auto grid max-w-content gap-14 px-6 md:grid-cols-[0.9fr_1.1fr] md:gap-20">
-          <Reveal>
-            <p className="text-xs font-medium uppercase tracking-[0.32em] text-pran-forest/70">
-              Checkable by design
-            </p>
-            <h2 className="mt-5 font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.03em] text-pran-forest">
-              If a line cannot be checked, it is not written.
-            </h2>
-            <p className="mt-6 max-w-[40ch] text-lg leading-relaxed text-pran-forest/75">
-              This is what every Annual Record contains. The layout is fixed,
-              so a record can be read, compared and questioned.
-            </p>
-            <p className="mt-4 max-w-[40ch] text-sm leading-relaxed text-pran-forest/60">
-              Layout only. No member record is shown on this page.
-            </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <dl className="divide-y divide-pran-forest/15 rounded-[14px] border border-pran-forest/15 bg-white/60">
-              {specimen.map(([k, v]) => (
-                <div key={k} className="grid gap-1 p-6 sm:grid-cols-[8rem_1fr] sm:gap-6">
-                  <dt className="font-display text-lg font-medium text-pran-forest">{k}</dt>
-                  <dd className="text-[15px] leading-relaxed text-pran-forest/75">{v}</dd>
-                </div>
-              ))}
-            </dl>
-            <p className="mt-5 text-sm text-pran-forest/65">
-              Read how we work in the{" "}
-              <Link href="/legal/compliance" className="underline underline-offset-2">
-                compliance framework
-              </Link>
-              .
-            </p>
-          </Reveal>
-        </div>
+      {/* 4b. A note from the organisation */}
+      <section className="bg-pran-cream py-24 sm:py-36">
+        <Reveal className="mx-auto max-w-2xl px-6 text-center">
+          <p className="text-xs font-medium uppercase tracking-[0.32em] text-pran-forest/70">
+            A note from PRAN
+          </p>
+          <p className="mt-8 font-display text-[clamp(1.5rem,3vw,2.2rem)] font-medium leading-[1.25] tracking-[-0.02em] text-pran-forest">
+            We believe responsibility should grow with success, and that it
+            should be answered for plainly, without noise. Membership is small
+            on purpose. We would rather do less and say exactly what we did.
+          </p>
+          <p className="mt-8 text-pran-forest/70">PRAN</p>
+        </Reveal>
       </section>
 
       {/* 5. One year */}
@@ -337,9 +306,12 @@ export default function MembershipPage() {
             If you have been invited, or someone in the circle has spoken for
             you, tell us. We will be in touch.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <a href={invite} target="_blank" rel="noopener noreferrer" className={cn(cta, "bg-white text-pran-forest hover:bg-pran-cream")}>
-              Request an invitation
+          <div id="invite" className="mt-10 scroll-mt-24 text-left">
+            <InvitationForm />
+          </div>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <a href={invite} target="_blank" rel="noopener noreferrer" className={cn(cta, "border border-white/60 text-white hover:bg-white/10")}>
+              Or message us on WhatsApp
             </a>
             <a href={`mailto:${pranSocial.email}?subject=PRAN%20Membership`} className={cn(cta, "border border-white/60 text-white hover:bg-white/10")}>
               Write to us
@@ -351,8 +323,7 @@ export default function MembershipPage() {
       {/* Fine print */}
       <section className="bg-pran-ink px-6 py-10">
         <p className="mx-auto max-w-3xl text-center text-xs leading-relaxed text-white/45">
-          PRAN records state the verified carbon credits purchased and retired
-          for a stated period. PRAN is not a verifier and does not claim carbon
+          PRAN is not a verifier and does not claim carbon
           neutrality, net zero or climate-positive outcomes. Environmental
           commodities are described as access only; nothing here is investment
           advice or a promise of returns. {imageCredit}{" "}
