@@ -6,6 +6,7 @@ import { DrawnHero, Em, FieldPath } from "@/components/craft/drawn-hero";
 import { ModeBand, BandHeader } from "@/components/craft/mode-band";
 import { Ledger } from "@/components/craft/ledger";
 import { IsIsNot } from "@/components/about/is-is-not";
+import { BeliefBand } from "@/components/marketing/belief-band";
 import { Reveal } from "@/components/marketing/reveal";
 import { CtaBand } from "@/components/marketing/page-kit";
 import { operatingSteps } from "@/lib/leadership";
@@ -110,6 +111,7 @@ export default function AboutPage() {
       />
 
       {/* ── The signature visual: what we are, against what we are not ─── */}
+      <BeliefBand label="Why we exist" statement="A market is only as good as what it can show." line="PRAN is infrastructure, not a brand. Its work is to make the carbon market open enough to be questioned." />
       <ModeBand mode="data" size="lg">
         <BandHeader
           eyebrow="Position"

@@ -45,12 +45,12 @@ export function Hero() {
         <h1 className="max-w-[15ch] font-display text-[clamp(3rem,8vw,6.6rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-white">
           <span className="hero-line">
             <span className="hero-line-in" style={{ animationDelay: "1.3s" }}>
-              India&rsquo;s carbon market,
+              Responsibility,
             </span>
           </span>
           <span className="hero-line">
             <span className="hero-line-in" style={{ animationDelay: "1.75s" }}>
-              <span className="hero-em text-pran-lime">finally connected.</span>
+              <span className="hero-em text-pran-lime">made plain.</span>
             </span>
           </span>
         </h1>

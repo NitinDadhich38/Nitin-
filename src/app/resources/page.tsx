@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BeliefBand } from "@/components/marketing/belief-band";
 import Image from "next/image";
 import {
   BookOpen,
@@ -157,6 +158,7 @@ export default function ResourcesIndexPage() {
           </div>
         </div>
       </section>
+      <BeliefBand label="Resources" statement="Read first. Decide after." line="Plain explanations of the rules and the market, so that decisions are made with understanding." />
 
       {/* Regulatory Pulse Live Bar */}
       <section className="border-b border-pran-hairline bg-pran-surface py-10">

@@ -3,6 +3,7 @@ import { Mail, MessageSquare, ShieldCheck, Clock, Phone } from "lucide-react";
 import { ContactForm } from "@/components/forms/contact-form";
 import { DrawnHero, Em } from "@/components/craft/drawn-hero";
 import { ModeBand } from "@/components/craft/mode-band";
+import { BeliefBand } from "@/components/marketing/belief-band";
 import { Reveal } from "@/components/marketing/reveal";
 import { LinkedInIcon, WhatsAppIcon } from "@/components/shared/icons";
 import { pranSocial, whatsappLink, responseTimeWindow } from "@/lib/config";
@@ -70,6 +71,7 @@ export default function ContactPage() {
         }
       />
 
+      <BeliefBand label="Contact" statement="Begin with a conversation." line="Tell us which side of the market you are on. A real person reads every message." />
       <ModeBand mode="warm" size="lg">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div>

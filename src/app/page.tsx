@@ -1,3 +1,4 @@
+import { BeliefBand } from "@/components/marketing/belief-band";
 import { Hero } from "@/components/marketing/hero";
 import { MembershipTeaser } from "@/components/marketing/membership-teaser";
 import { ProblemSection } from "@/components/marketing/problem-section";
@@ -19,6 +20,11 @@ export default function Home() {
       <div id="membership">
         <MembershipTeaser />
       </div>
+      <BeliefBand
+        label="What we believe"
+        statement="A market should be readable by the people it asks to trust it."
+        line="PRAN is building the carbon market in the open: plain, checkable, and accountable."
+      />
       <div id="problem">
         <ProblemSection />
       </div>

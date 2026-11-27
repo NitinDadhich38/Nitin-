@@ -8,6 +8,7 @@ import { BigFigure } from "@/components/craft/big-figure";
 import { Ledger } from "@/components/craft/ledger";
 import { FlowRail } from "@/components/craft/flow-rail";
 import { TonneScale } from "@/components/marketing/tonne-scale";
+import { BeliefBand } from "@/components/marketing/belief-band";
 import { Reveal } from "@/components/marketing/reveal";
 import { CtaBand } from "@/components/marketing/page-kit";
 import {
@@ -126,6 +127,7 @@ export default function WhyCarbonMarketsPage() {
       {/* ── What is actually happening ──────────────────────────────────────
           Every figure here is sourced and linked. No claim appears on this
           page that a reader cannot go and check — see lib/page-data.ts. */}
+      <BeliefBand label="Why carbon markets" statement="Understand it before you trust it." line="A carbon credit is easy to praise and hard to read. Start with how the market actually works." />
       <ModeBand mode="data" size="lg">
         <BandHeader
           eyebrow="Where we are"

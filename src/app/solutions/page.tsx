@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BeliefBand } from "@/components/marketing/belief-band";
 import Image from "next/image";
 import {
   ShieldCheck,
@@ -182,6 +183,7 @@ export default function SolutionsIndexPage() {
           </div>
         </div>
       </section>
+      <BeliefBand label="Solutions" statement="One market. Many seats. One standard of proof." line="Buyers, developers and institutions sit in different places. What they can rely on should be the same." />
 
       {/* Core Infrastructure Value Pillars */}
       <section className="border-b border-pran-hairline bg-pran-surface py-14">
